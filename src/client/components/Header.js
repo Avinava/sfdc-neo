@@ -12,6 +12,7 @@ import {
   MenuItem,
   Badge,
   Grid,
+  Chip,
 } from "@mui/material";
 import AuthContext from "./AuthContext";
 import { Link } from "react-router-dom";
@@ -74,6 +75,24 @@ class Header extends React.Component {
                     ml: 2,
                   }}
                 >
+                  {this.context.session.metrics && (
+                    <Tooltip title="Daily Quota Remaining">
+                      <Chip
+                        label={
+                          this.context.session.metrics.remainingQuota +
+                          " / " +
+                          this.context.session.metrics.dailyQuota
+                        }
+                        size="small"
+                        color={
+                          this.context.session.metrics.remainingQuota > 0
+                            ? "success"
+                            : "error"
+                        }
+                        variant="standard"
+                      ></Chip>
+                    </Tooltip>
+                  )}
                   <IconButton sx={{ p: 0 }} onClick={this.handleMenu}>
                     <Avatar
                       alt={this.context.session.displayName}
