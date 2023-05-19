@@ -12,6 +12,12 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import CodeEditor from "@uiw/react-textarea-code-editor";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import {
+  CircleSpinnerOverlay,
+  FerrisWheelSpinner,
+} from "react-spinner-overlay";
 
 class Generator extends React.Component {
   // should have two grids side by side
@@ -20,6 +26,8 @@ class Generator extends React.Component {
     selectedClassId: "",
     selectedClass: {},
     updatedClass: {},
+    isResultLoading: false,
+    loading: true,
   };
   componentDidMount() {
     this.getApexClasses();
@@ -38,7 +46,7 @@ class Generator extends React.Component {
       .get("/api/v1/salesforce/apexclass")
       .then((response) => {
         console.log(response.data);
-        this.setState({ classes: response.data });
+        this.setState({ classes: response.data, loading: false });
       })
       .catch((error) => {
         console.log(error.response);
@@ -47,6 +55,7 @@ class Generator extends React.Component {
 
   generateTest() {
     const cls = this.state.selectedClass;
+    this.setState({ isResultLoading: true });
     axios
       .post("/api/v1/generator/apexclass/test", cls)
       .then((response) => {
@@ -54,6 +63,7 @@ class Generator extends React.Component {
           updatedClass: {
             Body: response.data.result,
           },
+          isResultLoading: false,
         });
       })
       .catch((error) => {
@@ -63,6 +73,7 @@ class Generator extends React.Component {
 
   generateDocumentation() {
     const cls = this.state.selectedClass;
+    this.setState({ isResultLoading: true });
     axios
       .post("/api/v1/generator/apexclass/documentation", cls)
       .then((response) => {
@@ -70,6 +81,7 @@ class Generator extends React.Component {
           updatedClass: {
             Body: response.data.result,
           },
+          isResultLoading: false,
         });
       })
       .catch((error) => {
@@ -81,6 +93,28 @@ class Generator extends React.Component {
     return (
       <React.Fragment>
         <Container maxWidth="xl">
+          <CircleSpinnerOverlay
+            overlayColor="rgba(0,153,255,0.2)"
+            message={
+              <React.Fragment>
+                <div>Fetching apex classes...</div>
+                <div>This may take few seconds...</div>
+              </React.Fragment>
+            }
+            loading={this.state.loading}
+          />
+
+          <CircleSpinnerOverlay
+            overlayColor="rgba(0,153,255,0.2)"
+            message={
+              <React.Fragment>
+                <div>Processing your request...</div>
+                <div>This may take few seconds...</div>
+              </React.Fragment>
+            }
+            loading={this.state.isResultLoading}
+          />
+
           <Box sx={{ flexGrow: 1, mt: 2 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={6}>
@@ -118,7 +152,14 @@ class Generator extends React.Component {
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
-                <Grid container maxWidth="xl" minWidth="xl">
+                <Grid
+                  container
+                  maxWidth="xl"
+                  minWidth="xl"
+                  sx={{
+                    paddingTop: "4px",
+                  }}
+                >
                   <ButtonGroup variant="contained">
                     <Button
                       variant="contained"
@@ -135,22 +176,25 @@ class Generator extends React.Component {
                   </ButtonGroup>
                 </Grid>
 
-                <CodeEditor
-                  value={this.state.updatedClass?.Body}
-                  language="apex"
-                  placeholder="Generated class will appear here."
-                  onChange={(ev) => {}}
-                  disabled={true}
-                  padding={15}
-                  style={{
-                    fontSize: 12,
-                    marginTop: 10,
-                    maxHeight: "calc(100vh - 200px)",
-                    overflow: "scroll",
-                    fontFamily:
-                      "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-                  }}
-                />
+                {this.state.isResultLoading && <Skeleton count={20} />}
+                {!this.state.isResultLoading && (
+                  <CodeEditor
+                    value={this.state.updatedClass?.Body}
+                    language="apex"
+                    placeholder="Generated class will appear here."
+                    onChange={(ev) => {}}
+                    disabled={true}
+                    padding={15}
+                    style={{
+                      fontSize: 12,
+                      marginTop: 10,
+                      maxHeight: "calc(100vh - 200px)",
+                      overflow: "scroll",
+                      fontFamily:
+                        "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+                    }}
+                  />
+                )}
               </Grid>
             </Grid>
           </Box>

@@ -36,7 +36,10 @@ router.get(
 );
 
 router.get("/session", (req, res) => {
-  const user = req.session.passport.user;
+  // deep clone the user object
+  const user = JSON.parse(
+    JSON.stringify(req.user || req.session.passport.user || {})
+  );
   delete user.oauth;
   delete user._raw;
   res.send(user);

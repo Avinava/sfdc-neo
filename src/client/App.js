@@ -59,6 +59,7 @@ export default class App extends React.Component {
                   </RequireAuth>
                 }
               />
+              <Route path="/login" element={<Login />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
