@@ -14,7 +14,22 @@ yarn install
 
 
 ## Configuration
-Before you can use SFDC-Neo, you will need to configure it with your Salesforce credentials. To do this, create a .env file in the root directory of the project and add the following variables:
+Before you can use SFDC-Neo, you will need to configure it with your Salesforce credentials. To do this, create a `.env` file in the root directory of the project and add the following variables:
+
+
+```
+SESSION_SECRET=<your session secret>
+PORT=<the port to run the server on>
+CLIENT_ID=<your Salesforce client ID>
+CLIENT_SECRET=<your Salesforce client secret>
+PRODUCTION_AUTHORIZATION_URL=https://login.salesforce.com/services/oauth2/authorize
+PRODUCTION_TOKEN_URL=https://login.salesforce.com/services/oauth2/token
+SANDBOX_AUTHORIZATION_URL=https://test.salesforce.com/services/oauth2/authorize
+SANDBOX_TOKEN_URL=https://test.salesforce.com/services/oauth2/token
+SUPABASE_URL=<your Supabase URL>
+SUPABASE_ADMIN_KEY=<your Supabase admin key>
+OPENAI_API_KEY=<your OpenAI API key>
+```
 
 ## Usage
 To start the SFDC-Neo server, run:
