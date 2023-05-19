@@ -10,12 +10,9 @@ router.get(
   console.log
 );
 
-router.post("/logout", function (req, res) {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.send({ success: true });
+router.get("/logout", function (req, res) {
+  req.session.destroy(function (err) {
+    res.redirect("/");
   });
 });
 
@@ -36,10 +33,14 @@ router.get(
 );
 
 router.get("/session", (req, res) => {
+  console.log("req.user", req.user);
   // deep clone the user object
   const user = JSON.parse(
-    JSON.stringify(req.user || req.session.passport.user || {})
+    JSON.stringify(req.user || req.session?.passport?.user || {})
   );
+
+  console.log("user", user);
+
   delete user.oauth;
   user.org = user._raw;
   delete user._raw;

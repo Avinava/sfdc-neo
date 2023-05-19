@@ -63,9 +63,8 @@ app.use(async function (req, res, next) {
       req.session.passport.user.metrics = metrics;
       req.session.save();
     }
-
-    next();
   }
+  next();
 });
 
 app.use("/api/v1", routes);
