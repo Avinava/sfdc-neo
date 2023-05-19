@@ -26,7 +26,7 @@ npm start
 yarn start
 ```
 
-This will start the server on the port specified in the .env file. You can then access the application by navigating to http://localhost:<port> in your web browser.
+This will start the server on the port specified in the .env file. You can then access the application by navigating to http://localhost:3000 in your web browser.
 
 ## Contributing
 If you would like to contribute to SFDC-Neo, please fork the repository and submit a pull request. All contributions are welcome!
