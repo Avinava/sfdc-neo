@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Generator from "./pages/Generator";
+import RequireAuth from "./components/RequireAuth";
 
 export default class App extends React.Component {
   state = {
@@ -42,8 +43,22 @@ export default class App extends React.Component {
                 path="/"
                 element={this.context.session ? <Home></Home> : <Login />}
               />
-              <Route path="/home" element={<Home />} />
-              <Route path="/generator" element={<Generator />} />
+              <Route
+                path="/home"
+                element={
+                  <RequireAuth>
+                    <Home />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/generator"
+                element={
+                  <RequireAuth>
+                    <Generator />
+                  </RequireAuth>
+                }
+              />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

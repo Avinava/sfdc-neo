@@ -35,4 +35,11 @@ router.get(
   }
 );
 
+router.get("/session", (req, res) => {
+  const user = req.session.passport.user;
+  delete user.oauth;
+  delete user._raw;
+  res.send(user);
+});
+
 export default router;
