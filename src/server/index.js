@@ -40,12 +40,13 @@ app.use(async function (req, res, next) {
   console.info("ℹ️ ", new Date().toISOString(), ":", req.path);
   // check if user is authenticated
   if (req.session && req.session.passport && req.session.passport.user) {
-    const metrics = await usage.getMetrics(req.session.passport.user.id);
-    req.session.passport.user.metrics = metrics;
-    req.session.save();
-
     // do a case insensitive check for metered endpoints
+    // this is to prevent users from abusing the hosted app
     if (METERED_ENDPOINTS.includes(req.path.split("/")[3].toLowerCase())) {
+      let metrics = await usage.getMetrics(req.session.passport.user.id);
+      req.session.passport.user.metrics = metrics;
+      req.session.save();
+
       // check if user has remaining quota
       if (req.session.passport.user.metrics.remainingQuota <= 0) {
         return res.status(429).send({
@@ -57,7 +58,7 @@ app.use(async function (req, res, next) {
       // increment usage
       await usage.incrementUsage(req.session.passport.user.id);
       // update metrics
-      const metrics = req.session.passport.user.metrics;
+      metrics = req.session.passport.user.metrics;
       metrics.remainingQuota = metrics.remainingQuota - 1;
       req.session.passport.user.metrics = metrics;
       req.session.save();

@@ -78,9 +78,7 @@ class Generator extends React.Component {
           isResultLoading: false,
         });
       })
-      .catch((error) => {
-        console.log(error.response);
-      });
+      .catch(this.handleError);
   }
 
   generateCodeDocumentation() {
@@ -100,9 +98,7 @@ class Generator extends React.Component {
           isResultLoading: false,
         });
       })
-      .catch((error) => {
-        console.log(error.response);
-      });
+      .catch(this.handleError);
   }
 
   generateDocumentation() {
@@ -123,9 +119,12 @@ class Generator extends React.Component {
           isResultLoading: false,
         });
       })
-      .catch((error) => {
-        console.log(error.response);
-      });
+      .catch(this.handleError);
+  }
+
+  handleError(error) {
+    console.error(error.response);
+    toast.error(error.response.data.message);
   }
 
   validateSelectedClass() {
