@@ -41,6 +41,7 @@ router.get("/session", (req, res) => {
     JSON.stringify(req.user || req.session.passport.user || {})
   );
   delete user.oauth;
+  user.org = user._raw;
   delete user._raw;
   res.send(user);
 });

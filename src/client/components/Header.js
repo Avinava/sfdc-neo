@@ -11,11 +11,31 @@ import {
   Menu,
   MenuItem,
   Badge,
+  Grid,
 } from "@mui/material";
+import AuthContext from "./AuthContext";
 import { Link } from "react-router-dom";
 import icon from "../../../public/logo.png";
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  static contextType = AuthContext;
+
+  handleMenu = (event) => {
+    this.setState({ menuAnchorEl: event.currentTarget });
+  };
+
+  handleMenuClose = () => {
+    this.setState({ menuAnchorEl: null });
+  };
+
+  handleSignOut = () => {
+    window.location.href = "/api/v1/auth/logout";
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -45,6 +65,58 @@ class Header extends React.Component {
                   SFDC Neo
                 </Typography>
               </Link>
+              {this.context.session?.id && (
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    justifyContent: "flex-end",
+                    display: "flex",
+                    ml: 2,
+                  }}
+                >
+                  <IconButton sx={{ p: 0 }} onClick={this.handleMenu}>
+                    <Avatar
+                      alt={this.context.session.displayName}
+                      sx={{ height: 35, width: 35, ml: 1 }}
+                    >
+                      {this.context.session.displayName.charAt(0)}
+                    </Avatar>
+                  </IconButton>
+
+                  <Menu
+                    id="menu-appbar"
+                    sx={{ mt: "45px" }}
+                    anchorEl={this.state.menuAnchorEl}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(this.state.menuAnchorEl)}
+                    onClick={this.handleMenuClose}
+                  >
+                    <MenuItem disabled>
+                      <Grid container alignItems="center">
+                        <Grid item xs={12}>
+                          <Typography variant="subtitle1" noWrap>
+                            {this.context.session.displayName}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography variant="subtitle2" noWrap>
+                            {this.context.session.org.username}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </MenuItem>
+                    <MenuItem onClick={this.handleSignOut}>Sign Out</MenuItem>
+                  </Menu>
+                </Box>
+              )}
             </Toolbar>
           </Container>
         </AppBar>

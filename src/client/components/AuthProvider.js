@@ -5,7 +5,6 @@ import axios from "axios";
 export default class AuthProvider extends Component {
   constructor(props) {
     super(props);
-    console.log("constructing", this.props.children);
     this.state = {
       session: null,
       avatar: null,
