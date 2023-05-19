@@ -19,6 +19,10 @@ import {
   FerrisWheelSpinner,
 } from "react-spinner-overlay";
 
+import { HiOutlineDocumentText } from "react-icons/hi";
+import { GrTest } from "react-icons/gr";
+import { toast } from "react-toastify";
+
 class Generator extends React.Component {
   // should have two grids side by side
   state = {
@@ -54,6 +58,10 @@ class Generator extends React.Component {
   }
 
   generateTest() {
+    if (!this.validateSelectedClass()) {
+      return;
+    }
+
     const cls = this.state.selectedClass;
     this.setState({ isResultLoading: true });
     axios
@@ -72,6 +80,10 @@ class Generator extends React.Component {
   }
 
   generateDocumentation() {
+    if (!this.validateSelectedClass()) {
+      return;
+    }
+
     const cls = this.state.selectedClass;
     this.setState({ isResultLoading: true });
     axios
@@ -87,6 +99,14 @@ class Generator extends React.Component {
       .catch((error) => {
         console.log(error.response);
       });
+  }
+
+  validateSelectedClass() {
+    if (!this.state.selectedClassId) {
+      toast.error("Please select an apex class first");
+      return false;
+    }
+    return true;
   }
 
   render() {
@@ -162,13 +182,15 @@ class Generator extends React.Component {
                 >
                   <ButtonGroup variant="contained">
                     <Button
-                      variant="contained"
+                      variant="secondary"
                       onClick={() => this.generateTest()}
+                      startIcon={<GrTest />}
                     >
                       Generate Test Class
                     </Button>
                     <Button
-                      variant="contained"
+                      variant="secondary"
+                      startIcon={<HiOutlineDocumentText />}
                       onClick={() => this.generateDocumentation()}
                     >
                       Generate Documentation

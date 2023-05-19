@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Generator from "./pages/Generator";
 import RequireAuth from "./components/RequireAuth";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class App extends React.Component {
   state = {
@@ -35,6 +37,7 @@ export default class App extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <ToastContainer position="top-center" theme="dark" />
         <ThemeProvider theme={this.state.theme}>
           <BrowserRouter>
             <Header />
