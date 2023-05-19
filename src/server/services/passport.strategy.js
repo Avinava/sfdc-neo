@@ -30,7 +30,7 @@ passport.use(
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
       scope: ["id", "chatter_api", "api"],
-      callbackURL: `/api/v1/auth/callback`,
+      callbackURL: `/api/v1/auth/callback-sandbox`,
       authorizationURL: process.env.SANDBOX_AUTHORIZATION_URL,
       tokenURL: process.env.SANDBOX_TOKEN_URL,
     },

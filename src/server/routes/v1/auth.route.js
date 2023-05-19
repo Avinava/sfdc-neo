@@ -6,9 +6,7 @@ const router = express.Router();
 router.get("/production", passport.authenticate("forcedotcom"), console.log);
 router.get(
   "/sandbox",
-  passport.authenticate("forcedotcom-sandbox", {
-    state: "sandbox",
-  }),
+  passport.authenticate("forcedotcom-sandbox"),
   console.log
 );
 
