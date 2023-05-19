@@ -57,16 +57,17 @@ passport.serializeUser(async function (user, done) {
     instance_url: instanceUrl,
   };
 
-  // upsert using user_id to supabase
-  const { data, error } = await supabaseAdmin
-    .from("salesforce_user")
-    .upsert(supaUser, { onConflict: "user_id" });
+  if (process.env.ENABLE_QUOTA) {
+    // upsert using user_id to supabase
+    const { data, error } = await supabaseAdmin
+      .from("salesforce_user")
+      .upsert(supaUser, { onConflict: "user_id" });
+  }
 
   done(null, user);
 });
 
 passport.deserializeUser(function (obj, done) {
-  console.log("deserializeUser", obj);
   done(null, obj);
 });
 

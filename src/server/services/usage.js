@@ -26,8 +26,8 @@ class Usage {
       metrics.dailyQuota = userData.daily_quota;
       metrics.remainingQuota = metrics.dailyQuota;
     } else {
-      data = Array.isArray(data) ? data[0] : data;
-      metrics.dailyQuota = data.daily_quota;
+      const salesforce_org = Array.isArray(data) ? data[0] : data;
+      metrics.dailyQuota = salesforce_org.user.daily_quota;
       metrics.remainingQuota = metrics.dailyQuota - data.length;
     }
 

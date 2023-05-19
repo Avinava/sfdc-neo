@@ -3,10 +3,6 @@ import openai from "../../services/openai.js";
 
 const router = express.Router();
 
-router.get("/generate", async (req, res) => {
-  res.send({ success: true, user: req.session.passport.user.oauth });
-});
-
 //refactor
 
 router.post("/apexclass/test", async (req, res) => {
