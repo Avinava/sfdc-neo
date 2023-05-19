@@ -19,7 +19,7 @@ class Salesforce {
   }
 
   async getApexClasses() {
-    const query = `SELECT Id, Name, Body, ApiVersion, Status FROM ApexClass WHERE NamespacePrefix = null ORDER BY Name ASC LIMIT 10`;
+    const query = `SELECT Id, Name, Body, ApiVersion, Status FROM ApexClass WHERE NamespacePrefix = null ORDER BY Name ASC LIMIT 100`;
     const apexClasses = await this.toolingQuery(query);
     return apexClasses;
   }

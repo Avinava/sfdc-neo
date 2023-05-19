@@ -13,6 +13,7 @@ import {
   Badge,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import icon from "../../../public/logo.png";
 
 class Header extends React.Component {
   render() {
@@ -22,6 +23,7 @@ class Header extends React.Component {
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Avatar
+                src={icon}
                 sx={{ mr: 1, width: 20, height: 20, mt: 0.3 }}
                 variant="square"
               />
@@ -40,7 +42,7 @@ class Header extends React.Component {
                     minWidth: 80,
                   }}
                 >
-                  SF Test Genie
+                  SFDC Neo
                 </Typography>
               </Link>
             </Toolbar>

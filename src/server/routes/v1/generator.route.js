@@ -18,4 +18,14 @@ router.post("/apexclass/test", async (req, res) => {
   });
 });
 
+router.post("/apexclass/documentation", async (req, res) => {
+  const cls = req.body;
+  const aires = await openai.getDocumentationCompletion(cls);
+  const textResponse = aires.data.choices[0].message;
+  res.send({
+    success: true,
+    result: textResponse.content,
+  });
+});
+
 export default router;

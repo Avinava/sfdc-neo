@@ -17,10 +17,10 @@ class HomeCards extends React.Component {
   state = {
     cards: [
       {
-        title: "Apex Test Class Generator",
+        title: "SFDC Neo",
         description:
-          "Generate Apex test classes for your Apex classes and triggers.",
-        link: "/test-generator",
+          "A collection of tools to help you develop on the Salesforce platform.",
+        link: "/generator",
       },
     ],
   };
@@ -57,7 +57,7 @@ class HomeCards extends React.Component {
                         component={Link}
                         to={card.link}
                       >
-                        Generate
+                        Start
                       </Button>
                     </CardActions>
                   </Card>

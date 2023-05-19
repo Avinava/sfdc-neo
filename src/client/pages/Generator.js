@@ -8,11 +8,12 @@ import {
   Select,
   InputLabel,
   Button,
+  ButtonGroup,
 } from "@mui/material";
 import axios from "axios";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 
-class TestGenerator extends React.Component {
+class Generator extends React.Component {
   // should have two grids side by side
   state = {
     classes: [],
@@ -60,6 +61,22 @@ class TestGenerator extends React.Component {
       });
   }
 
+  generateDocumentation() {
+    const cls = this.state.selectedClass;
+    axios
+      .post("/api/v1/generator/apexclass/documentation", cls)
+      .then((response) => {
+        this.setState({
+          updatedClass: {
+            Body: response.data.result,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -67,7 +84,7 @@ class TestGenerator extends React.Component {
           <Box sx={{ flexGrow: 1, mt: 2 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={6}>
-                <FormControl fullWidth>
+                <FormControl fullWidth size="small">
                   <InputLabel id="apex-select">Apex Class</InputLabel>
                   <Select
                     labelId="apex-select"
@@ -93,25 +110,43 @@ class TestGenerator extends React.Component {
                   style={{
                     fontSize: 12,
                     marginTop: 10,
+                    maxHeight: "calc(100vh - 200px)",
+                    overflow: "scroll",
                     fontFamily:
                       "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
                   }}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
-                <Button variant="contained" onClick={() => this.generateTest()}>
-                  Generate Test Class
-                </Button>
+                <Grid container maxWidth="xl" minWidth="xl">
+                  <ButtonGroup variant="contained">
+                    <Button
+                      variant="contained"
+                      onClick={() => this.generateTest()}
+                    >
+                      Generate Test Class
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => this.generateDocumentation()}
+                    >
+                      Generate Documentation
+                    </Button>
+                  </ButtonGroup>
+                </Grid>
+
                 <CodeEditor
                   value={this.state.updatedClass?.Body}
                   language="apex"
-                  placeholder="Please select an Apex class."
+                  placeholder="Generated class will appear here."
                   onChange={(ev) => {}}
                   disabled={true}
                   padding={15}
                   style={{
                     fontSize: 12,
                     marginTop: 10,
+                    maxHeight: "calc(100vh - 200px)",
+                    overflow: "scroll",
                     fontFamily:
                       "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
                   }}
@@ -125,4 +160,4 @@ class TestGenerator extends React.Component {
   }
 }
 
-export default TestGenerator;
+export default Generator;
