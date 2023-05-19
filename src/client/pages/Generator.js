@@ -78,7 +78,7 @@ class Generator extends React.Component {
           isResultLoading: false,
         });
       })
-      .catch(this.handleError);
+      .catch((err) => this.handleError(err));
   }
 
   generateCodeDocumentation() {
@@ -98,7 +98,7 @@ class Generator extends React.Component {
           isResultLoading: false,
         });
       })
-      .catch(this.handleError);
+      .catch((err) => this.handleError(err));
   }
 
   generateDocumentation() {
@@ -119,7 +119,7 @@ class Generator extends React.Component {
           isResultLoading: false,
         });
       })
-      .catch(this.handleError);
+      .catch((err) => this.handleError(err));
   }
 
   handleError(error) {
