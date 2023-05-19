@@ -9,7 +9,11 @@ import {
   Box,
   Grid,
   Typography,
+  Icon,
 } from "@mui/material";
+import { AiFillApi } from "react-icons/ai";
+import { SiSalesforce } from "react-icons/si";
+import { HiOutlineCode } from "react-icons/hi";
 
 import { Link } from "react-router-dom";
 
@@ -30,39 +34,68 @@ class HomeCards extends React.Component {
       <React.Fragment>
         <Container maxWidth="xl">
           <Box sx={{ flexGrow: 1, mt: 2 }}>
-            <Grid container spacing={2}>
-              {this.state.cards.map((card, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card
-                    sx={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
+            <Grid container spacing={2} justifyContent="center">
+              <Card sx={{ backgroundColor: "#f5f5f5", mt: 4 }}>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    SFDC Neo
+                  </Typography>
+                  <Typography variant="body1">
+                    SFDC Neo is a powerful tool that connects with your
+                    Salesforce org using OAuth. It provides a set of openai
+                    based tools to help you with generating test classes,
+                    documenting your code and more.
+                    <br />
+                    <br />
+                    <Typography variant="h5" component="div">
+                      How it works
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Icon
+                        component={SiSalesforce}
+                        sx={{ fontSize: 16, marginRight: "5px" }}
+                      />
+                      Once logged in, It fetches a list of available Apex
+                      classes from your org and displays them, making it easy to
+                      navigate and explore your codebase.
+                    </Typography>
+                    <br />
+                    <Typography
+                      variant="body1"
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Icon
+                        component={HiOutlineCode}
+                        sx={{ fontSize: 16, marginRight: "5px" }}
+                      />
+                      SFDC Neo doesn't store any of your code on its server.
+                    </Typography>
+                    <br />
+                    <Typography
+                      variant="body1"
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Icon
+                        component={AiFillApi}
+                        sx={{ fontSize: 16, marginRight: "5px" }}
+                      />
+                      Once you select a class and trigger an action, SFDC Neo
+                      leverages OpenAI APIs to complete the action
+                    </Typography>
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{ marginTop: "20px" }}
+                    component={Link}
+                    to={"/generator"}
                   >
-                    <CardActionArea>
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {card.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {card.description}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                      <Button
-                        size="small"
-                        color="primary"
-                        component={Link}
-                        to={card.link}
-                      >
-                        Start
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
+                    Get Started
+                  </Button>
+                </CardContent>
+              </Card>
             </Grid>
           </Box>
         </Container>
