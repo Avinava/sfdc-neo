@@ -57,7 +57,7 @@ passport.serializeUser(async function (user, done) {
     instance_url: instanceUrl,
   };
 
-  if (process.env.ENABLE_QUOTA) {
+  if (process.env.ENABLE_QUOTA === "true") {
     // upsert using user_id to supabase
     const { data, error } = await supabaseAdmin
       .from("salesforce_user")

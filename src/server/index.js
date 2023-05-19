@@ -38,32 +38,39 @@ app.use(sessionMiddleware);
 
 app.use(async function (req, res, next) {
   console.info("ℹ️ ", new Date().toISOString(), ":", req.path);
-  // check if user is authenticated
-  if (req.session && req.session.passport && req.session.passport.user) {
-    // do a case insensitive check for metered endpoints
-    // this is to prevent users from abusing the hosted app
-    if (METERED_ENDPOINTS.includes(req.path.split("/")[3].toLowerCase())) {
-      let metrics = await usage.getMetrics(req.session.passport.user.id);
-      req.session.passport.user.metrics = metrics;
-      req.session.save();
 
-      // check if user has remaining quota
-      if (req.session.passport.user.metrics.remainingQuota <= 0) {
-        return res.status(429).send({
-          message:
-            "You have exceeded your daily quota. Please try again tomorrow.",
-        });
+  if (METERED_ENDPOINTS.includes(req.path.split("/")[3].toLowerCase())) {
+    // if its a metered endpoint, check if user is authenticated
+    if (req.session && req.session.passport && req.session.passport.user) {
+      if (process.env.ENABLE_QUOTA === "true") {
+        console.log("Quota is enabled");
+        let metrics = await usage.getMetrics(req.session.passport.user.id);
+        req.session.passport.user.metrics = metrics;
+        req.session.save();
+
+        // check if user has remaining quota
+        if (req.session.passport.user.metrics.remainingQuota <= 0) {
+          return res.status(429).send({
+            message:
+              "You have exceeded your daily quota. Please try again tomorrow.",
+          });
+        }
+
+        // increment usage
+        await usage.incrementUsage(req.session.passport.user.id);
+        // update metrics
+        metrics = req.session.passport.user.metrics;
+        metrics.remainingQuota = metrics.remainingQuota - 1;
+        req.session.passport.user.metrics = metrics;
+        req.session.save();
       }
-
-      // increment usage
-      await usage.incrementUsage(req.session.passport.user.id);
-      // update metrics
-      metrics = req.session.passport.user.metrics;
-      metrics.remainingQuota = metrics.remainingQuota - 1;
-      req.session.passport.user.metrics = metrics;
-      req.session.save();
+    } else {
+      return res.status(401).send({
+        message: "You are not logged in.",
+      });
     }
   }
+
   next();
 });
 

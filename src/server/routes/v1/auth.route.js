@@ -1,5 +1,6 @@
 import express from "express";
 import passport from "./../../services/passport.strategy.js";
+import usage from "../../services/usage.js";
 
 const router = express.Router();
 
@@ -32,18 +33,19 @@ router.get(
   }
 );
 
-router.get("/session", (req, res) => {
-  console.log("req.user", req.user);
+router.get("/session", async (req, res) => {
   // deep clone the user object
   const user = JSON.parse(
     JSON.stringify(req.user || req.session?.passport?.user || {})
   );
 
-  console.log("user", user);
-
   delete user.oauth;
   user.org = user._raw;
   delete user._raw;
+  if (process.env.ENABLE_QUOTA === "true") {
+    user.metrics = await usage.getMetrics(user.id);
+  }
+
   res.send(user);
 });
 

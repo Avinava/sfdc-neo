@@ -40,7 +40,7 @@ class HomeCards extends React.Component {
                   <Typography variant="h5" component="div">
                     SFDC Neo
                   </Typography>
-                  <Typography variant="body1">
+                  <React.Fragment>
                     SFDC Neo is a powerful tool that connects with your
                     Salesforce org using OAuth. It provides a set of openai
                     based tools to help you with generating test classes,
@@ -85,7 +85,7 @@ class HomeCards extends React.Component {
                       Once you select a class and trigger an action, SFDC Neo
                       leverages OpenAI APIs to complete the action
                     </Typography>
-                  </Typography>
+                  </React.Fragment>
                   <Button
                     variant="contained"
                     sx={{ marginTop: "20px" }}
