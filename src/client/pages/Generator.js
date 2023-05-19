@@ -18,10 +18,13 @@ import {
   CircleSpinnerOverlay,
   FerrisWheelSpinner,
 } from "react-spinner-overlay";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { GrTest } from "react-icons/gr";
 import { toast } from "react-toastify";
+import "github-markdown-css";
 
 class Generator extends React.Component {
   // should have two grids side by side
@@ -32,6 +35,7 @@ class Generator extends React.Component {
     updatedClass: {},
     isResultLoading: false,
     loading: true,
+    type: "code",
   };
   componentDidMount() {
     this.getApexClasses();
@@ -63,9 +67,31 @@ class Generator extends React.Component {
     }
 
     const cls = this.state.selectedClass;
-    this.setState({ isResultLoading: true });
+    this.setState({ isResultLoading: true, type: "code" });
     axios
       .post("/api/v1/generator/apexclass/test", cls)
+      .then((response) => {
+        this.setState({
+          updatedClass: {
+            Body: response.data.result,
+          },
+          isResultLoading: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
+
+  generateCodeDocumentation() {
+    if (!this.validateSelectedClass()) {
+      return;
+    }
+
+    const cls = this.state.selectedClass;
+    this.setState({ isResultLoading: true, type: "code" });
+    axios
+      .post("/api/v1/generator/apexclass/codedocumentation", cls)
       .then((response) => {
         this.setState({
           updatedClass: {
@@ -85,10 +111,11 @@ class Generator extends React.Component {
     }
 
     const cls = this.state.selectedClass;
-    this.setState({ isResultLoading: true });
+    this.setState({ isResultLoading: true, type: "doc" });
     axios
       .post("/api/v1/generator/apexclass/documentation", cls)
       .then((response) => {
+        console.log(response.data);
         this.setState({
           updatedClass: {
             Body: response.data.result,
@@ -191,6 +218,13 @@ class Generator extends React.Component {
                     <Button
                       variant="secondary"
                       startIcon={<HiOutlineDocumentText />}
+                      onClick={() => this.generateCodeDocumentation()}
+                    >
+                      Add Code Comments
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      startIcon={<HiOutlineDocumentText />}
                       onClick={() => this.generateDocumentation()}
                     >
                       Generate Documentation
@@ -198,8 +232,10 @@ class Generator extends React.Component {
                   </ButtonGroup>
                 </Grid>
 
-                {this.state.isResultLoading && <Skeleton count={20} />}
-                {!this.state.isResultLoading && (
+                {this.state.isResultLoading && (
+                  <Skeleton count={20} style={{ marginTop: 1 }} />
+                )}
+                {!this.state.isResultLoading && this.state.type === "code" && (
                   <CodeEditor
                     value={this.state.updatedClass?.Body}
                     language="apex"
@@ -216,6 +252,14 @@ class Generator extends React.Component {
                         "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
                     }}
                   />
+                )}
+                {!this.state.isResultLoading && this.state.type !== "code" && (
+                  <article className="markdown-body">
+                    <ReactMarkdown
+                      children={this.state.updatedClass?.Body}
+                      remarkPlugins={[remarkGfm]}
+                    />
+                  </article>
                 )}
               </Grid>
             </Grid>

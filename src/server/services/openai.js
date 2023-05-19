@@ -16,7 +16,32 @@ class OpenAI {
     const messages = [
       {
         role: "user",
-        content: `Given the following apex class generate add documentation and comments, following the instructions below`,
+        content: `Given the following apex class, generate markdown documentation, following the instructions below`,
+      },
+      {
+        role: "user",
+        content: `Apex Class:
+        ${cls.Body}`,
+      },
+      {
+        role: "user",
+        content: `Instructions:
+        You are a developer who is documenting the class provided in markdown.
+        Use the apex class that was provided in context to generate the documentation
+        If the question is not related to the context, politely respond that you are tuned to only generate documentation.
+        Only return the markdown, don't return any extra text.
+        `,
+      },
+    ];
+
+    return this.getCompletion(messages);
+  }
+
+  getCodeDocumentationCompletion(cls) {
+    const messages = [
+      {
+        role: "user",
+        content: `Given the following apex class, add documentation and comments, following the instructions below`,
       },
       {
         role: "user",

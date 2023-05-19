@@ -11,6 +11,7 @@ import {
   Badge,
   Typography,
 } from "@mui/material";
+import icon from "../../../public/logo.png";
 
 class Login extends React.Component {
   render() {
@@ -39,7 +40,26 @@ class Login extends React.Component {
                   }}
                 />
                 <div style={{ background: "gray", minHeight: "4px" }}></div>
-                <CardContent sx={{ pt: 2, textAlign: "center" }}></CardContent>
+                <CardContent sx={{ pt: 2, textAlign: "center" }}>
+                  {/* <Avatar
+                    src={icon}
+                    sx={{
+                      ml: 1,
+                      width: 80,
+                      height: 80,
+                      margin: "auto",
+                      mt: 0.3,
+                      mb: 1,
+                      display: "block",
+                      background: "red",
+                    }}
+                    variant="square"
+                  /> */}
+                  SFDC neo is a Node.js application designed to assist
+                  developers with Salesforce tasks, such as documenting and
+                  generating test classes. It leverages the capabilities of
+                  OpenAI to complete these tasks.
+                </CardContent>
                 <CardActions>
                   <Grid container justifyContent="center">
                     <Grid item xs={12}>
