@@ -5,6 +5,7 @@ import { default as cors, default as express } from "express";
 import { errors } from "celebrate";
 import { createClient } from "redis";
 import RedisStore from "connect-redis";
+import routes from "./routes/v1";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static("dist"));
+app.use("/api/v1", routes);
 app.use(errors());
 
 const sessionMiddleware = session({
