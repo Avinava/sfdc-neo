@@ -1,7 +1,7 @@
 {
-  "name": "sf-testclass-gpt",
+  "name": "sfdc-neo",
   "version": "1.0.0",
-  "description": "Open AI GPT based bot to generate test classes.",
+  "description": "Open AI GPT based bot to help you with salesforce tasks.",
   "main": "src/server/index.js",
   "type": "module",
   "scripts": {
