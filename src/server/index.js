@@ -5,7 +5,7 @@ import { default as cors, default as express } from "express";
 import { errors } from "celebrate";
 import { createClient } from "redis";
 import RedisStore from "connect-redis";
-import routes from "./routes/v1";
+import routes from "./routes/v1/index.js";
 
 dotenv.config();
 
@@ -23,7 +23,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static("dist"));
-app.use("/api/v1", routes);
 app.use(errors());
 
 const sessionMiddleware = session({
@@ -35,6 +34,11 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 
+app.use("/api/v1", routes);
+
+app.get("/", (req, res) => {
+  res.redirect("http://localhost:3000");
+});
 // need this for react router to work
 app.get("*", (req, res) => res.sendFile(path.resolve("dist", "index.html")));
 app.listen(process.env.PORT, () => {
