@@ -4,7 +4,4 @@ body {
   text-align: center;
 }
 
-html, body, #root, #root > div {
-  height: 100%;
-  background: #FEFCF3;
-}
+
