@@ -1,23 +1,52 @@
-import React, { Component } from 'react';
-import './app.css';
-import ReactImage from './react.png';
+import React, { useContext } from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "./app.css";
+import AuthContext from "./components/AuthContext";
+import Header from "./components/Header";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
 
-export default class App extends Component {
-  state = { username: null };
+export default class App extends React.Component {
+  state = { theme: createTheme({
+    palette: {
+      primary: {
+        main: "#002855",
+      },
+      secondary: {
+        main: "#3f9c35",
+      },
+      background: {
+        default: "#f4f5f7",
+      },
+      tertiary: {
+        main: "#f4f5f7",
+      },
+    },
+  }) };
+  static contextType = AuthContext;
 
   componentDidMount() {
-    fetch('/api/getUsername')
-      .then(res => res.json())
-      .then(user => this.setState({ username: user.username }));
   }
 
   render() {
-    const { username } = this.state;
     return (
-      <div>
-        {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
-        <img src={ReactImage} alt="react" />
-      </div>
+      <React.Fragment>
+      <ThemeProvider theme={this.state.theme}>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={this.context.session ? <Home></Home> : <Login />} />
+            <Route
+              path="/home"
+              element={
+                  <Home />
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </React.Fragment>
     );
   }
 }

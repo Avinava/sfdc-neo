@@ -1,8 +1,10 @@
-h1 {
-  color: green;
+body {
+  margin: auto;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
 }
 
-body {
-  text-align: center;
-  margin: auto;
+html, body, #root, #root > div {
+  height: 100%;
+  background: #FEFCF3;
 }
