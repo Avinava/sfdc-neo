@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 import passport from "passport";
 import { Strategy as ForceDotComStrategy } from "passport-forcedotcom";
+import { supabaseAdmin } from "./supabase.js";
 dotenv.config();
 
 passport.use(
@@ -44,11 +45,28 @@ passport.use(
   )
 );
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser(async function (user, done) {
+  const instanceUrl = user._raw.urls.rest.split("/services/data")[0];
+  const supaUser = {
+    user_id: user.id,
+    username: user._raw.username,
+    organization_id: user._raw.organization_id,
+    username: user._raw.username,
+    email: user._raw.email,
+    name: user.displayName,
+    instance_url: instanceUrl,
+  };
+
+  // upsert using user_id to supabase
+  const { data, error } = await supabaseAdmin
+    .from("salesforce_user")
+    .upsert(supaUser, { onConflict: "user_id" });
+
   done(null, user);
 });
 
 passport.deserializeUser(function (obj, done) {
+  console.log("deserializeUser", obj);
   done(null, obj);
 });
 
