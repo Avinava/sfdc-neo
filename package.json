@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Open AI GPT based bot to generate test classes.",
   "main": "src/server/index.js",
+  "type": "module",
   "scripts": {
     "build": "webpack --mode production",
     "start": "npm run build && node src/server/index.js",
@@ -19,15 +20,20 @@
     "@mui/material": "^5.12.1",
     "babel-polyfill": "^6.26.0",
     "celebrate": "^15.0.1",
+    "connect-redis": "^7.1.0",
     "dotenv": "^16.0.3",
+    "dotenv-webpack": "^8.0.1",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "jsforce": "^1.11.1",
     "passport": "^0.6.0",
     "passport-forcedotcom": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
-    "request-promise": "^4.2.6"
+    "redis": "^4.6.6",
+    "request-promise": "^4.2.6",
+    "strong-error-handler": "^4.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
