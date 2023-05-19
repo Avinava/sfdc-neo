@@ -125,6 +125,7 @@ class Generator extends React.Component {
   handleError(error) {
     console.error(error.response);
     toast.error(error.response.data.message);
+    this.setState({ isResultLoading: false });
   }
 
   validateSelectedClass() {

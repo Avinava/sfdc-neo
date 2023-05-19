@@ -23,6 +23,14 @@ class Salesforce {
     const apexClasses = await this.toolingQuery(query);
     return apexClasses;
   }
+
+  getConnection() {
+    return this.connection;
+  }
+
+  isVaild() {
+    return !!this.connection;
+  }
 }
 
 export default Salesforce;
