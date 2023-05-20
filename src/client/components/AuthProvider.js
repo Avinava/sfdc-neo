@@ -10,14 +10,29 @@ export default class AuthProvider extends Component {
       avatar: null,
       identity: null,
       ready: false,
+      metrics: null,
+      setMetrics: () => {},
+      setRemainingQuota: () => {},
     };
   }
 
+  setMetrics = (metrics) => {
+    this.setState({ metrics });
+  };
+
+  setRemainingQuota = (remaining) => {
+    this.state.metrics.remainingQuota = remaining;
+    this.setState({ metrics: this.state.metrics });
+  };
+
   componentDidMount() {
+    this.state.setMetrics = this.setMetrics.bind(this);
     axios.get("/api/v1/auth/session").then((res) => {
-      console.log(res.data);
-      this.setState({ session: res.data });
-      this.setState({ ready: true });
+      this.setState({
+        session: res.data,
+        ready: true,
+        metrics: res.data.metrics,
+      });
     });
   }
 

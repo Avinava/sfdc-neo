@@ -75,17 +75,17 @@ class Header extends React.Component {
                     ml: 2,
                   }}
                 >
-                  {this.context.session.metrics && (
+                  {this.context.metrics && (
                     <Tooltip title="Daily Quota Remaining">
                       <Chip
                         label={
-                          this.context.session.metrics.remainingQuota +
+                          this.context.metrics.remainingQuota +
                           " / " +
-                          this.context.session.metrics.dailyQuota
+                          this.context.metrics.dailyQuota
                         }
                         size="small"
                         color={
-                          this.context.session.metrics.remainingQuota > 0
+                          this.context.metrics.remainingQuota > 0
                             ? "success"
                             : "error"
                         }

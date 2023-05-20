@@ -5,6 +5,9 @@ const AuthContext = React.createContext({
   avatar: null,
   identity: null,
   ready: false,
+  metrics: null,
+  setMetrics: () => {},
+  setRemainingQuota: () => {},
 });
 
 export default AuthContext;

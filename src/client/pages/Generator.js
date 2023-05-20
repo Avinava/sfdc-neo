@@ -24,9 +24,11 @@ import remarkGfm from "remark-gfm";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { GrTest } from "react-icons/gr";
 import { toast } from "react-toastify";
+import AuthContext from "../components/AuthContext";
 import "github-markdown-css";
 
 class Generator extends React.Component {
+  static contextType = AuthContext;
   // should have two grids side by side
   state = {
     classes: [],
@@ -36,8 +38,10 @@ class Generator extends React.Component {
     isResultLoading: false,
     loading: true,
     type: "code",
+    metrics: {},
   };
   componentDidMount() {
+    this.setState({ metrics: this.context.metrics });
     this.getApexClasses();
   }
 
@@ -53,7 +57,6 @@ class Generator extends React.Component {
     axios
       .get("/api/v1/salesforce/apexclass")
       .then((response) => {
-        console.log(response.data);
         this.setState({ classes: response.data, loading: false });
       })
       .catch((error) => {
@@ -71,6 +74,7 @@ class Generator extends React.Component {
     axios
       .post("/api/v1/generator/apexclass/test", cls)
       .then((response) => {
+        this.context.setRemainingQuota(response.headers["x-quota-remaining"]);
         this.setState({
           updatedClass: {
             Body: response.data.result,
@@ -91,6 +95,7 @@ class Generator extends React.Component {
     axios
       .post("/api/v1/generator/apexclass/codedocumentation", cls)
       .then((response) => {
+        this.context.setRemainingQuota(response.headers["x-quota-remaining"]);
         this.setState({
           updatedClass: {
             Body: response.data.result,
@@ -111,7 +116,7 @@ class Generator extends React.Component {
     axios
       .post("/api/v1/generator/apexclass/documentation", cls)
       .then((response) => {
-        console.log(response.data);
+        this.context.setRemainingQuota(response.headers["x-quota-remaining"]);
         this.setState({
           updatedClass: {
             Body: response.data.result,
