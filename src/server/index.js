@@ -7,7 +7,7 @@ import { createClient } from "redis";
 import RedisStore from "connect-redis";
 import routes from "./routes/v1/index.js";
 import usage from "./services/usage.js";
-const METERED_ENDPOINTS = ["generator"];
+const METERED_ENDPOINTS = ["/api/v1/generator/apexclass"];
 
 dotenv.config();
 
@@ -38,8 +38,7 @@ app.use(sessionMiddleware);
 
 app.use(async function (req, res, next) {
   console.info("ℹ️ ", new Date().toISOString(), ":", req.path);
-
-  if (METERED_ENDPOINTS.includes(req.path.split("/")[3].toLowerCase())) {
+  if (METERED_ENDPOINTS.includes(req.path)) {
     // if its a metered endpoint, check if user is authenticated
     if (req.session && req.session.passport && req.session.passport.user) {
       if (process.env.ENABLE_QUOTA === "true") {
