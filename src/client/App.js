@@ -23,6 +23,7 @@ export default class App extends React.Component {
         },
         background: {
           default: "#f4f5f7",
+          paper: "#fff"
         },
         tertiary: {
           main: "#f4f5f7",
@@ -32,7 +33,7 @@ export default class App extends React.Component {
   };
   static contextType = AuthContext;
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     return (

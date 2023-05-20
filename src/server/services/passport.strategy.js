@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import passport from "passport";
 import { Strategy as ForceDotComStrategy } from "passport-forcedotcom";
 import { supabaseAdmin } from "./supabase.js";
+import jsforce from "jsforce";
 dotenv.config();
 
 passport.use(
@@ -14,10 +15,11 @@ passport.use(
       authorizationURL: process.env.PRODUCTION_AUTHORIZATION_URL,
       tokenURL: process.env.PRODUCTION_TOKEN_URL,
     },
-    function verify(token, refreshToken, profile, done) {
+    async function verify(token, refreshToken, profile, done) {
+      profile.org = await getOrganization(token)
       profile.oauth = {
         refreshToken,
-        accessToken: token,
+        accessToken: token
       };
       return done(null, profile);
     }
@@ -35,10 +37,11 @@ passport.use(
       authorizationURL: process.env.SANDBOX_AUTHORIZATION_URL,
       tokenURL: process.env.SANDBOX_TOKEN_URL,
     },
-    function verify(token, refreshToken, profile, done) {
+    async function verify(token, refreshToken, profile, done) {
+      profile.org = await getOrganization(token)
       profile.oauth = {
         refreshToken,
-        accessToken: token,
+        accessToken: token
       };
       return done(null, profile);
     }
@@ -70,5 +73,14 @@ passport.serializeUser(async function (user, done) {
 passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
+
+async function getOrganization(token) {
+  const connection = new jsforce.Connection({
+    instanceUrl: token.params.instance_url,
+    accessToken: token.params.access_token,
+  });
+  const result = await connection.query('SELECT Id, Name, OrganizationType, NamespacePrefix, InstanceName FROM Organization')
+  return result.records[0]
+}
 
 export default passport;

@@ -40,7 +40,7 @@ router.get("/session", async (req, res) => {
   );
 
   delete user.oauth;
-  user.org = user._raw;
+  user.raw = user._raw;
   delete user._raw;
   if (process.env.ENABLE_QUOTA === "true" && req.session?.passport?.user) {
     user.metrics = await usage.getMetrics(user.id);

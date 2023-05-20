@@ -28,7 +28,7 @@ export default class AuthProvider extends Component {
   componentDidMount() {
     this.state.setMetrics = this.setMetrics.bind(this);
     axios.get("/api/v1/auth/session").then((res) => {
-
+      console.log(res.data);
       this.setState({
         session: !res.data || Object.keys(res.data).length === 0 ? null : res.data,
         ready: true,

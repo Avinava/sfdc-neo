@@ -10,14 +10,17 @@ import {
   Grid,
   Typography,
   Icon,
+  Chip
 } from "@mui/material";
 import { AiFillApi } from "react-icons/ai";
 import { SiSalesforce } from "react-icons/si";
 import { HiOutlineCode } from "react-icons/hi";
+import AuthContext from "./AuthContext";
 
 import { Link } from "react-router-dom";
 
 class HomeCards extends React.Component {
+  static contextType = AuthContext;
   state = {
     cards: [
       {
@@ -37,63 +40,72 @@ class HomeCards extends React.Component {
             <Grid container spacing={2} justifyContent="center">
               <Card sx={{ backgroundColor: "#f5f5f5", mt: 4 }}>
                 <CardContent>
-                  <Typography variant="h5" component="div">
-                    SFDC Neo
+                  <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+                    Welcome to sfdc-neo 👋🏻
+                  </Typography>
+                  <Typography variant='body1'>
+                    SFDC Neo is a powerful tool that connects with your Salesforce org using OAuth. It provides a set of openai based tools to help you with generating test classes, documenting your code and more.
                   </Typography>
                   <React.Fragment>
-                    SFDC Neo is a powerful tool that connects with your
-                    Salesforce org using OAuth. It provides a set of openai
-                    based tools to help you with generating test classes,
-                    documenting your code and more.
                     <br />
                     <br />
-                    <Typography variant="h5" component="div">
-                      How it works
+                    <Typography variant='h6' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+                      You are currently logged in to:
                     </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Icon
-                        component={SiSalesforce}
-                        sx={{ fontSize: 16, marginRight: "5px" }}
-                      />
-                      Once logged in, It fetches a list of available Apex
-                      classes from your org and displays them, making it easy to
-                      navigate and explore your codebase.
-                    </Typography>
-                    <br />
-                    <Typography
-                      variant="body1"
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Icon
-                        component={HiOutlineCode}
-                        sx={{ fontSize: 16, marginRight: "5px" }}
-                      />
-                      SFDC Neo doesn't store any of your code on its server.
-                    </Typography>
-                    <br />
-                    <Typography
-                      variant="body1"
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Icon
-                        component={AiFillApi}
-                        sx={{ fontSize: 16, marginRight: "5px" }}
-                      />
-                      Once you select a class and trigger an action, SFDC Neo
-                      leverages OpenAI APIs to complete the action
-                    </Typography>
+                    <Card sx={{ mt: 1 }}>
+                      <CardContent>
+
+                        <Grid container spacing={2} justifyContent="space-between" alignItems="flex-end">
+                          <Grid item xs={12} sm={6} lg={5} md={5}>
+                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                              {this.context.session.org.Name}
+                            </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Chip label="Connected" color="success" variant="small" />
+                          </Grid>
+                        </Grid>
+
+                        <Typography variant="h5" component="div">
+
+                        </Typography>
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                          {this.context.session.org.OrganizationType}
+                        </Typography>
+                        <Box display="flex" alignItems="center">
+                          <Chip
+                            label="Quota"
+                            color="primary"
+                            variant="outlined"
+                            size="small"
+                            sx={{ mr: 2 }}
+                          />
+                          <Typography variant="body1">
+                            You have currently{' '}
+                            <Typography component="span" variant="body1" color="primary">
+                              {this.context.metrics.remainingQuota}
+                            </Typography>{' '}
+                            remaining calls out of{' '}
+                            <Typography component="span" variant="body1" color="primary">
+                              {this.context.metrics.dailyQuota}
+                            </Typography>
+                            .
+                          </Typography>
+
+                        </Box>
+                      </CardContent>
+                    </Card>
                   </React.Fragment>
-                  <Button
-                    variant="contained"
-                    sx={{ marginTop: "20px" }}
-                    component={Link}
-                    to={"/generator"}
-                  >
-                    Get Started
-                  </Button>
+                  <Box sx={{ mt: 2, textAlign: 'center' }}>
+                    <Button
+                      variant="contained"
+                      sx={{ marginTop: "20px", marginLeft: "auto" }}
+                      component={Link}
+                      to={"/generator"}
+                    >
+                      Get Started
+                    </Button>
+                  </Box>
                 </CardContent>
               </Card>
             </Grid>

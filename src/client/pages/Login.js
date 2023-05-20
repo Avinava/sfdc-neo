@@ -8,7 +8,7 @@ import {
   Grid,
   Container,
   Button,
-  Badge,
+  Box,
   Typography,
 } from "@mui/material";
 import icon from "../../../public/logo.png";
@@ -24,23 +24,35 @@ class Login extends React.Component {
             justifyContent="center"
             alignItems="center"
           >
-            <Grid item xs={8} sm={4} lg={3}>
+            <Grid item xs={8} sm={6} lg={5} md={5}>
               <Card>
-                <CardHeader
-                  title="Login"
-                  titleTypographyProps={{ align: "center", variant: "h6" }}
-                  subheaderTypographyProps={{
-                    align: "center",
-                  }}
-                  sx={{
-                    backgroundColor: (theme) =>
-                      theme.palette.mode === "light"
-                        ? theme.palette.grey[200]
-                        : theme.palette.grey[700],
-                  }}
-                />
                 <div style={{ background: "gray", minHeight: "4px" }}></div>
                 <CardContent sx={{ pt: 2, textAlign: "center" }}>
+                  <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography
+                      variant='h6'
+                      sx={{
+                        ml: 3,
+                        lineHeight: 1,
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        fontSize: '1.5rem !important'
+                      }}
+                    >
+                      sfdc-neo
+                    </Typography>
+                  </Box>
+                  <Box sx={{ mb: 6 }}>
+                    <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+                      Welcome to sfdc-neo 👋🏻
+                    </Typography>
+                    <Typography variant='body2'>
+                      SFDC neo is a Node.js application designed to assist
+                      developers with Salesforce tasks, such as documenting and
+                      generating test classes. It leverages the capabilities of
+                      OpenAI to complete these tasks.
+                    </Typography>
+                  </Box>
                   {/* <Avatar
                     src={icon}
                     sx={{
@@ -55,10 +67,7 @@ class Login extends React.Component {
                     }}
                     variant="square"
                   /> */}
-                  SFDC neo is a Node.js application designed to assist
-                  developers with Salesforce tasks, such as documenting and
-                  generating test classes. It leverages the capabilities of
-                  OpenAI to complete these tasks.
+
                 </CardContent>
                 <CardActions>
                   <Grid container justifyContent="center">

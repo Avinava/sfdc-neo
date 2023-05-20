@@ -127,7 +127,7 @@ class Header extends React.Component {
                         </Grid>
                         <Grid item xs={12}>
                           <Typography variant="subtitle2" noWrap>
-                            {this.context.session.org.username}
+                            {this.context.session.raw.username}
                           </Typography>
                         </Grid>
                       </Grid>
