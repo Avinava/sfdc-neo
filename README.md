@@ -44,6 +44,9 @@ yarn start
 This will start the server on the port specified in the .env file. You can then access the application by navigating to http://localhost:3000 in your web browser.
 
 ## Demo
+
+You can try the demo app here https://neo.sfdxy.com/
+
 ![Screen Recording 2023-05-21 at 1 17 26 AM](/screenshots/demo.gif)
 
 
