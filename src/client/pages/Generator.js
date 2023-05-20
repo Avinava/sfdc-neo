@@ -26,6 +26,7 @@ import { GrTest } from "react-icons/gr";
 import { toast } from "react-toastify";
 import AuthContext from "../components/AuthContext";
 import "github-markdown-css";
+import APIService from "../services/APIService";
 
 class Generator extends React.Component {
   static contextType = AuthContext;
@@ -40,8 +41,8 @@ class Generator extends React.Component {
     type: "code",
     metrics: {},
   };
+  apiService = new APIService({ context: this.context });
   componentDidMount() {
-    this.setState({ metrics: this.context.metrics });
     this.getApexClasses();
   }
 
@@ -49,19 +50,16 @@ class Generator extends React.Component {
     // find the class in the classes array
     // set the state of the selected class
     const cls = this.state.classes.find((r) => r.Id === event.target.value);
-    console.log(cls);
     this.setState({ selectedClassId: event.target.value, selectedClass: cls });
   };
 
   getApexClasses() {
-    axios
-      .get("/api/v1/salesforce/apexclass")
+    this.apiService
+      .getApexClasses()
       .then((response) => {
-        this.setState({ classes: response.data, loading: false });
+        this.setState({ classes: response, loading: false });
       })
-      .catch((error) => {
-        console.log(error.response);
-      });
+      .catch((err) => this.handleErrors(err));
   }
 
   generateTest() {
@@ -71,18 +69,10 @@ class Generator extends React.Component {
 
     const cls = this.state.selectedClass;
     this.setState({ isResultLoading: true, type: "code" });
-    axios
-      .post("/api/v1/generator/apexclass/test", cls)
-      .then((response) => {
-        this.context.setRemainingQuota(response.headers["x-quota-remaining"]);
-        this.setState({
-          updatedClass: {
-            Body: response.data.result,
-          },
-          isResultLoading: false,
-        });
-      })
-      .catch((err) => this.handleError(err));
+    this.apiService
+      .generateTest(cls)
+      .then((response) => this.handleResponse(response))
+      .catch((err) => this.handleErrors(err));
   }
 
   generateCodeDocumentation() {
@@ -92,18 +82,10 @@ class Generator extends React.Component {
 
     const cls = this.state.selectedClass;
     this.setState({ isResultLoading: true, type: "code" });
-    axios
-      .post("/api/v1/generator/apexclass/codedocumentation", cls)
-      .then((response) => {
-        this.context.setRemainingQuota(response.headers["x-quota-remaining"]);
-        this.setState({
-          updatedClass: {
-            Body: response.data.result,
-          },
-          isResultLoading: false,
-        });
-      })
-      .catch((err) => this.handleError(err));
+    this.apiService
+      .generateCodeDocumentation(cls)
+      .then((response) => this.handleResponse(response))
+      .catch((err) => this.handleErrors(err));
   }
 
   generateDocumentation() {
@@ -113,24 +95,10 @@ class Generator extends React.Component {
 
     const cls = this.state.selectedClass;
     this.setState({ isResultLoading: true, type: "doc" });
-    axios
-      .post("/api/v1/generator/apexclass/documentation", cls)
-      .then((response) => {
-        this.context.setRemainingQuota(response.headers["x-quota-remaining"]);
-        this.setState({
-          updatedClass: {
-            Body: response.data.result,
-          },
-          isResultLoading: false,
-        });
-      })
-      .catch((err) => this.handleError(err));
-  }
-
-  handleError(error) {
-    console.error(error.response);
-    toast.error(error.response.data.message);
-    this.setState({ isResultLoading: false });
+    this.apiService
+      .generateDocumentation(cls)
+      .then((response) => this.handleResponse(response))
+      .catch((err) => this.handleErrors(err));
   }
 
   validateSelectedClass() {
@@ -139,6 +107,19 @@ class Generator extends React.Component {
       return false;
     }
     return true;
+  }
+
+  handleResponse = (response) => {
+    this.setState({
+      updatedClass: {
+        Body: response.result,
+      },
+      isResultLoading: false,
+    });
+  };
+
+  handleErrors(err) {
+    this.setState({ isResultLoading: false, loading: false });
   }
 
   render() {
