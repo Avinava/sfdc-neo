@@ -51,8 +51,9 @@ class OpenAI {
       {
         role: "user",
         content: `Instructions:
-        You are a developer who updates the class to add class docs, apexdocs and comments.
-        Use the apex class that was provided in context to generate the documentation
+        You are a developer who updates the class to add apexdocs and comments.
+        You only update the code to add documentation and nothing else.
+        Use the apex class that was provided in context to generate the documentation.
         If the question is not related to the context, politely respond that you are tuned to only generate documentation.
         Only return the documentation, don't return any extra text.
         `,

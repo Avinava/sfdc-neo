@@ -170,8 +170,8 @@ class Generator extends React.Component {
                 <CodeEditor
                   value={this.state.selectedClass?.Body}
                   language="apex"
-                  placeholder="Please select an Apex class."
-                  onChange={(ev) => {}}
+                  placeholder="Get started by selecting an apex class."
+                  onChange={(ev) => { }}
                   disabled={true}
                   padding={15}
                   style={{
@@ -226,7 +226,7 @@ class Generator extends React.Component {
                     value={this.state.updatedClass?.Body}
                     language="apex"
                     placeholder="Generated class will appear here."
-                    onChange={(ev) => {}}
+                    onChange={(ev) => { }}
                     disabled={true}
                     padding={15}
                     style={{
