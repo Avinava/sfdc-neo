@@ -43,6 +43,11 @@ yarn start
 
 This will start the server on the port specified in the .env file. You can then access the application by navigating to http://localhost:3000 in your web browser.
 
+## Demo
+![Screen Recording 2023-05-21 at 1 17 26 AM](https://github.com/Avinava/sfdc-neo/assets/1398711/b6c50f6a-9781-4b4b-a2ee-bcd1644b5c89)
+
+
+
 ## Contributing
 If you would like to contribute to SFDC-Neo, please fork the repository and submit a pull request. All contributions are welcome!
 
