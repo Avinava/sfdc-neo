@@ -1,6 +1,6 @@
 import React from "react";
 import AuthContext from "./AuthContext";
-import { Login } from "@mui/icons-material";
+import Login from "../pages/Login";
 
 export default class RequireAuth extends React.Component {
   static contextType = AuthContext;
@@ -12,7 +12,7 @@ export default class RequireAuth extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.context.session ? this.props.children : <Login></Login>}
+        {this.context.session ? this.props.children : <Login />}
       </React.Fragment>
     );
   }
