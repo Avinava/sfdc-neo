@@ -10,6 +10,7 @@ import Generator from "./pages/Generator";
 import RequireAuth from "./components/RequireAuth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CssBaseline from "@mui/material/CssBaseline";
 
 export default class App extends React.Component {
   state = {
@@ -27,7 +28,7 @@ export default class App extends React.Component {
           main: "#3f9c35",
         },
         background: {
-          default: "#f4f5f7",
+          default: "#262a3a ",
           paper: "#fff",
         },
         tertiary: {
@@ -45,32 +46,34 @@ export default class App extends React.Component {
       <React.Fragment>
         <ToastContainer position="top-center" theme="dark" />
         <ThemeProvider theme={this.state.theme}>
-          <BrowserRouter>
-            <Header />
-            <Routes>
-              <Route
-                path="/"
-                element={this.context.session ? <Home></Home> : <Login />}
-              />
-              <Route
-                path="/home"
-                element={
-                  <RequireAuth>
-                    <Home />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/generator"
-                element={
-                  <RequireAuth>
-                    <Generator />
-                  </RequireAuth>
-                }
-              />
-              <Route path="/login" element={<Login />} />
-            </Routes>
-          </BrowserRouter>
+          <CssBaseline>
+            <BrowserRouter>
+              <Header />
+              <Routes>
+                <Route
+                  path="/"
+                  element={this.context.session ? <Home></Home> : <Login />}
+                />
+                <Route
+                  path="/home"
+                  element={
+                    <RequireAuth>
+                      <Home />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/generator"
+                  element={
+                    <RequireAuth>
+                      <Generator />
+                    </RequireAuth>
+                  }
+                />
+                <Route path="/login" element={<Login />} />
+              </Routes>
+            </BrowserRouter>
+          </CssBaseline>
         </ThemeProvider>
       </React.Fragment>
     );
