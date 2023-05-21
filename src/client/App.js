@@ -14,6 +14,11 @@ import "react-toastify/dist/ReactToastify.css";
 export default class App extends React.Component {
   state = {
     theme: createTheme({
+      typography: {
+        button: {
+          textTransform: "none",
+        },
+      },
       palette: {
         primary: {
           main: "#002855",
@@ -23,7 +28,7 @@ export default class App extends React.Component {
         },
         background: {
           default: "#f4f5f7",
-          paper: "#fff"
+          paper: "#fff",
         },
         tertiary: {
           main: "#f4f5f7",
@@ -33,7 +38,7 @@ export default class App extends React.Component {
   };
   static contextType = AuthContext;
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   render() {
     return (
