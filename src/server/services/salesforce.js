@@ -26,7 +26,7 @@ class Salesforce {
   }
 
   async toolingQuery(query) {
-    let res = this.connection.tooling.query(query);
+    let res = await this.connection.tooling.query(query);
     if (!res.done) {
       res = await this.toolingQueryMore(res);
     }
