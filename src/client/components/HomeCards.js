@@ -160,7 +160,16 @@ class HomeCards extends React.Component {
                     <Box sx={{ mt: 2, textAlign: "center" }}>
                       <Button
                         variant="contained"
-                        sx={{ marginTop: "20px", marginLeft: "auto" }}
+                        sx={{ mt: 3, marginLeft: "auto", mr: 2 }}
+                        component={Link}
+                        to={"/generator"}
+                        color="tertiary"
+                      >
+                        Back To Login
+                      </Button>
+                      <Button
+                        variant="contained"
+                        sx={{ mt: 3, marginLeft: "auto" }}
                         component={Link}
                         to={"/generator"}
                       >
