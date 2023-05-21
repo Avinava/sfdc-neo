@@ -162,7 +162,7 @@ class HomeCards extends React.Component {
                         variant="contained"
                         sx={{ mt: 3, marginLeft: "auto", mr: 2 }}
                         component={Link}
-                        to={"/generator"}
+                        to={"/login"}
                         color="tertiary"
                       >
                         Back To Login
