@@ -24,7 +24,7 @@ class HomeCards extends React.Component {
         <Container maxWidth="xl">
           <Box sx={{ flexGrow: 1, mt: 2 }}>
             <Grid container spacing={2} justifyContent="center">
-              <Card sx={{ backgroundColor: "#f5f5f5", mt: 4 }}>
+              <Card sx={{ backgroundColor: "#f5f5f5", mt: 4, p: 2 }}>
                 <CardContent>
                   <Typography
                     variant="h5"
@@ -160,7 +160,16 @@ class HomeCards extends React.Component {
                     <Box sx={{ mt: 2, textAlign: "center" }}>
                       <Button
                         variant="contained"
-                        sx={{ marginTop: "20px", marginLeft: "auto" }}
+                        sx={{ mt: 3, marginLeft: "auto", mr: 2 }}
+                        component={Link}
+                        to={"/generator"}
+                        color="tertiary"
+                      >
+                        Back To Login
+                      </Button>
+                      <Button
+                        variant="contained"
+                        sx={{ mt: 3, marginLeft: "auto" }}
                         component={Link}
                         to={"/generator"}
                       >

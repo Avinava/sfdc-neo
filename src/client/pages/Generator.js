@@ -9,15 +9,12 @@ import {
   InputLabel,
   Button,
   ButtonGroup,
+  Paper,
 } from "@mui/material";
-import axios from "axios";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import {
-  CircleSpinnerOverlay,
-  FerrisWheelSpinner,
-} from "react-spinner-overlay";
+import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -151,27 +148,29 @@ class Generator extends React.Component {
           <Box sx={{ flexGrow: 1, mt: 2 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={6}>
-                <FormControl fullWidth size="small">
-                  <InputLabel id="apex-select">Apex Class</InputLabel>
-                  <Select
-                    labelId="apex-select"
-                    id="apex-select"
-                    label="Apex Class"
-                    onChange={this.onClassChange}
-                    value={this.state.selectedClassId}
-                  >
-                    {this.state.classes.map((cls, index) => (
-                      <MenuItem value={cls.Id} key={index}>
-                        {cls.Name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <Paper sx={{ p: 1 }}>
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="apex-select">Apex Class</InputLabel>
+                    <Select
+                      labelId="apex-select"
+                      id="apex-select"
+                      label="Apex Class"
+                      onChange={this.onClassChange}
+                      value={this.state.selectedClassId}
+                    >
+                      {this.state.classes.map((cls, index) => (
+                        <MenuItem value={cls.Id} key={index}>
+                          {cls.Name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Paper>
                 <CodeEditor
                   value={this.state.selectedClass?.Body}
                   language="apex"
                   placeholder="Get started by selecting an apex class."
-                  onChange={(ev) => { }}
+                  onChange={(ev) => {}}
                   disabled={true}
                   padding={15}
                   style={{
@@ -185,53 +184,51 @@ class Generator extends React.Component {
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
-                <Grid
-                  container
-                  maxWidth="xl"
-                  minWidth="xl"
-                  sx={{
-                    paddingTop: "4px",
-                  }}
-                >
-                  <ButtonGroup variant="contained">
-                    <Button
-                      variant="secondary"
-                      onClick={() => this.generateTest()}
-                      startIcon={<GrTest />}
-                    >
-                      Generate Test Class
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      startIcon={<HiOutlineDocumentText />}
-                      onClick={() => this.generateCodeDocumentation()}
-                    >
-                      Add Code Comments
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      startIcon={<HiOutlineDocumentText />}
-                      onClick={() => this.generateDocumentation()}
-                    >
-                      Generate Documentation
-                    </Button>
-                  </ButtonGroup>
+                <Grid container maxWidth="xl" minWidth="xl">
+                  <Paper sx={{ p: 1, width: "100%" }}>
+                    <ButtonGroup variant="contained" size="small">
+                      <Button
+                        variant="secondary"
+                        onClick={() => this.generateTest()}
+                        startIcon={<GrTest />}
+                        size="small"
+                      >
+                        Generate Test Class
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        startIcon={<HiOutlineDocumentText />}
+                        onClick={() => this.generateCodeDocumentation()}
+                        size="small"
+                      >
+                        Add Code Comments
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        startIcon={<HiOutlineDocumentText />}
+                        onClick={() => this.generateDocumentation()}
+                        size="small"
+                      >
+                        Generate Documentation
+                      </Button>
+                    </ButtonGroup>
+                  </Paper>
                 </Grid>
 
                 {this.state.isResultLoading && (
-                  <Skeleton count={20} style={{ marginTop: 1 }} />
+                  <Skeleton count={20} style={{ marginTop: 2 }} />
                 )}
                 {!this.state.isResultLoading && this.state.type === "code" && (
                   <CodeEditor
                     value={this.state.updatedClass?.Body}
                     language="apex"
                     placeholder="Generated class will appear here."
-                    onChange={(ev) => { }}
+                    onChange={(ev) => {}}
                     disabled={true}
                     padding={15}
                     style={{
                       fontSize: 12,
-                      marginTop: 10,
+                      marginTop: 14,
                       maxHeight: "calc(100vh - 200px)",
                       overflow: "scroll",
                       fontFamily:
