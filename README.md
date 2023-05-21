@@ -26,9 +26,11 @@ PRODUCTION_AUTHORIZATION_URL=https://login.salesforce.com/services/oauth2/author
 PRODUCTION_TOKEN_URL=https://login.salesforce.com/services/oauth2/token
 SANDBOX_AUTHORIZATION_URL=https://test.salesforce.com/services/oauth2/authorize
 SANDBOX_TOKEN_URL=https://test.salesforce.com/services/oauth2/token
+OPENAI_API_KEY=<your OpenAI API key>
+# only needed for enabling quota, by default this shouldn't be needed
+ENABLE_QUOTA=true
 SUPABASE_URL=<your Supabase URL>
 SUPABASE_ADMIN_KEY=<your Supabase admin key>
-OPENAI_API_KEY=<your OpenAI API key>
 ```
 
 ## Usage
