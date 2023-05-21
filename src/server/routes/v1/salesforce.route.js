@@ -10,8 +10,7 @@ router.get("/apexclass", async (req, res) => {
       message: "You are not logged in.",
     });
   } else {
-    const apexClasses = await salesforce.getApexClasses();
-    res.send(apexClasses.records);
+    res.send(await salesforce.getApexClasses());
   }
 });
 

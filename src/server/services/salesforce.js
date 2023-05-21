@@ -14,8 +14,23 @@ class Salesforce {
     }
   }
 
+  async toolingQueryMore(queryResult) {
+    const res = await this.connection.tooling.queryMore(
+      queryResult.nextRecordsUrl
+    );
+    queryResult.records.push(...res.records);
+    if (!res.done) {
+      await this.toolingQueryMore(queryResult);
+    }
+    return queryResult;
+  }
+
   async toolingQuery(query) {
-    return await this.connection.tooling.query(query);
+    let res = await this.connection.tooling.query(query);
+    if (!res.done) {
+      res = await this.toolingQueryMore(res);
+    }
+    return res.records;
   }
 
   async getApexClasses() {

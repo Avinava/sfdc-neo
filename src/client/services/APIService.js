@@ -35,7 +35,7 @@ class APIService extends React.Component {
   }
 
   requestHandler = async (method, url, data) => {
-    console.log("requestHandler", APIService.contextType);
+    console.log("requestHandler", method, url);
     return axios({
       method,
       url,
