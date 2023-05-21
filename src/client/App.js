@@ -29,7 +29,7 @@ export default class App extends React.Component {
         },
         background: {
           default: "#262a3a ",
-          paper: "#fff",
+          paper: "#eaeaea",
         },
         tertiary: {
           main: "#f4f5f7",

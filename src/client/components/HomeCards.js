@@ -24,7 +24,7 @@ class HomeCards extends React.Component {
         <Container maxWidth="xl">
           <Box sx={{ flexGrow: 1, mt: 2 }}>
             <Grid container spacing={2} justifyContent="center">
-              <Card sx={{ backgroundColor: "#f5f5f5", mt: 4 }}>
+              <Card sx={{ backgroundColor: "#f5f5f5", mt: 4, p: 2 }}>
                 <CardContent>
                   <Typography
                     variant="h5"
