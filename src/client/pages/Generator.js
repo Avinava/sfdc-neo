@@ -80,7 +80,7 @@ class Generator extends React.Component {
     const cls = this.state.selectedClass;
     this.setState({ isResultLoading: true, type: "code" });
     this.apiService
-      .generateCodeDocumentation(cls)
+      .generateCodeComments(cls)
       .then((response) => this.handleResponse(response))
       .catch((err) => this.handleErrors(err));
   }

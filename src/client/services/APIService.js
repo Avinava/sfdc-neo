@@ -18,10 +18,10 @@ class APIService extends React.Component {
     return this.requestHandler("post", "/api/v1/generator/apexclass/test", cls);
   }
 
-  generateCodeDocumentation(cls) {
+  generateCodeComments(cls) {
     return this.requestHandler(
       "post",
-      "/api/v1/generator/apexclass/documentation",
+      "/api/v1/generator/apexclass/codecomments",
       cls
     );
   }
