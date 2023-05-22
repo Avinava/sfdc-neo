@@ -5,6 +5,10 @@ const METERED_ENDPOINTS = ["/api/v1/generator/apexclass"];
 dotenv.config();
 
 class Metered {
+  constructor() {
+    this.handle = this.handle.bind(this); // Bind the context of 'handle' method to the 'Metered' class
+  }
+
   async handle(req, res, next) {
     console.info("ℹ️ ", new Date().toISOString(), ":", req.path);
     if (this.isMeteredEndpoint(req.path)) {
