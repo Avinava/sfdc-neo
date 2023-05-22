@@ -10,6 +10,7 @@ import {
   Button,
   ButtonGroup,
   Paper,
+  Tooltip,
 } from "@mui/material";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import Skeleton from "react-loading-skeleton";
@@ -19,6 +20,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { HiOutlineDocumentText } from "react-icons/hi";
+import { SiCodereview } from "react-icons/si";
+import { BiCommentEdit } from "react-icons/bi";
 import { GrTest } from "react-icons/gr";
 import { toast } from "react-toastify";
 import AuthContext from "../components/AuthContext";
@@ -80,7 +83,7 @@ class Generator extends React.Component {
     const cls = this.state.selectedClass;
     this.setState({ isResultLoading: true, type: "code" });
     this.apiService
-      .generateCodeDocumentation(cls)
+      .generateCodeComments(cls)
       .then((response) => this.handleResponse(response))
       .catch((err) => this.handleErrors(err));
   }
@@ -94,6 +97,19 @@ class Generator extends React.Component {
     this.setState({ isResultLoading: true, type: "doc" });
     this.apiService
       .generateDocumentation(cls)
+      .then((response) => this.handleResponse(response))
+      .catch((err) => this.handleErrors(err));
+  }
+
+  generateCodeReview() {
+    if (!this.validateSelectedClass()) {
+      return;
+    }
+
+    const cls = this.state.selectedClass;
+    this.setState({ isResultLoading: true, type: "doc" });
+    this.apiService
+      .generateCodeReview(cls)
       .then((response) => this.handleResponse(response))
       .catch((err) => this.handleErrors(err));
   }
@@ -187,30 +203,46 @@ class Generator extends React.Component {
                 <Grid container maxWidth="xl" minWidth="xl">
                   <Paper sx={{ p: 1, width: "100%" }}>
                     <ButtonGroup variant="contained" size="small">
-                      <Button
-                        variant="secondary"
-                        onClick={() => this.generateTest()}
-                        startIcon={<GrTest />}
-                        size="small"
-                      >
-                        Generate Test Class
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        startIcon={<HiOutlineDocumentText />}
-                        onClick={() => this.generateCodeDocumentation()}
-                        size="small"
-                      >
-                        Add Code Comments
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        startIcon={<HiOutlineDocumentText />}
-                        onClick={() => this.generateDocumentation()}
-                        size="small"
-                      >
-                        Generate Documentation
-                      </Button>
+                      <Tooltip title="Generate Test Class">
+                        <Button
+                          variant="secondary"
+                          onClick={() => this.generateTest()}
+                          startIcon={<GrTest />}
+                          size="small"
+                        >
+                          Test Class
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Generate Code Comments">
+                        <Button
+                          variant="secondary"
+                          startIcon={<BiCommentEdit />}
+                          onClick={() => this.generateCodeDocumentation()}
+                          size="small"
+                        >
+                          Code Comments
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Generate Documentation">
+                        <Button
+                          variant="secondary"
+                          startIcon={<HiOutlineDocumentText />}
+                          onClick={() => this.generateDocumentation()}
+                          size="small"
+                        >
+                          Documentation
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Generate Code Review">
+                        <Button
+                          variant="secondary"
+                          startIcon={<SiCodereview />}
+                          onClick={() => this.generateCodeReview()}
+                          size="small"
+                        >
+                          Code Review
+                        </Button>
+                      </Tooltip>
                     </ButtonGroup>
                   </Paper>
                 </Grid>

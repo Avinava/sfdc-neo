@@ -16,9 +16,9 @@ router.post("/apexclass/test", async (req, res) => {
   });
 });
 
-router.post("/apexclass/codedocumentation", async (req, res) => {
+router.post("/apexclass/codecomments", async (req, res) => {
   const cls = req.body;
-  const aires = await openai.getCodeDocumentationCompletion(cls);
+  const aires = await openai.generateCodeComments(cls);
   const textResponse = aires.data.choices[0].message;
   res.send({
     success: true,
@@ -29,6 +29,16 @@ router.post("/apexclass/codedocumentation", async (req, res) => {
 router.post("/apexclass/documentation", async (req, res) => {
   const cls = req.body;
   const aires = await openai.getDocumentationCompletion(cls);
+  const textResponse = aires.data.choices[0].message;
+  res.send({
+    success: true,
+    result: textResponse.content,
+  });
+});
+
+router.post("/apexclass/codereview", async (req, res) => {
+  const cls = req.body;
+  const aires = await openai.getCodeReviewCompletion(cls);
   const textResponse = aires.data.choices[0].message;
   res.send({
     success: true,
