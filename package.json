@@ -20,6 +20,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.1",
     "@supabase/supabase-js": "^2.22.0",
+    "adm-zip": "^0.5.10",
     "babel-polyfill": "^6.26.0",
     "celebrate": "^15.0.1",
     "connect-redis": "^7.1.0",
@@ -43,7 +44,8 @@
     "redis": "^4.6.6",
     "remark-gfm": "^3.0.1",
     "request-promise": "^4.2.6",
-    "strong-error-handler": "^4.0.4"
+    "strong-error-handler": "^4.0.4",
+    "tempy": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",

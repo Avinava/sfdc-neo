@@ -1,4 +1,6 @@
 import jsforce from "jsforce";
+import { temporaryFile, temporaryDirectory } from "tempy";
+import AdmZip from "adm-zip";
 
 class Salesforce {
   session;
@@ -45,6 +47,56 @@ class Salesforce {
 
   isVaild() {
     return !!this.connection;
+  }
+
+  /**
+   *
+   * @param {*} payload {Name, Body}
+   */
+  async deployClass(cls) {
+    const zip = new AdmZip();
+    cls.Name = cls.Name || cls.Body.match(/class\s+(\w+)/i)[1];
+    cls.Metadata =
+      cls.Metadata ||
+      `<?xml version="1.0" encoding="UTF-8"?>
+        <ApexClass xmlns="http://soap.sforce.com/2006/04/metadata">
+            <apiVersion>${cls.ApiVersion || "57.0"}</apiVersion>
+            <status>${cls.Status || "Active"}</status>
+        </ApexClass>`;
+
+    zip.addFile(`src/classes/${cls.Name}.cls`, Buffer.from(cls.Body));
+    zip.addFile(
+      `src/classes/${cls.Name}.cls-meta.xml`,
+      Buffer.from(cls.Metadata)
+    );
+    zip.addFile(
+      "package.xml",
+      Buffer.from(`<?xml version="1.0" encoding="UTF-8"?>
+      <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+          <types>
+              <members>*</members>
+              <name>ApexClass</name>
+          </types>
+          <version>${cls.ApiVersion || "57.0"}</version>
+      </Package>`)
+    );
+
+    const zipStream = zip.toBuffer();
+    const deployResult = await this.connection.metadata.deploy(zipStream, {
+      rollbackOnError: true,
+      singlePackage: true,
+      checkOnly: !!cls.checkOnly,
+    });
+
+    return deployResult;
+  }
+
+  async checkDeployStatus(id) {
+    const deployResult = await this.connection.metadata.checkDeployStatus(
+      id,
+      true
+    );
+    return deployResult;
   }
 }
 

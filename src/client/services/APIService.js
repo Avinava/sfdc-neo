@@ -18,6 +18,14 @@ class APIService extends React.Component {
     return this.requestHandler("post", "/api/v1/generator/apexclass/test", cls);
   }
 
+  deployClass(cls) {
+    return this.requestHandler("post", "/api/v1/salesforce/deployclass", cls);
+  }
+
+  getDeployStatus(id) {
+    return this.requestHandler("get", `/api/v1/salesforce/deployclass/${id}`);
+  }
+
   generateCodeComments(cls) {
     return this.requestHandler(
       "post",

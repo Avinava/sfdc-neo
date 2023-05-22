@@ -14,4 +14,26 @@ router.get("/apexclass", async (req, res) => {
   }
 });
 
+router.post("/deployclass", async (req, res) => {
+  const salesforce = new Salesforce(req.session);
+  if (!salesforce.isVaild()) {
+    return res.status(401).send({
+      message: "You are not logged in.",
+    });
+  } else {
+    res.send(await salesforce.deployClass(req.body));
+  }
+});
+
+router.get("/deployclass/:id", async (req, res) => {
+  const salesforce = new Salesforce(req.session);
+  if (!salesforce.isVaild()) {
+    return res.status(401).send({
+      message: "You are not logged in.",
+    });
+  } else {
+    res.send(await salesforce.checkDeployStatus(req.params.id, true));
+  }
+});
+
 export default router;

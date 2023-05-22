@@ -113,6 +113,52 @@ class Generator extends React.Component {
       .catch((err) => this.handleErrors(err));
   }
 
+  async deployClass() {
+    if (!this.state.updatedClass.Body) {
+      toast.error("Please generate test class first");
+      return;
+    }
+
+    const cls = this.state.updatedClass;
+    cls.checkOnly = false;
+    this.setState({ isResultLoading: true, type: "code" });
+    const deployRes = await this.apiService.deployClass(cls);
+    if (deployRes.id) {
+      this.pollStatus(deployRes.id);
+    }
+  }
+
+  async validateClass() {
+    if (!this.state.updatedClass.Body) {
+      toast.error("Please generate test class first");
+      return;
+    }
+
+    this.setState({ isResultLoading: true, type: "code" });
+    const cls = this.state.updatedClass;
+    cls.checkOnly = true;
+    const deployRes = await this.apiService.deployClass(cls);
+    if (deployRes.id) {
+      this.pollStatus(deployRes.id);
+    }
+  }
+
+  async pollStatus(id) {
+    const statusRes = await this.apiService.getDeployStatus(id);
+    if (statusRes.done) {
+      if (statusRes.success) {
+        toast.success("Class successfully validated");
+      } else {
+        toast.error("Class validation failed");
+      }
+      this.setState({ isResultLoading: false, type: "code" });
+    } else {
+      setTimeout(() => {
+        this.pollStatus(id);
+      }, 5000);
+    }
+  }
+
   validateSelectedClass() {
     if (!this.state.selectedClassId) {
       toast.error("Please select an apex class first");
@@ -195,7 +241,7 @@ class Generator extends React.Component {
                   }}
                 >
                   <Editor
-                    height="calc(100vh - 200px)"
+                    height="calc(100vh - 215px)"
                     defaultLanguage="apex"
                     defaultValue="Get started by selecting an apex class."
                     value={this.state.selectedClass?.Body}
@@ -261,14 +307,14 @@ class Generator extends React.Component {
                   </Paper>
                 </Grid>
 
-                {!this.state.isResultLoading && this.state.type === "code" && (
+                {this.state.type === "code" && (
                   <Box
                     sx={{
                       marginTop: "11px",
                     }}
                   >
                     <Editor
-                      height="calc(100vh - 200px)"
+                      height="calc(100vh - 215px)"
                       defaultLanguage="apex"
                       defaultValue="Generated class will appear here."
                       value={this.state.updatedClass.Body}
@@ -280,9 +326,39 @@ class Generator extends React.Component {
                         minimap: { enabled: false },
                       }}
                     />
+                    <Paper sx={{ p: "12px", mt: 1, width: "100%" }}>
+                      <ButtonGroup
+                        variant="contained"
+                        size="small"
+                        sx={{ textAlign: "center" }}
+                      >
+                        <Tooltip title="Validate the generated class">
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => this.validateClass()}
+                            size="small"
+                            disabled={!this.state.updatedClass?.Body}
+                          >
+                            Validate
+                          </Button>
+                        </Tooltip>
+                        <Tooltip title="Save the generated class in Org">
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => this.deployClass()}
+                            size="small"
+                            disabled={!this.state.updatedClass?.Body}
+                          >
+                            Save to Org
+                          </Button>
+                        </Tooltip>
+                      </ButtonGroup>
+                    </Paper>
                   </Box>
                 )}
-                {!this.state.isResultLoading && this.state.type !== "code" && (
+                {this.state.type !== "code" && (
                   <Box
                     sx={{
                       marginTop: "13px",
