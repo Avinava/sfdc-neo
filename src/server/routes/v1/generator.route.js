@@ -36,4 +36,14 @@ router.post("/apexclass/documentation", async (req, res) => {
   });
 });
 
+router.post("/apexclass/codereview", async (req, res) => {
+  const cls = req.body;
+  const aires = await openai.getCodeReviewCompletion(cls);
+  const textResponse = aires.data.choices[0].message;
+  res.send({
+    success: true,
+    result: textResponse.content,
+  });
+});
+
 export default router;

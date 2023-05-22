@@ -34,6 +34,14 @@ class APIService extends React.Component {
     );
   }
 
+  generateCodeReview(cls) {
+    return this.requestHandler(
+      "post",
+      "/api/v1/generator/apexclass/codereview",
+      cls
+    );
+  }
+
   requestHandler = async (method, url, data) => {
     console.log("requestHandler", method, url);
     return axios({
