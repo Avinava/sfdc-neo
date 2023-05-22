@@ -50,7 +50,6 @@ class APIService extends React.Component {
       data,
     })
       .then((response) => {
-        console.log(response);
         this.context.setRemainingQuota(response.headers["x-quota-remaining"]);
         return response.data;
       })
