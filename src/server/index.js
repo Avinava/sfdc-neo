@@ -4,10 +4,10 @@ import path from "path";
 import { default as cors, default as express } from "express";
 import { errors } from "celebrate";
 import { createClient } from "redis";
+import errorHandler from "strong-error-handler";
 import RedisStore from "connect-redis";
 import routes from "./routes/v1/index.js";
-import usage from "./services/usage.js";
-const METERED_ENDPOINTS = ["/api/v1/generator/apexclass"];
+import meteredMiddleware from "./middleware/metered.js";
 
 dotenv.config();
 
@@ -27,64 +27,15 @@ app.use(express.json());
 app.use(express.static("dist"));
 app.use(errors());
 
-const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  store: redisStore,
-});
-
-app.use(sessionMiddleware);
-
-function isMeteredEndpoint(path) {
-  let isMetered = false;
-  METERED_ENDPOINTS.forEach((endpoint) => {
-    if (path.startsWith(endpoint)) {
-      isMetered = true;
-    }
-  });
-  return isMetered;
-}
-
-app.use(async function (req, res, next) {
-  console.info("ℹ️ ", new Date().toISOString(), ":", req.path);
-  if (isMeteredEndpoint(req.path)) {
-    // if its a metered endpoint, check if user is authenticated
-    if (req.session && req.session.passport && req.session.passport.user) {
-      if (process.env.ENABLE_QUOTA === "true") {
-        console.log("Quota is enabled");
-        let metrics = await usage.getMetrics(req.session.passport.user.id);
-        req.session.passport.user.metrics = metrics;
-        req.session.save();
-
-        // check if user has remaining quota
-        if (req.session.passport.user.metrics.remainingQuota <= 0) {
-          return res.status(429).send({
-            message:
-              "You have exceeded your daily quota. Please try again tomorrow.",
-          });
-        }
-
-        // increment usage
-        await usage.incrementUsage(req.session.passport.user.id);
-        // update metrics
-        metrics = req.session.passport.user.metrics;
-        metrics.remainingQuota = metrics.remainingQuota - 1;
-        req.session.passport.user.metrics = metrics;
-        req.session.save();
-
-        res.set("x-quota-remaining", metrics.remainingQuota);
-        res.set("x-quota-limit", metrics.dailyQuota);
-      }
-    } else {
-      return res.status(401).send({
-        message: "You are not logged in.",
-      });
-    }
-  }
-
-  next();
-});
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: redisStore,
+  })
+);
+app.use(meteredMiddleware.handle);
 
 app.use(
   errorHandler({
