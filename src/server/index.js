@@ -86,6 +86,13 @@ app.use(async function (req, res, next) {
   next();
 });
 
+app.use(
+  errorHandler({
+    debug: process.env.PRODUCTION === "false" ? true : false,
+    log: true,
+  })
+);
+
 app.use("/api/v1", routes);
 
 app.get("/", (req, res) => {
