@@ -21,6 +21,7 @@ export default class App extends React.Component {
         },
       },
       palette: {
+        type: "dark",
         primary: {
           main: "#002855",
         },

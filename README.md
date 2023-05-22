@@ -2,6 +2,8 @@
 
 SFDC-Neo is a Node.js application designed to assist developers with Salesforce tasks, such as documenting and generating test classes. It leverages the capabilities of OpenAI to provide an intelligent and efficient solution.
 
+Demo : https://neo.sfdxy.com/
+
 ### Features
    - **Test Class Generation**: Automate the creation of robust and reliable test classes
    - **Code Comments**:  Enhance code readability and maintainability by automatically generating helpful comments throughout your codebase.
@@ -58,7 +60,9 @@ This will start the server on the port specified in the .env file. You can then 
 
 You can try the demo app here https://neo.sfdxy.com/
 
-![Screen Recording 2023-05-21 at 1 17 26 AM](/screenshots/demo.gif)
+![review.png](/screenshots/review.png)
+
+![demo.gif](/screenshots/demo.gif)
 
 
 ## Contributing
