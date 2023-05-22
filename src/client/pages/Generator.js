@@ -211,11 +211,12 @@ class Generator extends React.Component {
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
                 <Grid container maxWidth="xl" minWidth="xl">
-                  <Paper sx={{ p: 1, width: "100%" }}>
+                  <Paper sx={{ p: "12px", width: "100%" }}>
                     <ButtonGroup variant="contained" size="small">
                       <Tooltip title="Generate Test Class">
                         <Button
-                          variant="secondary"
+                          variant="contained"
+                          color="secondary"
                           onClick={() => this.generateTest()}
                           startIcon={<GrTest />}
                           size="small"
@@ -225,7 +226,8 @@ class Generator extends React.Component {
                       </Tooltip>
                       <Tooltip title="Generate Code Comments">
                         <Button
-                          variant="secondary"
+                          variant="contained"
+                          color="secondary"
                           startIcon={<BiCommentEdit />}
                           onClick={() => this.generateCodeDocumentation()}
                           size="small"
@@ -235,7 +237,8 @@ class Generator extends React.Component {
                       </Tooltip>
                       <Tooltip title="Generate Documentation">
                         <Button
-                          variant="secondary"
+                          variant="contained"
+                          color="secondary"
                           startIcon={<HiOutlineDocumentText />}
                           onClick={() => this.generateDocumentation()}
                           size="small"
@@ -245,7 +248,8 @@ class Generator extends React.Component {
                       </Tooltip>
                       <Tooltip title="Generate Code Review">
                         <Button
-                          variant="secondary"
+                          variant="contained"
+                          color="secondary"
                           startIcon={<SiCodereview />}
                           onClick={() => this.generateCodeReview()}
                           size="small"
