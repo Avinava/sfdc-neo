@@ -14,8 +14,6 @@ import {
   Typography,
 } from "@mui/material";
 import CodeEditor from "@uiw/react-textarea-code-editor";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -256,9 +254,6 @@ class Generator extends React.Component {
                   </Paper>
                 </Grid>
 
-                {this.state.isResultLoading && (
-                  <Skeleton count={20} style={{ marginTop: 2 }} />
-                )}
                 {!this.state.isResultLoading && this.state.type === "code" && (
                   <CodeEditor
                     value={this.state.updatedClass.Body}

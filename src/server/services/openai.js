@@ -36,7 +36,7 @@ class OpenAI {
         content: `
         Add a summary of the code review and rate the code quality from 1 to 10.
         Where 1 is the worst and 10 is the best.
-        Add footnotes on what Code Quality rating means
+        Add a very brief footnotes on what Code Quality rating means
         `,
       },
     ];
