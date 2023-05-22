@@ -11,6 +11,7 @@ import {
   Paper,
 } from "@mui/material";
 import AuthContext from "./AuthContext";
+import { TbPlugConnected, TbPlugConnectedX } from "react-icons/tb";
 
 import { Link } from "react-router-dom";
 
@@ -67,6 +68,7 @@ class HomeCards extends React.Component {
                             </Grid>
                             <Grid item>
                               <Chip
+                                icon={<TbPlugConnected />}
                                 label="Connected"
                                 color="success"
                                 variant="small"
@@ -138,6 +140,7 @@ class HomeCards extends React.Component {
                         </Grid>
                         <Grid item>
                           <Chip
+                            icon={<TbPlugConnectedX />}
                             label="Disconnected"
                             color="error"
                             variant="small"

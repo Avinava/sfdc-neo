@@ -16,10 +16,10 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@monaco-editor/react": "^4.5.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.1",
     "@supabase/supabase-js": "^2.22.0",
-    "@uiw/react-textarea-code-editor": "^2.1.1",
     "babel-polyfill": "^6.26.0",
     "celebrate": "^15.0.1",
     "connect-redis": "^7.1.0",

@@ -13,7 +13,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import CodeEditor from "@uiw/react-textarea-code-editor";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -26,6 +25,7 @@ import { toast } from "react-toastify";
 import AuthContext from "../components/AuthContext";
 import "github-markdown-css";
 import APIService from "../services/APIService";
+import Editor from "@monaco-editor/react";
 
 class Generator extends React.Component {
   static contextType = AuthContext;
@@ -189,22 +189,25 @@ class Generator extends React.Component {
                     </Select>
                   </FormControl>
                 </Paper>
-                <CodeEditor
-                  value={this.state.selectedClass?.Body}
-                  language="apex"
-                  placeholder="Get started by selecting an apex class."
-                  onChange={(ev) => {}}
-                  disabled={true}
-                  padding={15}
-                  style={{
-                    fontSize: 12,
-                    marginTop: 10,
-                    maxHeight: "calc(100vh - 200px)",
-                    overflow: "scroll",
-                    fontFamily:
-                      "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+                <Box
+                  sx={{
+                    marginTop: "10px",
                   }}
-                />
+                >
+                  <Editor
+                    height="calc(100vh - 200px)"
+                    defaultLanguage="apex"
+                    defaultValue="Get started by selecting an apex class."
+                    value={this.state.selectedClass?.Body}
+                    disabled={true}
+                    theme="vs-dark"
+                    options={{
+                      domReadOnly: true,
+                      readOnly: true,
+                      minimap: { enabled: false },
+                    }}
+                  />
+                </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
                 <Grid container maxWidth="xl" minWidth="xl">
@@ -255,22 +258,25 @@ class Generator extends React.Component {
                 </Grid>
 
                 {!this.state.isResultLoading && this.state.type === "code" && (
-                  <CodeEditor
-                    value={this.state.updatedClass.Body}
-                    language="apex"
-                    placeholder="Generated class will appear here."
-                    onChange={(ev) => {}}
-                    disabled={true}
-                    padding={15}
-                    style={{
-                      fontSize: 12,
-                      marginTop: 14,
-                      maxHeight: "calc(100vh - 200px)",
-                      overflow: "scroll",
-                      fontFamily:
-                        "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+                  <Box
+                    sx={{
+                      marginTop: "11px",
                     }}
-                  />
+                  >
+                    <Editor
+                      height="calc(100vh - 200px)"
+                      defaultLanguage="apex"
+                      defaultValue="Generated class will appear here."
+                      value={this.state.updatedClass.Body}
+                      disabled={true}
+                      theme="vs-dark"
+                      options={{
+                        domReadOnly: true,
+                        readOnly: true,
+                        minimap: { enabled: false },
+                      }}
+                    />
+                  </Box>
                 )}
                 {!this.state.isResultLoading && this.state.type !== "code" && (
                   <Box
