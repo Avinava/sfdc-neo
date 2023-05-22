@@ -252,7 +252,7 @@ class Generator extends React.Component {
                 )}
                 {!this.state.isResultLoading && this.state.type === "code" && (
                   <CodeEditor
-                    value={this.state.updatedClass?.Body}
+                    value={this.state.updatedClass.Body}
                     language="apex"
                     placeholder="Generated class will appear here."
                     onChange={(ev) => {}}

@@ -72,8 +72,9 @@ app.use(async function (req, res, next) {
         metrics.remainingQuota = metrics.remainingQuota - 1;
         req.session.passport.user.metrics = metrics;
         req.session.save();
-        req.headers["x-quota-remaining"] = metrics.remainingQuota;
-        req.headers["x-quota-limit"] = metrics.dailyQuota;
+
+        res.set("x-quota-remaining", metrics.remainingQuota);
+        res.set("x-quota-limit", metrics.dailyQuota);
       }
     } else {
       return res.status(401).send({
