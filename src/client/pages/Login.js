@@ -8,6 +8,7 @@ import {
   Button,
   Box,
   Typography,
+  Alert
 } from "@mui/material";
 
 class Login extends React.Component {
@@ -46,7 +47,7 @@ class Login extends React.Component {
                       sfdc-neo
                     </Typography>
                   </Box>
-                  <Box sx={{ mb: 6 }}>
+                  <Box sx={{ mb: 2 }}>
                     <Typography
                       variant="h5"
                       sx={{ fontWeight: 600, marginBottom: 1.5 }}
@@ -59,6 +60,10 @@ class Login extends React.Component {
                       generating test classes. It leverages the capabilities of
                       OpenAI to complete these tasks.
                     </Typography>
+                    <Alert severity="info" color="info" sx={{ mt: 2 }}>
+                      it's important to acknowledge that sfdc-neo's performance is dependent on the capabilities of OpenAI.
+                      Occasionally, there may be instances where the generated output may be inaccurate or inconsistent.
+                    </Alert>
                   </Box>
                 </CardContent>
                 <CardActions sx={{ p: 3 }}>

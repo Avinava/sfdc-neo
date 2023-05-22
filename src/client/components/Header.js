@@ -118,7 +118,7 @@ class Header extends React.Component {
                     open={Boolean(this.state.menuAnchorEl)}
                     onClick={this.handleMenuClose}
                   >
-                    <MenuItem disabled>
+                    <MenuItem component={Link} to="/home">
                       <Grid container alignItems="center">
                         <Grid item xs={12}>
                           <Typography variant="subtitle1" noWrap>
