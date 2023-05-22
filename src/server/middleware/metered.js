@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 import usage from "../services/usage.js";
-const METERED_ENDPOINTS = ["/api/v1/generator/apexclass"];
+const METERED_ENDPOINTS = ["/api/v1/generator/"];
 
 dotenv.config();
 
