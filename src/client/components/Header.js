@@ -76,7 +76,9 @@ class Header extends React.Component {
                   }}
                 >
                   {this.context.metrics && (
-                    <Tooltip title="Daily Quota Remaining">
+                    <Tooltip
+                      title={`You have ${this.context.metrics.remainingQuota} requests remaining today out of ${this.context.metrics.dailyQuota} `}
+                    >
                       <Chip
                         label={
                           this.context.metrics.remainingQuota +
