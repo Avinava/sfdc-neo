@@ -11,6 +11,7 @@ import {
   ButtonGroup,
   Paper,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import Skeleton from "react-loading-skeleton";
@@ -143,8 +144,12 @@ class Generator extends React.Component {
             overlayColor="rgba(0,153,255,0.2)"
             message={
               <React.Fragment>
-                <div>Fetching apex classes...</div>
-                <div>This may take few seconds...</div>
+                <Typography variant="body1" sx={{ color: "white" }}>
+                  Fetching apex classes...
+                </Typography>
+                <Typography variant="body1" sx={{ color: "white" }}>
+                  This may take few seconds...
+                </Typography>
               </React.Fragment>
             }
             loading={this.state.loading}
@@ -154,8 +159,12 @@ class Generator extends React.Component {
             overlayColor="rgba(0,153,255,0.2)"
             message={
               <React.Fragment>
-                <div>Processing your request...</div>
-                <div>This may take few seconds...</div>
+                <Typography variant="body1" sx={{ color: "white" }}>
+                  Processing your request...
+                </Typography>
+                <Typography variant="body1" sx={{ color: "white" }}>
+                  This may take few seconds...
+                </Typography>
               </React.Fragment>
             }
             loading={this.state.isResultLoading}
