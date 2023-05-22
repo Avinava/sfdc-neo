@@ -109,7 +109,8 @@ class OpenAI {
         role: "user",
         content: `Instructions:
         You are a developer who generates apex test classes for provided apex class. 
-        Use the apex class that was provided in context to generate the test class
+        Use the apex class that was provided in context to generate the test class.
+        If it is already a test class, return a message that it is already a test class.
         If the question is not related to the context, politely respond that you are tuned to only generate apex class.
         Only return the test class code, don't return any extra text.
         `,
