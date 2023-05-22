@@ -269,12 +269,18 @@ class Generator extends React.Component {
                   />
                 )}
                 {!this.state.isResultLoading && this.state.type !== "code" && (
-                  <article className="markdown-body">
-                    <ReactMarkdown
-                      children={this.state.updatedClass?.Body}
-                      remarkPlugins={[remarkGfm]}
-                    />
-                  </article>
+                  <Box
+                    sx={{
+                      marginTop: "13px",
+                    }}
+                  >
+                    <article className="markdown-body">
+                      <ReactMarkdown
+                        children={this.state.updatedClass?.Body}
+                        remarkPlugins={[remarkGfm]}
+                      />
+                    </article>
+                  </Box>
                 )}
               </Grid>
             </Grid>
