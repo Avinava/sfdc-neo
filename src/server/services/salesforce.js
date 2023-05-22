@@ -64,11 +64,8 @@ class Salesforce {
             <status>${cls.Status || "Active"}</status>
         </ApexClass>`;
 
-    zip.addFile(`src/classes/${cls.Name}.cls`, Buffer.from(cls.Body));
-    zip.addFile(
-      `src/classes/${cls.Name}.cls-meta.xml`,
-      Buffer.from(cls.Metadata)
-    );
+    zip.addFile(`classes/${cls.Name}.cls`, Buffer.from(cls.Body));
+    zip.addFile(`classes/${cls.Name}.cls-meta.xml`, Buffer.from(cls.Metadata));
     zip.addFile(
       "package.xml",
       Buffer.from(`<?xml version="1.0" encoding="UTF-8"?>
