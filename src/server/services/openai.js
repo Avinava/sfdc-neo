@@ -27,8 +27,8 @@ class OpenAI {
         role: "user",
         content: `Instructions:
         You are a developer who is reviewing the apex class provided.
-        Use the apex class that was provided in context to generate the review based on salesforce best practices.
-        If the question is not related to the context, politely respond that you are tuned to only generate code reviews.
+        Use the apex class that was provided in context and review it based on salesforce best practices.
+        If the question is not related to the context, politely respond that you are tuned only for code reviews.
         Only return the code review, don't return any extra text.`,
       },
       {
@@ -36,7 +36,7 @@ class OpenAI {
         content: `
         Add a summary of the code review and rate the code quality from 1 to 10.
         Where 1 is the worst and 10 is the best.
-        Add a very brief footnotes on what Code Quality rating means
+        Add a very brief footnotes on what Code Quality rating means in few lines.
         `,
       },
     ];
