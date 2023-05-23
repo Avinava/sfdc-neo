@@ -60,7 +60,9 @@ This will start the server on the port specified in the .env file. You can then 
 
 You can try the demo app here https://neo.sfdxy.com/
 
+![test_class_gen.png](/screenshots/test_class_gen.png)
 ![review.png](/screenshots/review.png)
+
 
 ![demo.gif](/screenshots/demo.gif)
 
