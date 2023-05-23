@@ -26,6 +26,8 @@ import AuthContext from "../components/AuthContext";
 import "github-markdown-css";
 import APIService from "../services/APIService";
 import Editor from "@monaco-editor/react";
+import Modal from "../components/Modal";
+import DeployResults from "../components/DeployResults";
 
 class Generator extends React.Component {
   static contextType = AuthContext;
@@ -149,9 +151,15 @@ class Generator extends React.Component {
       if (statusRes.success) {
         toast.success("Class successfully validated");
       } else {
+        console.log(statusRes);
         toast.error("Class validation failed");
       }
-      this.setState({ isResultLoading: false, type: "code" });
+      this.setState({
+        isResultLoading: false,
+        type: "code",
+        deployResults: statusRes,
+        openDeployResults: true,
+      });
     } else {
       setTimeout(() => {
         this.pollStatus(id);
@@ -376,6 +384,14 @@ class Generator extends React.Component {
             </Grid>
           </Box>
         </Container>
+        {this.state.openDeployResults && (
+          <Modal
+            title="Validation Results"
+            body={<DeployResults result={this.state.deployResults} />}
+            cancelBtn={false}
+            onConfirm={() => this.setState({ openDeployResults: false })}
+          ></Modal>
+        )}
       </React.Fragment>
     );
   }
