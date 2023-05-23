@@ -460,7 +460,7 @@ class Generator extends React.Component {
             }
             cancelBtn={true}
             onConfirm={() => this.deployClass()}
-            onCancel={() => this.setState({ openDeployConfirmation: false })}
+            onClose={() => this.setState({ openDeployConfirmation: false })}
           ></Modal>
         )}
       </React.Fragment>
