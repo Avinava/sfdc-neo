@@ -12,6 +12,7 @@ import {
   Paper,
   Tooltip,
   Typography,
+  Icon,
 } from "@mui/material";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import ReactMarkdown from "react-markdown";
@@ -21,6 +22,8 @@ import { HiOutlineDocumentText } from "react-icons/hi";
 import { SiCodereview } from "react-icons/si";
 import { BiCommentEdit } from "react-icons/bi";
 import { GrTest } from "react-icons/gr";
+import { FaExclamationTriangle } from "react-icons/fa";
+
 import { toast } from "react-toastify";
 import AuthContext from "../components/AuthContext";
 import "github-markdown-css";
@@ -28,6 +31,10 @@ import APIService from "../services/APIService";
 import Editor from "@monaco-editor/react";
 import Modal from "../components/Modal";
 import DeployResults from "../components/DeployResults";
+import {
+  PublishedWithChanges as PublishedWithChangesIcon,
+  Publish as PublishIcon,
+} from "@mui/icons-material";
 
 class Generator extends React.Component {
   static contextType = AuthContext;
@@ -41,6 +48,8 @@ class Generator extends React.Component {
     loading: true,
     type: "code",
     metrics: {},
+    openDeployResults: false,
+    deployResultTile: "Validation Results",
   };
   apiService = new APIService({ context: this.context });
   componentDidMount() {
@@ -115,6 +124,10 @@ class Generator extends React.Component {
       .catch((err) => this.handleErrors(err));
   }
 
+  async deployClassConfirm() {
+    this.setState({ openDeployConfirmation: true });
+  }
+
   async deployClass() {
     if (!this.state.updatedClass.Body) {
       toast.error("Please generate test class first");
@@ -123,7 +136,12 @@ class Generator extends React.Component {
 
     const cls = this.state.updatedClass;
     cls.checkOnly = false;
-    this.setState({ isResultLoading: true, type: "code" });
+    this.setState({
+      isResultLoading: true,
+      type: "code",
+      openDeployConfirmation: false,
+      deployResultTile: "Deployment Results",
+    });
     const deployRes = await this.apiService.deployClass(cls);
     if (deployRes.id) {
       this.pollStatus(deployRes.id);
@@ -136,7 +154,11 @@ class Generator extends React.Component {
       return;
     }
 
-    this.setState({ isResultLoading: true, type: "code" });
+    this.setState({
+      isResultLoading: true,
+      type: "code",
+      deployResultTile: "Validation Results",
+    });
     const cls = this.state.updatedClass;
     cls.checkOnly = true;
     const deployRes = await this.apiService.deployClass(cls);
@@ -151,7 +173,6 @@ class Generator extends React.Component {
       if (statusRes.success) {
         toast.success("Class successfully validated");
       } else {
-        console.log(statusRes);
         toast.error("Class validation failed");
       }
       this.setState({
@@ -265,7 +286,7 @@ class Generator extends React.Component {
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
                 <Grid container maxWidth="xl" minWidth="xl">
-                  <Paper sx={{ p: "12px", width: "100%" }}>
+                  <Paper sx={{ p: "12px", width: "100%", textAlign: "center" }}>
                     <ButtonGroup variant="contained" size="small">
                       <Tooltip title="Generate Test Class">
                         <Button
@@ -334,32 +355,41 @@ class Generator extends React.Component {
                         minimap: { enabled: false },
                       }}
                     />
-                    <Paper sx={{ p: "12px", mt: 1, width: "100%" }}>
+                    <Paper
+                      sx={{
+                        p: "12px",
+                        mt: 1,
+                        width: "100%",
+                        textAlign: "center",
+                      }}
+                    >
                       <ButtonGroup
                         variant="contained"
                         size="small"
                         sx={{ textAlign: "center" }}
                       >
-                        <Tooltip title="Validate the generated class">
+                        <Tooltip title="Validate the generated class against your org. This is equivalent to validating a changeset">
                           <Button
                             variant="contained"
                             color="primary"
                             onClick={() => this.validateClass()}
                             size="small"
                             disabled={!this.state.updatedClass?.Body}
+                            startIcon={<PublishedWithChangesIcon />}
                           >
                             Validate
                           </Button>
                         </Tooltip>
-                        <Tooltip title="Save the generated class in Org">
+                        <Tooltip title="Deploys the generated class to your org. This is equivalent to deploying a changeset">
                           <Button
                             variant="contained"
                             color="primary"
-                            onClick={() => this.deployClass()}
+                            onClick={() => this.deployClassConfirm()}
                             size="small"
                             disabled={!this.state.updatedClass?.Body}
+                            startIcon={<PublishIcon />}
                           >
-                            Save to Org
+                            Deploy to Org
                           </Button>
                         </Tooltip>
                       </ButtonGroup>
@@ -386,10 +416,51 @@ class Generator extends React.Component {
         </Container>
         {this.state.openDeployResults && (
           <Modal
-            title="Validation Results"
+            title={this.state.deployResultTile}
             body={<DeployResults result={this.state.deployResults} />}
             cancelBtn={false}
             onConfirm={() => this.setState({ openDeployResults: false })}
+          ></Modal>
+        )}
+
+        {this.state.openDeployConfirmation && (
+          <Modal
+            title="Deploy Class"
+            body={
+              <React.Fragment>
+                <Box sx={{ textAlign: "center" }}>
+                  <Icon
+                    component={FaExclamationTriangle}
+                    sx={{ color: "orange", fontSize: 30, marginRight: 1 }}
+                  />
+                  <Typography variant="h6" component="div">
+                    Warning
+                  </Typography>
+                  <Typography variant="body2">
+                    Are you sure you want to deploy the generated class to your
+                    org?
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" component={Box}>
+                    <ul>
+                      <li>
+                        This action will overwrite any existing class with the{" "}
+                        <b>same name</b>.
+                      </li>
+                      <li>
+                        Please make sure there is no class with the{" "}
+                        <b>same name</b> in your org before proceeding.
+                      </li>
+                      <li>This action cannot be undone.</li>
+                    </ul>
+                  </Typography>
+                </Box>
+              </React.Fragment>
+            }
+            cancelBtn={true}
+            onConfirm={() => this.deployClass()}
+            onCancel={() => this.setState({ openDeployConfirmation: false })}
           ></Modal>
         )}
       </React.Fragment>

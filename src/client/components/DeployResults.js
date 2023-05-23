@@ -23,13 +23,17 @@ export default class DeployResults extends React.Component {
 
   getFailures() {
     let failures = this.state.result.details.componentFailures;
-    failures = Array.isArray(failures) ? failures : [failures];
+    failures = Array.isArray(failures) ? failures : failures ? [failures] : [];
     return failures;
   }
 
   getSuccesses() {
     let successes = this.state.result.details.componentSuccesses;
-    successes = Array.isArray(successes) ? successes : [successes];
+    successes = Array.isArray(successes)
+      ? successes
+      : successes
+      ? [successes]
+      : [];
     successes = successes.filter((s) => {
       return s.fileName !== "package.xml";
     });
@@ -62,7 +66,7 @@ export default class DeployResults extends React.Component {
                               padding: "0.5rem",
                             }}
                           >
-                            {failure.lineNumber}:{failure.columnNumber}
+                            {failure.lineNumber}:{failure.columnNumber}{" "}
                             {failure.problem}
                           </Typography>
                         }
@@ -81,7 +85,7 @@ export default class DeployResults extends React.Component {
             <List>
               {this.getSuccesses().map((success) => {
                 return (
-                  <ListItem key={failure.fullName}>
+                  <ListItem key={success.fullName}>
                     <ListItemIcon>
                       <CheckCircleIcon />
                     </ListItemIcon>
