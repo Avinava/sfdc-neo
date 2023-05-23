@@ -9,6 +9,7 @@ Demo : https://neo.sfdxy.com/
    - **Code Comments**:  Enhance code readability and maintainability by automatically generating helpful comments throughout your codebase.
    - **Code Documentation**: Save time and effort by generating comprehensive documentation for your Salesforce code, ensuring clarity and understanding.
    - **Code Review**: Receive intelligent insights and suggestions to improve the quality and efficiency of your Salesforce code.
+   - **Validate & Deploy**: Easily validate and deploy the generated code from the app itself.
 
 
 SFDC-Neo is currently in active development, which means there may be occasional hiccups along the way. If you encounter any issues or have suggestions for enhancements, please don't hesitate to open a GitHub issue. 
