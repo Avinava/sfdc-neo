@@ -78,7 +78,7 @@ class Generator extends React.Component {
     }
 
     const cls = this.state.selectedClass;
-    this.setState({ isResultLoading: true, type: "code" });
+    this.setState({ isResultLoading: true, type: "code", updatedClass: {} });
     this.apiService
       .generateTest(cls)
       .then((response) => this.handleResponse(response))
@@ -91,7 +91,7 @@ class Generator extends React.Component {
     }
 
     const cls = this.state.selectedClass;
-    this.setState({ isResultLoading: true, type: "code" });
+    this.setState({ isResultLoading: true, type: "code", updatedClass: {} });
     this.apiService
       .generateCodeComments(cls)
       .then((response) => this.handleResponse(response))
@@ -104,7 +104,7 @@ class Generator extends React.Component {
     }
 
     const cls = this.state.selectedClass;
-    this.setState({ isResultLoading: true, type: "doc" });
+    this.setState({ isResultLoading: true, type: "doc", updatedClass: {} });
     this.apiService
       .generateDocumentation(cls)
       .then((response) => this.handleResponse(response))
@@ -117,7 +117,7 @@ class Generator extends React.Component {
     }
 
     const cls = this.state.selectedClass;
-    this.setState({ isResultLoading: true, type: "doc" });
+    this.setState({ isResultLoading: true, type: "doc", updatedClass: {} });
     this.apiService
       .generateCodeReview(cls)
       .then((response) => this.handleResponse(response))
@@ -138,7 +138,6 @@ class Generator extends React.Component {
     cls.checkOnly = false;
     this.setState({
       isResultLoading: true,
-      type: "code",
       openDeployConfirmation: false,
       deployResultTile: "Deployment Results",
     });
@@ -156,7 +155,6 @@ class Generator extends React.Component {
 
     this.setState({
       isResultLoading: true,
-      type: "code",
       deployResultTile: "Validation Results",
     });
     const cls = this.state.updatedClass;

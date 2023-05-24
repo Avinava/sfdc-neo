@@ -30,6 +30,7 @@
     "express-session": "^1.17.3",
     "github-markdown-css": "^5.2.0",
     "jsforce": "^1.11.1",
+    "langchain": "^0.0.81",
     "openai": "^3.2.1",
     "passport": "^0.6.0",
     "passport-forcedotcom": "^0.2.0",
@@ -45,7 +46,8 @@
     "remark-gfm": "^3.0.1",
     "request-promise": "^4.2.6",
     "strong-error-handler": "^4.0.4",
-    "tempy": "^3.0.0"
+    "tempy": "^3.0.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",

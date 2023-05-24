@@ -1,48 +1,40 @@
 import express from "express";
-import openai from "../../services/openai.js";
+import codeReviewer from "../../agents/codeReviewer.js";
+import codeDocumenter from "../../agents/codeDocumenter.js";
+import codeComments from "../../agents/codeComments.js";
+import unitTestsWriter from "../../agents/unitTestsWriter.js";
 
 const router = express.Router();
 
-//refactor
-
 router.post("/apexclass/test", async (req, res) => {
-  const cls = req.body;
-  const aires = await openai.getTestClassCompletion(cls);
-  const textResponse = aires.data.choices[0].message;
-
+  const textResponse = await unitTestsWriter.generate(req.body.Body);
   res.send({
     success: true,
-    result: textResponse.content,
+    result: textResponse,
   });
 });
 
 router.post("/apexclass/codecomments", async (req, res) => {
-  const cls = req.body;
-  const aires = await openai.generateCodeComments(cls);
-  const textResponse = aires.data.choices[0].message;
+  const textResponse = await codeComments.generate(req.body.Body);
   res.send({
     success: true,
-    result: textResponse.content,
+    result: textResponse,
   });
 });
 
 router.post("/apexclass/documentation", async (req, res) => {
-  const cls = req.body;
-  const aires = await openai.getDocumentationCompletion(cls);
-  const textResponse = aires.data.choices[0].message;
+  const textResponse = await codeDocumenter.generate(req.body.Body);
   res.send({
     success: true,
-    result: textResponse.content,
+    result: textResponse,
   });
 });
 
 router.post("/apexclass/codereview", async (req, res) => {
-  const cls = req.body;
-  const aires = await openai.getCodeReviewCompletion(cls);
-  const textResponse = aires.data.choices[0].message;
+  const textResponse = await codeReviewer.generate(req.body.Body);
   res.send({
     success: true,
-    result: textResponse.content,
+    result: textResponse,
   });
 });
 
