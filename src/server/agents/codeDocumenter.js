@@ -12,6 +12,8 @@ class CodeDocumenter {
 
   # RESPONSE INSTRUCTIONS
   return the response in markdown format with class Name as header
+
+  ##
   `;
 
   prompt;

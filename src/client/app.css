@@ -11,6 +11,8 @@ body {
   margin: 0 auto;
   padding: 45px;
   margin-top: 10px;
+  height: calc(100vh - 215px);
+  overflow-y: auto;
 }
 
 @media (max-width: 767px) {

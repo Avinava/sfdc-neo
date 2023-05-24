@@ -11,7 +11,10 @@ class CodeReviewer {
   {apexclass}
 
   # RESPONSE INSTRUCTIONS
-  return the response in markdown format.
+  return the review  in markdown format.
+  also include Code Quality Rating from 1 to 10, 1 being the worst, with very short description
+
+  ##
   `;
 
   prompt;
@@ -26,7 +29,6 @@ class CodeReviewer {
   async generate(clsBody) {
     const input = await this.prompt.format({ apexclass: clsBody });
     const response = await model.call(input);
-    console.log("response", response);
     return response;
   }
 }
