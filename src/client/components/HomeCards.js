@@ -9,9 +9,12 @@ import {
   Typography,
   Chip,
   Paper,
+  CardActionArea,
 } from "@mui/material";
 import AuthContext from "./AuthContext";
 import { TbPlugConnected, TbPlugConnectedX } from "react-icons/tb";
+import { BiCodeCurly } from "react-icons/bi";
+import { AiOutlineMail } from "react-icons/ai";
 
 import { Link } from "react-router-dom";
 
@@ -110,6 +113,107 @@ class HomeCards extends React.Component {
                           </Box>
                         </CardContent>
                       </Card>
+                      <Grid container spacing={2} sx={{ mt: 2 }}>
+                        <Grid item xs={4} sm={12} lg={4} md={4}>
+                          <Card sx={{ mt: 1 }}>
+                            <CardContent>
+                              <Grid
+                                container
+                                spacing={2}
+                                justifyContent="space-between"
+                                alignItems="flex-end"
+                              >
+                                <Grid item xs={12} sm={8} lg={8} md={8}>
+                                  <Typography
+                                    sx={{ fontSize: 18 }}
+                                    variant="h6"
+                                    gutterBottom
+                                  >
+                                    Apex Code
+                                  </Typography>
+                                  <Typography
+                                    sx={{ fontSize: 14, minHeight: 45 }}
+                                    color="text.secondary"
+                                    component="div"
+                                  >
+                                    Generate Test Class, Documentation and Code
+                                    Comments
+                                  </Typography>
+                                </Grid>
+                                <Grid item>
+                                  <BiCodeCurly
+                                    size="1.5em"
+                                    style={{ color: "#ff9800" }}
+                                  />
+                                </Grid>
+                              </Grid>
+                            </CardContent>
+                            <CardActionArea component={Link} to={"/generator"}>
+                              <Box
+                                sx={{
+                                  bgcolor: "#ff9800",
+                                  color: "white",
+                                  p: 2,
+                                  textAlign: "center",
+                                }}
+                              >
+                                <Typography variant="body1">
+                                  Go to Apex Code Generator
+                                </Typography>
+                              </Box>
+                            </CardActionArea>
+                          </Card>
+                        </Grid>
+                        <Grid item xs={4} sm={12} lg={4} md={4}>
+                          <Card sx={{ mt: 1 }}>
+                            <CardContent>
+                              <Grid
+                                container
+                                spacing={2}
+                                justifyContent="space-between"
+                                alignItems="flex-end"
+                              >
+                                <Grid item xs={12} sm={8} lg={8} md={8}>
+                                  <Typography
+                                    sx={{ fontSize: 18 }}
+                                    variant="h6"
+                                    gutterBottom
+                                  >
+                                    Email Templates
+                                  </Typography>
+                                  <Typography
+                                    sx={{ fontSize: 14, minHeight: 45 }}
+                                    color="text.secondary"
+                                    component="div"
+                                  >
+                                    Better format your email templates
+                                  </Typography>
+                                </Grid>
+                                <Grid item>
+                                  <AiOutlineMail
+                                    size="1.5em"
+                                    style={{ color: "#ff9800" }}
+                                  />
+                                </Grid>
+                              </Grid>
+                            </CardContent>
+                            <CardActionArea component={Link} to={"/generator"}>
+                              <Box
+                                sx={{
+                                  bgcolor: "#ff9800",
+                                  color: "white",
+                                  p: 2,
+                                  textAlign: "center",
+                                }}
+                              >
+                                <Typography variant="body1">
+                                  Go to Email Templates Generator
+                                </Typography>
+                              </Box>
+                            </CardActionArea>
+                          </Card>
+                        </Grid>
+                      </Grid>
                     </React.Fragment>
                   )}
                   {!this.context.session?.org && (
@@ -166,17 +270,9 @@ class HomeCards extends React.Component {
                         sx={{ mt: 3, marginLeft: "auto", mr: 2 }}
                         component={Link}
                         to={"/login"}
-                        color="tertiary"
+                        color="secondary"
                       >
                         Back To Login
-                      </Button>
-                      <Button
-                        variant="contained"
-                        sx={{ mt: 3, marginLeft: "auto" }}
-                        component={Link}
-                        to={"/generator"}
-                      >
-                        Get Started
                       </Button>
                     </Box>
                   )}
