@@ -119,7 +119,7 @@ class HomeCards extends React.Component {
                             <CardContent>
                               <Grid
                                 container
-                                spacing={2}
+                                spacing={1}
                                 justifyContent="space-between"
                                 alignItems="flex-end"
                               >
@@ -127,17 +127,8 @@ class HomeCards extends React.Component {
                                   <Typography
                                     sx={{ fontSize: 18 }}
                                     variant="h6"
-                                    gutterBottom
                                   >
                                     Apex Code
-                                  </Typography>
-                                  <Typography
-                                    sx={{ fontSize: 14, minHeight: 45 }}
-                                    color="text.secondary"
-                                    component="div"
-                                  >
-                                    Generate Test Class, Documentation and Code
-                                    Comments
                                   </Typography>
                                 </Grid>
                                 <Grid item>
@@ -145,6 +136,16 @@ class HomeCards extends React.Component {
                                     size="1.5em"
                                     style={{ color: "#ff9800" }}
                                   />
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Typography
+                                    sx={{ fontSize: 14 }}
+                                    color="text.secondary"
+                                    component="div"
+                                  >
+                                    Generate Test Class, Documentation and Code
+                                    Comments
+                                  </Typography>
                                 </Grid>
                               </Grid>
                             </CardContent>
@@ -169,7 +170,7 @@ class HomeCards extends React.Component {
                             <CardContent>
                               <Grid
                                 container
-                                spacing={2}
+                                spacing={1}
                                 justifyContent="space-between"
                                 alignItems="flex-end"
                               >
@@ -177,16 +178,8 @@ class HomeCards extends React.Component {
                                   <Typography
                                     sx={{ fontSize: 18 }}
                                     variant="h6"
-                                    gutterBottom
                                   >
                                     Email Templates
-                                  </Typography>
-                                  <Typography
-                                    sx={{ fontSize: 14, minHeight: 45 }}
-                                    color="text.secondary"
-                                    component="div"
-                                  >
-                                    Better format your email templates
                                   </Typography>
                                 </Grid>
                                 <Grid item>
@@ -194,6 +187,15 @@ class HomeCards extends React.Component {
                                     size="1.5em"
                                     style={{ color: "#ff9800" }}
                                   />
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Typography
+                                    sx={{ fontSize: 14 }}
+                                    color="text.secondary"
+                                    component="div"
+                                  >
+                                    Better format your email templates
+                                  </Typography>
                                 </Grid>
                               </Grid>
                             </CardContent>
