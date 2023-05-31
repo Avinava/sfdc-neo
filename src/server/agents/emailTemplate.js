@@ -4,8 +4,8 @@ class EmailTemplate {
   promptTemplate = `
 # YOUR TASK
 Generate professional looking email template based on Salesforce HTML template provided.
-make sure generated email templates are responsive, looks good on mobile devices and desktops and different email clients.
-Use html and inline css to update the email template and its design.
+make sure generated email templates looks good on mobile devices and desktops and different email clients.
+Use html and inline css only to update the email template and its design.
 
 # HTML TEMPLATE
 {HtmlValue}
