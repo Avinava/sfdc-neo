@@ -1,5 +1,4 @@
 import jsforce from "jsforce";
-import { temporaryFile, temporaryDirectory } from "tempy";
 import AdmZip from "adm-zip";
 
 class Salesforce {
@@ -27,7 +26,7 @@ class Salesforce {
     return queryResult;
   }
 
-  async toolingQuery(query) {
+  async toolingQueryAll(query) {
     let res = await this.connection.tooling.query(query);
     if (!res.done) {
       res = await this.toolingQueryMore(res);
@@ -35,9 +34,35 @@ class Salesforce {
     return res.records;
   }
 
+  async queryAll(queryStr) {
+    let records = [];
+    return new Promise((resolve, reject) => {
+      this.connection
+        .query(queryStr)
+        .on("record", (record) => {
+          records.push(record);
+        })
+        .on("end", () => {
+          resolve({
+            records,
+          });
+        })
+        .on("error", (err) => {
+          reject(err);
+        })
+        .run({ autoFetch: true, maxFetch: 500000, scanAll: true });
+    });
+  }
+
+  async getEmailTemplates() {
+    const query = `SELECT Id, Name, Body, ApiVersion, Status FROM EmailTemplate WHERE NamespacePrefix = null ORDER BY Name ASC`;
+    const emailTemplates = await this.queryAll(query);
+    return emailTemplates;
+  }
+
   async getApexClasses() {
-    const query = `SELECT Id, Name, Body, ApiVersion, Status FROM ApexClass WHERE NamespacePrefix = null ORDER BY Name ASC LIMIT 100`;
-    const apexClasses = await this.toolingQuery(query);
+    const query = `SELECT Id, Name, Body, ApiVersion, Status FROM ApexClass WHERE NamespacePrefix = null ORDER BY Name ASC`;
+    const apexClasses = await this.toolingQueryAll(query);
     return apexClasses;
   }
 
