@@ -6,7 +6,7 @@ import AuthContext from "./components/AuthContext";
 import Header from "./components/Header";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import Generator from "./pages/Generator";
+import ApexGenerator from "./pages/ApexGenerator";
 import RequireAuth from "./components/RequireAuth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -64,10 +64,10 @@ export default class App extends React.Component {
                   }
                 />
                 <Route
-                  path="/generator"
+                  path="/apex-generator"
                   element={
                     <RequireAuth>
-                      <Generator />
+                      <ApexGenerator />
                     </RequireAuth>
                   }
                 />

@@ -149,7 +149,10 @@ class HomeCards extends React.Component {
                                 </Grid>
                               </Grid>
                             </CardContent>
-                            <CardActionArea component={Link} to={"/generator"}>
+                            <CardActionArea
+                              component={Link}
+                              to={"/apex-generator"}
+                            >
                               <Box
                                 sx={{
                                   bgcolor: "#ff9800",
@@ -199,7 +202,10 @@ class HomeCards extends React.Component {
                                 </Grid>
                               </Grid>
                             </CardContent>
-                            <CardActionArea component={Link} to={"/generator"}>
+                            <CardActionArea
+                              component={Link}
+                              to={"/email-generator"}
+                            >
                               <Box
                                 sx={{
                                   bgcolor: "#ff9800",
