@@ -11,6 +11,7 @@ class Salesforce {
       this.connection = new jsforce.Connection({
         instanceUrl: token.instance_url,
         accessToken: token.access_token,
+        version: "57.0",
       });
     }
   }
@@ -43,9 +44,7 @@ class Salesforce {
           records.push(record);
         })
         .on("end", () => {
-          resolve({
-            records,
-          });
+          resolve(records);
         })
         .on("error", (err) => {
           reject(err);
@@ -55,7 +54,8 @@ class Salesforce {
   }
 
   async getEmailTemplates() {
-    const query = `SELECT Id, Name, Body, ApiVersion, Status FROM EmailTemplate WHERE NamespacePrefix = null ORDER BY Name ASC`;
+    const query = `SELECT Id, Name, Body, ApiVersion, HtmlValue, DeveloperName, FolderName FROM EmailTemplate `;
+    // WHERE NamespacePrefix = null ORDER BY Name ASC
     const emailTemplates = await this.queryAll(query);
     return emailTemplates;
   }

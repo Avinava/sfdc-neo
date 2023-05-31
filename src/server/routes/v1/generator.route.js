@@ -3,6 +3,7 @@ import codeReviewer from "../../agents/codeReviewer.js";
 import codeDocumenter from "../../agents/codeDocumenter.js";
 import codeComments from "../../agents/codeComments.js";
 import unitTestsWriter from "../../agents/unitTestsWriter.js";
+import emailTemplate from "../../agents/emailTemplate.js";
 
 const router = express.Router();
 
@@ -32,6 +33,14 @@ router.post("/apexclass/documentation", async (req, res) => {
 
 router.post("/apexclass/codereview", async (req, res) => {
   const textResponse = await codeReviewer.generate(req.body.Body);
+  res.send({
+    success: true,
+    result: textResponse,
+  });
+});
+
+router.post("/emailtemplate/beautify", async (req, res) => {
+  const textResponse = await emailTemplate.generate(req.body);
   res.send({
     success: true,
     result: textResponse,

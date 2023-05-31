@@ -14,6 +14,17 @@ router.get("/apexclass", async (req, res) => {
   }
 });
 
+router.get("/emailtemplate", async (req, res) => {
+  const salesforce = new Salesforce(req.session);
+  if (!salesforce.isVaild()) {
+    return res.status(401).send({
+      message: "You are not logged in.",
+    });
+  } else {
+    res.send(await salesforce.getEmailTemplates());
+  }
+});
+
 router.post("/deployclass", async (req, res) => {
   const salesforce = new Salesforce(req.session);
   if (!salesforce.isVaild()) {

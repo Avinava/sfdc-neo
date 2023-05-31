@@ -10,6 +10,10 @@ class APIService extends React.Component {
     this.context = props.context;
   }
 
+  getEmailTemplates() {
+    return this.requestHandler("get", "/api/v1/salesforce/emailtemplate");
+  }
+
   getApexClasses() {
     return this.requestHandler("get", "/api/v1/salesforce/apexclass");
   }
@@ -47,6 +51,14 @@ class APIService extends React.Component {
       "post",
       "/api/v1/generator/apexclass/codereview",
       cls
+    );
+  }
+
+  generateEmailTemplate(template) {
+    return this.requestHandler(
+      "post",
+      "/api/v1/generator/emailtemplate/beautify",
+      template
     );
   }
 
