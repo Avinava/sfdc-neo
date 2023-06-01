@@ -43,7 +43,7 @@ class HomeCards extends React.Component {
         description:
           "Generate description & documentation for your validation rules using OpenAI.",
         icon: <MdRule size={25} style={{ color: "#ff9800" }} />,
-        link: "/validationrule-generator",
+        link: "/validation-rule-generator",
         linkText: "Go to Validation Rule Generator",
       },
     ],
@@ -142,7 +142,14 @@ class HomeCards extends React.Component {
                       </Card>
                       <Grid container spacing={2} sx={{ mt: 2 }}>
                         {this.state.cards.map((card) => (
-                          <Grid item xs={4} sm={12} lg={4} md={4}>
+                          <Grid
+                            item
+                            xs={4}
+                            sm={12}
+                            lg={4}
+                            md={4}
+                            key={map.title}
+                          >
                             <Card sx={{ mt: 1 }}>
                               <CardContent>
                                 <Grid

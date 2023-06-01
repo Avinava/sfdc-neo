@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import ApexGenerator from "./pages/ApexGenerator";
 import EmailTemplateGenerator from "./pages/EmailTemplateGenerator";
+import ValidationRuleGenerator from "./pages/ValidationRuleGenerator";
 import RequireAuth from "./components/RequireAuth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -77,6 +78,14 @@ export default class App extends React.Component {
                   element={
                     <RequireAuth>
                       <EmailTemplateGenerator />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/validation-rule-generator"
+                  element={
+                    <RequireAuth>
+                      <ValidationRuleGenerator />
                     </RequireAuth>
                   }
                 />

@@ -10,6 +10,17 @@ class APIService extends React.Component {
     this.context = props.context;
   }
 
+  getValidationRules() {
+    return this.requestHandler("get", "/api/v1/salesforce/validationrule");
+  }
+
+  getValidationRule(id) {
+    return this.requestHandler(
+      "get",
+      `/api/v1/salesforce/validationrule/${id}`
+    );
+  }
+
   getEmailTemplates() {
     return this.requestHandler("get", "/api/v1/salesforce/emailtemplate");
   }
