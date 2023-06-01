@@ -12,22 +12,15 @@ import {
   Paper,
   Tooltip,
   Typography,
-  Icon,
 } from "@mui/material";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
-import { GrTest } from "react-icons/gr";
-import { FaExclamationTriangle } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 import { toast } from "react-toastify";
 import AuthContext from "../components/AuthContext";
 import APIService from "../services/APIService";
 import Editor from "@monaco-editor/react";
-import Modal from "../components/Modal";
-import DeployResults from "../components/DeployResults";
-import {
-  PublishedWithChanges as PublishedWithChangesIcon,
-  Publish as PublishIcon,
-} from "@mui/icons-material";
+import { Interweave } from "interweave";
 
 class EmailTemplateGenerator extends React.Component {
   static contextType = AuthContext;
@@ -41,8 +34,6 @@ class EmailTemplateGenerator extends React.Component {
     loading: true,
     type: "code",
     metrics: {},
-    openDeployResults: false,
-    deployResultTile: "Validation Results",
   };
   apiService = new APIService({ context: this.context });
 
@@ -186,7 +177,7 @@ class EmailTemplateGenerator extends React.Component {
                   }}
                 >
                   <Editor
-                    height="calc(100vh - 215px)"
+                    height="calc(50vh - 115px)"
                     defaultLanguage="apex"
                     defaultValue="Get started by selecting an Email Template."
                     value={this.state.selectedTemplate?.HtmlValue}
@@ -198,6 +189,22 @@ class EmailTemplateGenerator extends React.Component {
                       minimap: { enabled: false },
                     }}
                   />
+
+                  <Box
+                    sx={{
+                      margin: "auto",
+                      p: 2,
+                      background: "#fff",
+                      mt: 1,
+                      minHeight: "calc(50vh - 107px)",
+                      maxHeight: "calc(50vh - 107px)",
+                      overflow: "auto",
+                    }}
+                  >
+                    <Interweave
+                      content={this.state.selectedTemplate?.HtmlValue}
+                    />
+                  </Box>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
@@ -209,7 +216,7 @@ class EmailTemplateGenerator extends React.Component {
                           variant="contained"
                           color="secondary"
                           onClick={() => this.generateEmailTemplate()}
-                          startIcon={<GrTest />}
+                          startIcon={<MdEmail />}
                           size="small"
                           disabled={
                             !this.state.selectedTemplate.HtmlValue ||
@@ -229,7 +236,7 @@ class EmailTemplateGenerator extends React.Component {
                   }}
                 >
                   <Editor
-                    height="calc(100vh - 215px)"
+                    height="calc(50vh - 115px)"
                     defaultLanguage="apex"
                     defaultValue="Generated html template will appear here."
                     value={this.state.updatedTemplate.HtmlValue}
@@ -241,87 +248,26 @@ class EmailTemplateGenerator extends React.Component {
                       minimap: { enabled: false },
                     }}
                   />
-                  <Paper
+                  <Box
                     sx={{
-                      p: "12px",
+                      margin: "auto",
+                      p: 2,
+                      background: "#fff",
                       mt: 1,
-                      width: "100%",
-                      textAlign: "center",
+                      minHeight: "calc(50vh - 107px)",
+                      maxHeight: "calc(50vh - 107px)",
+                      overflow: "auto",
                     }}
                   >
-                    <ButtonGroup
-                      variant="contained"
-                      size="small"
-                      sx={{ textAlign: "center" }}
-                    >
-                      <Tooltip title="Save the email template">
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => this.saveTemplateBody()}
-                          size="small"
-                          disabled={!this.state.updatedClass?.Body}
-                          startIcon={<PublishedWithChangesIcon />}
-                        >
-                          Save Template
-                        </Button>
-                      </Tooltip>
-                    </ButtonGroup>
-                  </Paper>
+                    <Interweave
+                      content={this.state.updatedTemplate?.HtmlValue}
+                    />
+                  </Box>
                 </Box>
               </Grid>
             </Grid>
           </Box>
         </Container>
-        {this.state.openDeployResults && (
-          <Modal
-            title={this.state.deployResultTile}
-            body={<DeployResults result={this.state.deployResults} />}
-            cancelBtn={false}
-            onConfirm={() => this.setState({ openDeployResults: false })}
-          ></Modal>
-        )}
-
-        {this.state.openDeployConfirmation && (
-          <Modal
-            title="Deploy Class"
-            body={
-              <React.Fragment>
-                <Box sx={{ textAlign: "center" }}>
-                  <Icon
-                    component={FaExclamationTriangle}
-                    sx={{ color: "orange", fontSize: 30, marginRight: 1 }}
-                  />
-                  <Typography variant="h6" component="div">
-                    Warning
-                  </Typography>
-                  <Typography variant="body2">
-                    Are you sure you want to override the email template with
-                    the generated template?
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="body2" component={Box}>
-                    <ul>
-                      <li>
-                        This action will overwrite the html body of the selected
-                        email template.
-                      </li>
-                      <li>
-                        Please make sure you have a backup of the email template
-                        before you proceed.
-                      </li>
-                      <li>This action cannot be undone.</li>
-                    </ul>
-                  </Typography>
-                </Box>
-              </React.Fragment>
-            }
-            cancelBtn={true}
-            onConfirm={() => this.deployTemplate()}
-            onClose={() => this.setState({ openDeployConfirmation: false })}
-          ></Modal>
-        )}
       </React.Fragment>
     );
   }
