@@ -148,7 +148,7 @@ class HomeCards extends React.Component {
                             sm={12}
                             lg={4}
                             md={4}
-                            key={map.title}
+                            key={card.title}
                           >
                             <Card sx={{ mt: 1 }}>
                               <CardContent>
