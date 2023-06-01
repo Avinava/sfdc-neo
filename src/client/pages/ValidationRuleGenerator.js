@@ -102,7 +102,7 @@ class ValidationRuleGenerator extends React.Component {
       updatedValidationRule: {},
     });
     this.apiService
-      .generateValidationRule(rule)
+      .generateValidationRuleDesc(rule)
       .then((response) => this.handleResponse(response))
       .catch((err) => this.handleErrors(err));
   }
@@ -125,8 +125,7 @@ class ValidationRuleGenerator extends React.Component {
     console.log("response", response);
     this.setState({
       updatedValidationRule: {
-        Body: response.result,
-        HtmlValue: response.result,
+        Description: response.result,
       },
       isResultLoading: false,
     });
@@ -145,7 +144,7 @@ class ValidationRuleGenerator extends React.Component {
             message={
               <React.Fragment>
                 <Typography variant="body1" sx={{ color: "white" }}>
-                  Fetching apex ValidationRules...
+                  Fetching ValidationRules...
                 </Typography>
                 <Typography variant="body1" sx={{ color: "white" }}>
                   This may take few seconds...
@@ -229,11 +228,7 @@ class ValidationRuleGenerator extends React.Component {
                           onClick={() => this.generateValidationRule()}
                           startIcon={<MdEmail />}
                           size="small"
-                          disabled={
-                            !this.state.selectedValidationRule.HtmlValue ||
-                            this.state.selectedValidationRule.HtmlValue.length >
-                              4000
-                          }
+                          disabled={!this.state.selectedValidationRule?.Id}
                         >
                           Describe ValidationRule
                         </Button>
@@ -246,7 +241,9 @@ class ValidationRuleGenerator extends React.Component {
                   sx={{
                     marginTop: "11px",
                   }}
-                ></Box>
+                >
+                  {this.state.selectedValidationRule?.Description}
+                </Box>
               </Grid>
             </Grid>
           </Box>

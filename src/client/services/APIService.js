@@ -73,6 +73,14 @@ class APIService extends React.Component {
     );
   }
 
+  generateValidationRuleDesc(rule) {
+    return this.requestHandler(
+      "post",
+      "/api/v1/generator/validationrule/description",
+      rule
+    );
+  }
+
   requestHandler = async (method, url, data) => {
     console.log("requestHandler", method, url);
     return axios({
