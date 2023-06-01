@@ -240,9 +240,12 @@ class ValidationRuleGenerator extends React.Component {
                 <Box
                   sx={{
                     marginTop: "11px",
+                    backgroundColor: "#f5f5f5",
+                    minHeight: "calc(100vh - 215px)",
+                    padding: "10px",
                   }}
                 >
-                  {this.state.selectedValidationRule?.Description}
+                  {this.state.updatedValidationRule?.Description}
                 </Box>
               </Grid>
             </Grid>

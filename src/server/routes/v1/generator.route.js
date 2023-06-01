@@ -51,7 +51,7 @@ router.post("/emailtemplate/beautify", async (req, res) => {
 router.post("/validationrule/description", async (req, res) => {
   res.send({
     success: true,
-    result: validationRule.generate(req.body),
+    result: await validationRule.generate(req.body),
   });
 });
 
