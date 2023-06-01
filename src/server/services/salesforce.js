@@ -66,6 +66,20 @@ class Salesforce {
     return apexClasses;
   }
 
+  async getValidationRule() {
+    const query = `SELECT Id, EntityDefinitionId, EntityDefinition.MasterLabel, Active, ErrorDisplayField, ErrorMessage, Description, ValidationName FROM ValidationRule WHERE NamespacePrefix = null ORDER BY ValidationName ASC`;
+    const validationRules = await this.toolingQueryAll(query);
+    return validationRules;
+  }
+
+  async getValidationRuleMetadata(validationRuleId) {
+    const query = `SELECT Id, Metadata FROM ValidationRule WHERE Id = '${validationRuleId}'`;
+    const validationRules = await this.toolingQueryAll(query);
+    return Array.isArray(validationRules)
+      ? validationRules[0]
+      : validationRules;
+  }
+
   getConnection() {
     return this.connection;
   }

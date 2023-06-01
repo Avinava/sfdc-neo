@@ -10,6 +10,17 @@ class APIService extends React.Component {
     this.context = props.context;
   }
 
+  getValidationRules() {
+    return this.requestHandler("get", "/api/v1/salesforce/validationrule");
+  }
+
+  getValidationRule(id) {
+    return this.requestHandler(
+      "get",
+      `/api/v1/salesforce/validationrule/${id}`
+    );
+  }
+
   getEmailTemplates() {
     return this.requestHandler("get", "/api/v1/salesforce/emailtemplate");
   }
@@ -59,6 +70,14 @@ class APIService extends React.Component {
       "post",
       "/api/v1/generator/emailtemplate/beautify",
       template
+    );
+  }
+
+  generateValidationRuleDesc(rule) {
+    return this.requestHandler(
+      "post",
+      "/api/v1/generator/validationrule/description",
+      rule
     );
   }
 

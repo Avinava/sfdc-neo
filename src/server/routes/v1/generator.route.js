@@ -4,6 +4,7 @@ import codeDocumenter from "../../agents/codeDocumenter.js";
 import codeComments from "../../agents/codeComments.js";
 import unitTestsWriter from "../../agents/unitTestsWriter.js";
 import emailTemplate from "../../agents/emailTemplate.js";
+import validationRule from "../../agents/validationRule.js";
 
 const router = express.Router();
 
@@ -44,6 +45,13 @@ router.post("/emailtemplate/beautify", async (req, res) => {
   res.send({
     success: true,
     result: textResponse,
+  });
+});
+
+router.post("/validationrule/description", async (req, res) => {
+  res.send({
+    success: true,
+    result: await validationRule.generate(req.body),
   });
 });
 
