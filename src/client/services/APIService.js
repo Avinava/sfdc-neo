@@ -65,6 +65,14 @@ class APIService extends React.Component {
     );
   }
 
+  generateCodeRefactor(cls) {
+    return this.requestHandler(
+      "post",
+      "/api/v1/generator/apexclass/coderefactor",
+      cls
+    );
+  }
+
   generateEmailTemplate(template) {
     return this.requestHandler(
       "post",

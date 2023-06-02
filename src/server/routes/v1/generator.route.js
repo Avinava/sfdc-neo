@@ -1,5 +1,6 @@
 import express from "express";
 import codeReviewer from "../../agents/codeReviewer.js";
+import codeRefactoring from "../../agents/codeRefactoring.js";
 import codeDocumenter from "../../agents/codeDocumenter.js";
 import codeComments from "../../agents/codeComments.js";
 import unitTestsWriter from "../../agents/unitTestsWriter.js";
@@ -34,6 +35,14 @@ router.post("/apexclass/documentation", async (req, res) => {
 
 router.post("/apexclass/codereview", async (req, res) => {
   const textResponse = await codeReviewer.generate(req.body.Body);
+  res.send({
+    success: true,
+    result: textResponse,
+  });
+});
+
+router.post("/apexclass/coderefactor", async (req, res) => {
+  const textResponse = await codeRefactoring.generate(req.body.Body);
   res.send({
     success: true,
     result: textResponse,
