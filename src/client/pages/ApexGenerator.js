@@ -23,6 +23,7 @@ import { SiCodereview } from "react-icons/si";
 import { BiCommentEdit } from "react-icons/bi";
 import { GrTest } from "react-icons/gr";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { AiOutlineBuild } from "react-icons/ai";
 
 import { toast } from "react-toastify";
 import AuthContext from "../components/AuthContext";
@@ -120,6 +121,19 @@ class Generator extends React.Component {
     this.setState({ isResultLoading: true, type: "doc", updatedClass: {} });
     this.apiService
       .generateCodeReview(cls)
+      .then((response) => this.handleResponse(response))
+      .catch((err) => this.handleErrors(err));
+  }
+
+  generateCodeRefactor() {
+    if (!this.validateSelectedClass()) {
+      return;
+    }
+
+    const cls = this.state.selectedClass;
+    this.setState({ isResultLoading: true, type: "code", updatedClass: {} });
+    this.apiService
+      .generateCodeRefactor(cls)
       .then((response) => this.handleResponse(response))
       .catch((err) => this.handleErrors(err));
   }
@@ -297,7 +311,7 @@ class Generator extends React.Component {
                           Test Class
                         </Button>
                       </Tooltip>
-                      <Tooltip title="Generate Code Comments">
+                      <Tooltip title="Add Code Comments">
                         <Button
                           variant="contained"
                           color="secondary"
@@ -305,7 +319,7 @@ class Generator extends React.Component {
                           onClick={() => this.generateCodeDocumentation()}
                           size="small"
                         >
-                          Code Comments
+                          Comments
                         </Button>
                       </Tooltip>
                       <Tooltip title="Generate Documentation">
@@ -316,7 +330,7 @@ class Generator extends React.Component {
                           onClick={() => this.generateDocumentation()}
                           size="small"
                         >
-                          Documentation
+                          Document
                         </Button>
                       </Tooltip>
                       <Tooltip title="Generate Code Review">
@@ -327,7 +341,18 @@ class Generator extends React.Component {
                           onClick={() => this.generateCodeReview()}
                           size="small"
                         >
-                          Code Review
+                          Review
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Code Refactor & Optimize">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          startIcon={<AiOutlineBuild />}
+                          onClick={() => this.generateCodeRefactor()}
+                          size="small"
+                        >
+                          Refactor
                         </Button>
                       </Tooltip>
                     </ButtonGroup>
