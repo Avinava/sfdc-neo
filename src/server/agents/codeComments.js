@@ -8,7 +8,7 @@ class CodeComments {
   Only update the code to add comments and nothing else.
 
   # APEX CLASS
-  {apexclass}
+  {Body}
 
   # RESPONSE INSTRUCTIONS
   return the code with comments and apexdoc, don't return anything extra text.
@@ -26,8 +26,8 @@ class CodeComments {
     });
   }
 
-  async generate(clsBody) {
-    const input = await this.prompt.format({ apexclass: clsBody });
+  async generate(cls) {
+    const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;
   }

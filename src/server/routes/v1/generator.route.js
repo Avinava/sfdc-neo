@@ -27,15 +27,15 @@ router.post(
 async function generate(req) {
   let textResponse = "";
   if (req.path === "/apexclass/test") {
-    textResponse = await unitTestsWriter.generate(req.body.Body);
+    textResponse = await unitTestsWriter.generate(req.body);
   } else if (req.path === "/apexclass/codecomments") {
-    textResponse = await codeComments.generate(req.body.Body);
+    textResponse = await codeComments.generate(req.body);
   } else if (req.path === "/apexclass/documentation") {
-    textResponse = await codeDocumenter.generate(req.body.Body);
+    textResponse = await codeDocumenter.generate(req.body);
   } else if (req.path === "/apexclass/codereview") {
-    textResponse = await codeReviewer.generate(req.body.Body);
+    textResponse = await codeReviewer.generate(req.body);
   } else if (req.path === "/apexclass/coderefactor") {
-    textResponse = await codeRefactoring.generate(req.body.Body);
+    textResponse = await codeRefactoring.generate(req.body);
   } else if (req.path === "/emailtemplate/beautify") {
     textResponse = await emailTemplate.generate(req.body);
   } else if (req.path === "/validationrule/description") {
