@@ -4,8 +4,9 @@ dotenv.config();
 
 const model = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
-  temperature: 0.9,
-  maxTokens: 3000,
+  temperature: process.env.OPENAI_TEMPERATURE || 0.3,
+  maxTokens: process.env.OPENAI_MAX_TOKENS || 3000,
+  modelName: process.env.OPENAI_MODEL_NAME || "gpt-3.5-turbo",
 });
 
 export { model };

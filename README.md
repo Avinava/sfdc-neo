@@ -9,7 +9,9 @@ Demo : https://neo.sfdxy.com/
    - **Code Comments**:  Enhance code readability and maintainability by automatically generating helpful comments throughout your codebase.
    - **Code Documentation**: Save time and effort by generating comprehensive documentation for your Salesforce code, ensuring clarity and understanding.
    - **Code Review**: Receive intelligent insights and suggestions to improve the quality and efficiency of your Salesforce code.
-   - **Validate & Deploy**: Easily validate and deploy the generated code from the app itself.
+   - **Email Template**: Better format email templates using OpenAI.
+   - **Validation Rule**: Describe and document validation rule.
+   - **Validate & Deploy**: Easily validate and deploy the generated code from the app directly to your Salesforce org.
 
 
 SFDC-Neo is currently in active development, which means there may be occasional hiccups along the way. If you encounter any issues or have suggestions for enhancements, please don't hesitate to open a GitHub issue. 
@@ -39,6 +41,9 @@ PRODUCTION_TOKEN_URL=https://login.salesforce.com/services/oauth2/token
 SANDBOX_AUTHORIZATION_URL=https://test.salesforce.com/services/oauth2/authorize
 SANDBOX_TOKEN_URL=https://test.salesforce.com/services/oauth2/token
 OPENAI_API_KEY=<your OpenAI API key>
+OPENAI_MAX_TOKENS=3000
+OPENAI_TEMPERATURE=0.3
+OPENAI_MODEL_NAME=gpt-3.5-turbo
 # only needed for enabling quota, by default this shouldn't be needed
 ENABLE_QUOTA=true
 SUPABASE_URL=<your Supabase URL>
@@ -61,6 +66,7 @@ This will start the server on the port specified in the .env file. You can then 
 
 You can try the demo app here https://neo.sfdxy.com/
 
+![home.png](/screenshots/home.png)
 ![test_class_gen.png](/screenshots/test_class_gen.png)
 ![review.png](/screenshots/review.png)
 

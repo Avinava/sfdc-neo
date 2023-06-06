@@ -22,7 +22,7 @@ class CodeComments {
   constructor() {
     this.prompt = new PromptTemplate({
       template: this.promptTemplate,
-      inputVariables: ["apexclass"],
+      inputVariables: ["Body"],
     });
   }
 
