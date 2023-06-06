@@ -89,6 +89,10 @@ class APIService extends React.Component {
     );
   }
 
+  formatApex(cls) {
+    return this.requestHandler("post", "/api/v1/prettier/apex", cls);
+  }
+
   requestHandler = async (method, url, data) => {
     console.log("requestHandler", method, url);
     return axios({

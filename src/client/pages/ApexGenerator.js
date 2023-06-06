@@ -20,7 +20,7 @@ import remarkGfm from "remark-gfm";
 
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { SiCodereview } from "react-icons/si";
-import { BiCommentEdit } from "react-icons/bi";
+import { BiCommentEdit, BiRightIndent } from "react-icons/bi";
 import { GrTest } from "react-icons/gr";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { AiOutlineBuild } from "react-icons/ai";
@@ -62,10 +62,12 @@ class Generator extends React.Component {
     // set the state of the selected class
     const cls = this.state.classes.find((r) => r.Id === event.target.value);
 
-    if(cls.Body && cls.Body.length < 4000){
-      this.setState({ selectedClassId: event.target.value, selectedClass: cls });
-    }
-    else {
+    if (cls.Body && cls.Body.length < 4000) {
+      this.setState({
+        selectedClassId: event.target.value,
+        selectedClass: cls,
+      });
+    } else {
       this.setState({ selectedClassId: "", selectedClass: {} });
       toast.error(
         "This class is too large. Please select another class with less than 4000 characters."
@@ -143,6 +145,19 @@ class Generator extends React.Component {
     this.setState({ isResultLoading: true, type: "code", updatedClass: {} });
     this.apiService
       .generateCodeRefactor(cls)
+      .then((response) => this.handleResponse(response))
+      .catch((err) => this.handleErrors(err));
+  }
+
+  async formatApex() {
+    if (!this.validateSelectedClass()) {
+      return;
+    }
+
+    const cls = this.state.selectedClass;
+    this.setState({ isResultLoading: true, type: "code", updatedClass: {} });
+    this.apiService
+      .formatApex(cls)
       .then((response) => this.handleResponse(response))
       .catch((err) => this.handleErrors(err));
   }
@@ -362,6 +377,17 @@ class Generator extends React.Component {
                           size="small"
                         >
                           Refactor
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Formats/Indents your code. It uses prettier to format / prettify your apex code">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          startIcon={<BiRightIndent />}
+                          onClick={() => this.formatApex()}
+                          size="small"
+                        >
+                          Format
                         </Button>
                       </Tooltip>
                     </ButtonGroup>
