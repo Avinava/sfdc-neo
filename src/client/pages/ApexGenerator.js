@@ -61,7 +61,16 @@ class Generator extends React.Component {
     // find the class in the classes array
     // set the state of the selected class
     const cls = this.state.classes.find((r) => r.Id === event.target.value);
-    this.setState({ selectedClassId: event.target.value, selectedClass: cls });
+
+    if(cls.Body && cls.Body.length < 4000){
+      this.setState({ selectedClassId: event.target.value, selectedClass: cls });
+    }
+    else {
+      this.setState({ selectedClassId: "", selectedClass: {} });
+      toast.error(
+        "This class is too large. Please select another class with less than 4000 characters."
+      );
+    }
   };
 
   getApexClasses() {
