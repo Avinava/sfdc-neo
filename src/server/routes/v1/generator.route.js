@@ -9,59 +9,59 @@ import validationRule from "../../agents/validationRule.js";
 
 const router = express.Router();
 
-router.post("/apexclass/test", async (req, res) => {
-  const textResponse = await unitTestsWriter.generate(req.body.Body);
-  res.send({
-    success: true,
-    result: textResponse,
-  });
-});
+router.post(
+  [
+    "/apexclass/test",
+    "/apexclass/codecomments",
+    "/apexclass/documentation",
+    "/apexclass/codereview",
+    "/apexclass/coderefactor",
+    "/emailtemplate/beautify",
+    "/validationrule/description",
+  ],
+  async (req, res) => {
+    await handleRequest(req, res);
+  }
+);
 
-router.post("/apexclass/codecomments", async (req, res) => {
-  const textResponse = await codeComments.generate(req.body.Body);
-  res.send({
-    success: true,
-    result: textResponse,
-  });
-});
+async function generate(req) {
+  let textResponse = "";
+  if (req.path === "/apexclass/test") {
+    textResponse = await unitTestsWriter.generate(req.body.Body);
+  } else if (req.path === "/apexclass/codecomments") {
+    textResponse = await codeComments.generate(req.body.Body);
+  } else if (req.path === "/apexclass/documentation") {
+    textResponse = await codeDocumenter.generate(req.body.Body);
+  } else if (req.path === "/apexclass/codereview") {
+    textResponse = await codeReviewer.generate(req.body.Body);
+  } else if (req.path === "/apexclass/coderefactor") {
+    textResponse = await codeRefactoring.generate(req.body.Body);
+  } else if (req.path === "/emailtemplate/beautify") {
+    textResponse = await emailTemplate.generate(req.body);
+  } else if (req.path === "/validationrule/description") {
+    textResponse = await validationRule.generate(req.body);
+  }
 
-router.post("/apexclass/documentation", async (req, res) => {
-  const textResponse = await codeDocumenter.generate(req.body.Body);
-  res.send({
-    success: true,
-    result: textResponse,
-  });
-});
+  return textResponse;
+}
 
-router.post("/apexclass/codereview", async (req, res) => {
-  const textResponse = await codeReviewer.generate(req.body.Body);
-  res.send({
-    success: true,
-    result: textResponse,
-  });
-});
+async function handleRequest(req, res) {
+  try {
+    const result = await generate(req);
+    res.send({
+      success: true,
+      result: result,
+    });
+  } catch (exception) {
+    handleException(res, exception);
+  }
+}
 
-router.post("/apexclass/coderefactor", async (req, res) => {
-  const textResponse = await codeRefactoring.generate(req.body.Body);
-  res.send({
-    success: true,
-    result: textResponse,
+function handleException(res, exception) {
+  res.status(500).send({
+    success: false,
+    message: exception.message,
   });
-});
-
-router.post("/emailtemplate/beautify", async (req, res) => {
-  const textResponse = await emailTemplate.generate(req.body);
-  res.send({
-    success: true,
-    result: textResponse,
-  });
-});
-
-router.post("/validationrule/description", async (req, res) => {
-  res.send({
-    success: true,
-    result: await validationRule.generate(req.body),
-  });
-});
+}
 
 export default router;
