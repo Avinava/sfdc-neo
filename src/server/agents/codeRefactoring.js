@@ -8,7 +8,7 @@ class CodeRefactoring {
   salesforce best practices.\
 
   # APEX CLASS
-  {apexclass}
+  {Body}
 
   # RESPONSE Apex Class
   `;
@@ -18,12 +18,12 @@ class CodeRefactoring {
   constructor() {
     this.prompt = new PromptTemplate({
       template: this.promptTemplate,
-      inputVariables: ["apexclass"],
+      inputVariables: ["Body"],
     });
   }
 
   async generate(clsBody) {
-    const input = await this.prompt.format({ apexclass: clsBody });
+    const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;
   }

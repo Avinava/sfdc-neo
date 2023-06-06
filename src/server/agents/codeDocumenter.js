@@ -8,7 +8,7 @@ class CodeDocumenter {
   Use the apex class to generate the documentation.
 
   # APEX CLASS
-  {apexclass}
+  {Body}
 
   # RESPONSE INSTRUCTIONS
   return the response in markdown format with class Name as header
@@ -21,12 +21,12 @@ class CodeDocumenter {
   constructor() {
     this.prompt = new PromptTemplate({
       template: this.promptTemplate,
-      inputVariables: ["apexclass"],
+      inputVariables: ["Body"],
     });
   }
 
-  async generate(clsBody) {
-    const input = await this.prompt.format({ apexclass: clsBody });
+  async generate(cls) {
+    const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;
   }

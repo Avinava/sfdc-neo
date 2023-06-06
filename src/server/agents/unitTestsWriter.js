@@ -8,7 +8,7 @@ class UnitTestsWriter {
   Use the apex class to generate unit test class.
 
   # APEX CLASS
-  {apexclass}
+  {Body}
 
   # RESPONSE INSTRUCTIONS
   in your response only return code without any extra text or headers.
@@ -22,12 +22,12 @@ class UnitTestsWriter {
   constructor() {
     this.prompt = new PromptTemplate({
       template: this.promptTemplate,
-      inputVariables: ["apexclass"],
+      inputVariables: ["Body"],
     });
   }
 
-  async generate(clsBody) {
-    const input = await this.prompt.format({ apexclass: clsBody });
+  async generate(cls) {
+    const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;
   }

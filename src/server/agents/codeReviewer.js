@@ -8,7 +8,7 @@ class CodeReviewer {
   Use the apex class that was provided in context and review it based on salesforce best practices.
 
   # APEX CLASS
-  {apexclass}
+  {Body}
 
   # RESPONSE INSTRUCTIONS
   return the review  in markdown format.
@@ -22,12 +22,12 @@ class CodeReviewer {
   constructor() {
     this.prompt = new PromptTemplate({
       template: this.promptTemplate,
-      inputVariables: ["apexclass"],
+      inputVariables: ["Body"],
     });
   }
 
-  async generate(clsBody) {
-    const input = await this.prompt.format({ apexclass: clsBody });
+  async generate(cls) {
+    const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;
   }
