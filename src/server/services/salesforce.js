@@ -66,7 +66,7 @@ class Salesforce {
     return apexClasses;
   }
 
-  async getValidationRule() {
+  async getValidationRules() {
     const query = `SELECT Id, EntityDefinitionId, EntityDefinition.MasterLabel, Active, ErrorDisplayField, ErrorMessage, Description, ValidationName FROM ValidationRule WHERE NamespacePrefix = null ORDER BY ValidationName ASC`;
     const validationRules = await this.toolingQueryAll(query);
     return validationRules;
