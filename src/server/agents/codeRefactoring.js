@@ -22,7 +22,7 @@ class CodeRefactoring {
     });
   }
 
-  async generate(clsBody) {
+  async generate(cls) {
     const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;
