@@ -1,10 +1,13 @@
 import path from "path";
+import * as dotenv from "dotenv";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import Dotenv from "dotenv-webpack";
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+dotenv.config();
 
 const outputDirectory = "dist";
 export default {
@@ -46,7 +49,7 @@ export default {
     open: true,
     historyApiFallback: true,
     proxy: {
-      "/api/*": "http://localhost:8000",
+      "/api/*": `http://localhost:${process.env.PORT}`,
     },
   },
   plugins: [

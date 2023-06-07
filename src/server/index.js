@@ -8,6 +8,8 @@ import errorHandler from "strong-error-handler";
 import RedisStore from "connect-redis";
 import routes from "./routes/v1/index.js";
 import meteredMiddleware from "./middleware/metered.js";
+import authMiddleware from "./middleware/authentication.js";
+import sfMiddleware from "./middleware/salesforceSession.js";
 
 dotenv.config();
 
@@ -36,6 +38,8 @@ app.use(
   })
 );
 app.use(meteredMiddleware.handle);
+app.use(authMiddleware.handle);
+app.use(sfMiddleware.handle);
 
 app.use(
   errorHandler({
