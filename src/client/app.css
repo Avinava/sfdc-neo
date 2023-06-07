@@ -20,3 +20,14 @@ body {
     padding: 15px;
   }
 }
+
+.feature-list {
+  padding-inline-start: 0px;
+}
+
+.feature-list li{
+  padding: 2px;
+  background: #f7f7f7;
+  border: 1px solid #d5d5d5;
+  list-style: none;
+}

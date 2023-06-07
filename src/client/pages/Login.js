@@ -8,7 +8,7 @@ import {
   Button,
   Box,
   Typography,
-  Alert
+  Alert,
 } from "@mui/material";
 
 class Login extends React.Component {
@@ -25,13 +25,14 @@ class Login extends React.Component {
             <Grid item xs={8} sm={6} lg={5} md={5}>
               <Card>
                 <div style={{ background: "gray", minHeight: "4px" }}></div>
-                <CardContent sx={{ pt: 2, textAlign: "center" }}>
+                <CardContent sx={{ pt: 2 }}>
                   <Box
                     sx={{
                       mb: 8,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      textAlign: "center",
                     }}
                   >
                     <Typography
@@ -42,6 +43,7 @@ class Login extends React.Component {
                         fontWeight: 600,
                         textTransform: "uppercase",
                         fontSize: "1.5rem !important",
+                        textAlign: "center",
                       }}
                     >
                       sfdc-neo
@@ -50,19 +52,43 @@ class Login extends React.Component {
                   <Box sx={{ mb: 2 }}>
                     <Typography
                       variant="h5"
-                      sx={{ fontWeight: 600, marginBottom: 1.5 }}
+                      sx={{
+                        fontWeight: 600,
+                        marginBottom: 1.5,
+                        textAlign: "center",
+                      }}
                     >
                       Welcome to sfdc-neo 👋🏻
                     </Typography>
-                    <Typography variant="body2">
-                      SFDC neo is a Node.js application designed to assist
-                      developers with Salesforce tasks, such as documenting and
-                      generating test classes. It leverages the capabilities of
-                      OpenAI to complete these tasks.
+                    <Typography
+                      variant="body2"
+                      component="div"
+                      sx={{
+                        textAlign: "center",
+                      }}
+                    >
+                      SFDC Neo is a Node.js application that uses OpenAI to help
+                      Salesforce developers with a variety of tasks, including:
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ textAlign: "center", mt: 1 }}
+                      component="div"
+                    >
+                      <ul className="feature-list">
+                        <li>Documenting code</li>
+                        <li>Generating test classes</li>
+                        <li>Adding comments to code</li>
+                        <li>Reviewing and refactoring code</li>
+                        <li>Better formatting email templates</li>
+                        <li>Documenting validation rules</li>
+                      </ul>
                     </Typography>
                     <Alert severity="info" color="info" sx={{ mt: 2 }}>
-                      it's important to acknowledge that sfdc-neo's performance is dependent on the capabilities of OpenAI.
-                      Occasionally, there may be instances where the generated output may be inaccurate or inconsistent.
+                      it's important to acknowledge that sfdc-neo's performance
+                      is dependent on the capabilities of OpenAI. Occasionally,
+                      there may be instances where the generated output may be
+                      inaccurate or inconsistent.
                     </Alert>
                   </Box>
                 </CardContent>
