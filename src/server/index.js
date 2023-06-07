@@ -37,8 +37,11 @@ app.use(
     store: redisStore,
   })
 );
+// adds rate limiting to openai routes
 app.use(meteredMiddleware.handle);
+// checks authentication
 app.use(authMiddleware.handle);
+// checks if salesforce session is valid
 app.use(sfMiddleware.handle);
 
 app.use(

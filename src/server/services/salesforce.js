@@ -88,6 +88,15 @@ class Salesforce {
     return !!this.connection;
   }
 
+  async isSessionValid() {
+    let isValid = false;
+    try {
+      await this.connection.identity();
+      isValid = true;
+    } catch (error) {}
+    return isValid;
+  }
+
   /**
    *
    * @param {*} payload {Name, Body}

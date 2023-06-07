@@ -23,10 +23,10 @@ class SalesforceSession {
     let salesforce;
     try {
       salesforce = new Salesforce(req.session);
-      if (!salesforce.isVaild()) {
+      if (!salesforce.isVaild() || !salesforce.isSessionValid()) {
         salesforce = null;
         return res.status(401).send({
-          message: "You are not logged in. Try logging in again.",
+          message: "Your Salesforce session has expired. Please login again.",
         });
       }
     } catch (exception) {
