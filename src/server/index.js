@@ -8,6 +8,8 @@ import errorHandler from "strong-error-handler";
 import RedisStore from "connect-redis";
 import routes from "./routes/v1/index.js";
 import meteredMiddleware from "./middleware/metered.js";
+import authMiddleware from "./middleware/authentication.js";
+import sfMiddleware from "./middleware/salesforceSession.js";
 
 dotenv.config();
 
@@ -35,7 +37,12 @@ app.use(
     store: redisStore,
   })
 );
+// adds rate limiting to openai routes
 app.use(meteredMiddleware.handle);
+// checks authentication
+app.use(authMiddleware.handle);
+// checks if salesforce session is valid
+app.use(sfMiddleware.handle);
 
 app.use(
   errorHandler({

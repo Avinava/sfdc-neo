@@ -6,8 +6,13 @@ import codeComments from "../../agents/codeComments.js";
 import unitTestsWriter from "../../agents/unitTestsWriter.js";
 import emailTemplate from "../../agents/emailTemplate.js";
 import validationRule from "../../agents/validationRule.js";
+import tokenHelperService from "../../services/tokenHelperService.js";
+import * as dotenv from "dotenv";
 
+dotenv.config();
 const router = express.Router();
+const MAX_TOKEN_ERROR =
+  "Max token length exceeded. Please select a smaller file.";
 
 router.post(
   [
@@ -45,9 +50,42 @@ async function generate(req) {
   return textResponse;
 }
 
+function validateTokenLength(req, res) {
+  const codeEndpoints = [
+    "/apexclass/test",
+    "/apexclass/codecomments",
+    "/apexclass/documentation",
+    "/apexclass/codereview",
+    "/apexclass/coderefactor",
+  ];
+
+  if (
+    codeEndpoints.includes(req.path) &&
+    tokenHelperService.getTokenCount(req.body.Body).limitExceeded
+  ) {
+    const err = new Error(MAX_TOKEN_ERROR);
+    throw err;
+  } else if (
+    req.path === "/emailtemplate/beautify" &&
+    tokenHelperService.getTokenCount(req.body.HtmlValue).limitExceeded
+  ) {
+    const err = new Error(MAX_TOKEN_ERROR);
+    throw err;
+  } else if (
+    req.path === "/validationrule/description" &&
+    tokenHelperService.getTokenCount(req.body?.Metadata?.errorConditionFormula)
+      .limitExceeded
+  ) {
+    const err = new Error(MAX_TOKEN_ERROR);
+    throw err;
+  }
+}
+
 async function handleRequest(req, res) {
   try {
+    validateTokenLength(req, res);
     const result = await generate(req);
+
     res.send({
       success: true,
       result: result,
@@ -58,6 +96,7 @@ async function handleRequest(req, res) {
 }
 
 function handleException(res, exception) {
+  console.error(exception);
   res.status(500).send({
     success: false,
     message: exception.message,

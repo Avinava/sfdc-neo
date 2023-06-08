@@ -57,12 +57,13 @@ class Generator extends React.Component {
     this.getApexClasses();
   }
 
-  onClassChange = (event) => {
+  onClassChange = async (event) => {
     // find the class in the classes array
     // set the state of the selected class
     const cls = this.state.classes.find((r) => r.Id === event.target.value);
+    const response = await this.validateTokenCount(cls);
 
-    if (cls.Body && cls.Body.length < 4000) {
+    if (cls.Body && !response.limitExceeded) {
       this.setState({
         selectedClassId: event.target.value,
         selectedClass: cls,
@@ -70,7 +71,7 @@ class Generator extends React.Component {
     } else {
       this.setState({ selectedClassId: "", selectedClass: {} });
       toast.error(
-        "This class is too large. Please select another class with less than 4000 characters."
+        `This class is too large. Please select another class with less than ${response.limit} tokens. Selected class has ${response.result} tokens.`
       );
     }
   };
@@ -230,6 +231,19 @@ class Generator extends React.Component {
       return false;
     }
     return true;
+  }
+
+  validateTokenCount(cls) {
+    this.setState({ loading: true });
+    return this.apiService
+      .getTokenCount(cls)
+      .then((response) => {
+        if (response) {
+          this.setState({ loading: false });
+          return response;
+        }
+      })
+      .catch((err) => this.handleErrors(err));
   }
 
   handleResponse = (response) => {

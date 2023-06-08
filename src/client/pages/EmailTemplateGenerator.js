@@ -41,9 +41,11 @@ class EmailTemplateGenerator extends React.Component {
     this.getEmailTemplates();
   }
 
-  onTemplateChange = (event) => {
+  onTemplateChange = async (event) => {
     const emt = this.state.templates.find((r) => r.Id === event.target.value);
-    if (emt.HtmlValue && emt.HtmlValue.length < 4000) {
+    const response = await this.validateTokenCount(emt);
+
+    if (emt.HtmlValue && !response.limitExceeded) {
       this.setState({
         selectedTemplateId: event.target.value,
         selectedTemplate: emt,
@@ -56,7 +58,7 @@ class EmailTemplateGenerator extends React.Component {
         },
       });
       toast.error(
-        "This template is too large to be edited. Please select another template with less than 4000 characters."
+        "This template is too large. Please select another template with less than ${response.limit} tokens. Selected template has ${response.result} tokens."
       );
     }
   };
@@ -114,6 +116,21 @@ class EmailTemplateGenerator extends React.Component {
 
   handleErrors(err) {
     this.setState({ isResultLoading: false, loading: false });
+  }
+
+  validateTokenCount(em) {
+    this.setState({ loading: true });
+    return this.apiService
+      .getTokenCount({
+        Body: em.HtmlValue,
+      })
+      .then((response) => {
+        if (response) {
+          this.setState({ loading: false });
+          return response;
+        }
+      })
+      .catch((err) => this.handleErrors(err));
   }
 
   render() {
