@@ -8,13 +8,7 @@ const router = express.Router();
 
 router.post("/tokencount", async (req, res) => {
   try {
-    const result = tokenHelperService.countTokens(req.body.Body);
-    res.send({
-      success: true,
-      result: result,
-      limit: Number(process.env.OPENAI_MAX_TOKENS || 3000),
-      limitExceeded: result > Number(process.env.OPENAI_MAX_TOKENS || 3000),
-    });
+    res.send(tokenHelperService.getTokenCount(req.body.Body));
   } catch (exception) {
     handleException(res, exception);
   }
