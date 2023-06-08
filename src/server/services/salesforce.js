@@ -91,8 +91,16 @@ class Salesforce {
   async isSessionValid() {
     let isValid = false;
     try {
-      await this.connection.identity();
-      isValid = true;
+      // identity.me() throws exception that can't be caught
+      await this.connection
+        .requestGet("/chatter/users/me")
+        .then((res) => {
+          isValid = true;
+          return res;
+        })
+        .catch((err) => {
+          isValid = false;
+        });
     } catch (error) {}
     return isValid;
   }
