@@ -5,7 +5,9 @@ class UnitTestsWriter {
   promptTemplate = `
   # YOUR TASK
   You are a developer who is writing unit test class for the provided apex class.
-  Use the apex class to generate unit test class.
+  - Use the apex class to generate unit test class
+  - Don't use hardcoded ids
+  - use testSetup wherever possible
 
   # APEX CLASS
   {Body}

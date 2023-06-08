@@ -43,7 +43,7 @@ class EmailTemplateGenerator extends React.Component {
 
   onTemplateChange = async (event) => {
     const emt = this.state.templates.find((r) => r.Id === event.target.value);
-    const response = await this.validateTokenCount(cls);
+    const response = await this.validateTokenCount(emt);
 
     if (emt.HtmlValue && !response.limitExceeded) {
       this.setState({
