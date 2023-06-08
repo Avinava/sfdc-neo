@@ -16,6 +16,7 @@ import {
 import AuthContext from "./AuthContext";
 import { Link } from "react-router-dom";
 import icon from "../../../public/logo.png";
+import { FaGithub } from "react-icons/fa";
 
 class Header extends React.Component {
   constructor(props) {
@@ -65,6 +66,23 @@ class Header extends React.Component {
                   SFDC Neo
                 </Typography>
               </Link>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  justifyContent: "flex-end",
+                  display: "flex",
+                  ml: 2,
+                }}
+              >
+                <Chip
+                  label="Github"
+                  variant="contained"
+                  color="info"
+                  icon={<FaGithub></FaGithub>}
+                  component="a"
+                  href="https://github.com/Avinava/sfdc-neo"
+                ></Chip>
+              </Box>
               {this.context.session?.id && (
                 <Box
                   sx={{
