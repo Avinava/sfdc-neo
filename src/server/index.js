@@ -35,6 +35,10 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: redisStore,
+    rolling: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 2, // 2 hours
+    },
   })
 );
 // adds rate limiting to openai routes
