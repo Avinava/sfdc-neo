@@ -93,6 +93,15 @@ class APIService extends React.Component {
     return this.requestHandler("post", "/api/v1/prettier/apex", cls);
   }
 
+  /**
+   *
+   * @param {*} object {Body: string}
+   * @returns
+   */
+  getTokenCount(input) {
+    return this.requestHandler("post", "/api/v1/util/tokencount", input);
+  }
+
   requestHandler = async (method, url, data) => {
     console.log("requestHandler", method, url);
     return axios({
