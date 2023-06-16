@@ -58,7 +58,7 @@ class EmailTemplateGenerator extends React.Component {
         },
       });
       toast.error(
-        "This template is too large. Please select another template with less than ${response.limit} tokens. Selected template has ${response.result} tokens."
+        `This template is too large. Please select another template with less than ${response.limit} tokens. Selected template has ${response.result} tokens.`
       );
     }
   };
