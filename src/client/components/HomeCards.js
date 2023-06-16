@@ -32,6 +32,14 @@ class HomeCards extends React.Component {
         linkText: "Go to Apex Generator",
       },
       {
+        title: "Flow Generator",
+        description:
+          "Generate Flow test classes & documentations using OpenAI.",
+        icon: <TbPlugConnected size={25} style={{ color: "#ff9800" }} />,
+        link: "/flow-generator",
+        linkText: "Go to Flow Generator",
+      },
+      {
         title: "Email Template Generator",
         description: "Better format email templates using OpenAI.",
         icon: <AiOutlineMail size={25} style={{ color: "#ff9800" }} />,

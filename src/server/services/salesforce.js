@@ -1,5 +1,6 @@
 import jsforce from "jsforce";
 import AdmZip from "adm-zip";
+import { XMLBuilder } from "fast-xml-parser";
 
 class Salesforce {
   session;
@@ -78,6 +79,26 @@ class Salesforce {
     return Array.isArray(validationRules)
       ? validationRules[0]
       : validationRules;
+  }
+
+  async getFlowDefinitions() {
+    const query = `SELECT  Id, ActiveVersionId, ActiveVersion.MasterLabel, DeveloperName from FlowDefinition where ActiveVersionId != null`;
+    const flowDefinitions = await this.toolingQueryAll(query);
+    return flowDefinitions;
+  }
+
+  async getFlowDefinitionMetadata(flowDefinitionId) {
+    const query = `select Id, Metadata from Flow where Id = '${flowDefinitionId}'`;
+    const flowDefinitions = await this.toolingQueryAll(query);
+    const flow = Array.isArray(flowDefinitions)
+      ? flowDefinitions[0]
+      : flowDefinitions;
+
+    const builder = new XMLBuilder({
+      format: true,
+    });
+    flow.Metadata = builder.build(flow.Metadata);
+    return flow;
   }
 
   getConnection() {

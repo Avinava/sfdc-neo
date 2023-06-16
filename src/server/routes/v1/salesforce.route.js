@@ -18,6 +18,14 @@ router.get("/validationrule/:id", async (req, res) => {
   res.send(await req.salesforce.getValidationRuleMetadata(req.params.id));
 });
 
+router.get("/flowdefinitions", async (req, res) => {
+  res.send(await req.salesforce.getFlowDefinitions(req.body));
+});
+
+router.get("/flowdefinition/:id", async (req, res) => {
+  res.send(await req.salesforce.getFlowDefinitionMetadata(req.params.id));
+});
+
 router.post("/deployclass", async (req, res) => {
   res.send(await req.salesforce.deployClass(req.body));
 });

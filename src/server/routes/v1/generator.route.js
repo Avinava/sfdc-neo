@@ -8,6 +8,7 @@ import emailTemplate from "../../agents/emailTemplate.js";
 import validationRule from "../../agents/validationRule.js";
 import tokenHelperService from "../../services/tokenHelperService.js";
 import * as dotenv from "dotenv";
+import flowDocumenter from "../../agents/flowDocumenter.js";
 
 dotenv.config();
 const router = express.Router();
@@ -23,6 +24,8 @@ router.post(
     "/apexclass/coderefactor",
     "/emailtemplate/beautify",
     "/validationrule/description",
+    "/flow/documentation",
+    "/flow/test",
   ],
   async (req, res) => {
     await handleRequest(req, res);
@@ -45,6 +48,10 @@ async function generate(req) {
     textResponse = await emailTemplate.generate(req.body);
   } else if (req.path === "/validationrule/description") {
     textResponse = await validationRule.generate(req.body);
+  } else if (req.path === "/flow/documentation") {
+    textResponse = await flowDocumenter.generate(req.body);
+  } else if (req.path === "/flow/test") {
+    textResponse = await flowTest.generate(req.body);
   }
 
   return textResponse;
