@@ -76,12 +76,31 @@ class Login extends React.Component {
                       component="div"
                     >
                       <ul className="feature-list">
-                        <li>Documenting code</li>
-                        <li>Generating test classes</li>
-                        <li>Adding comments to code</li>
-                        <li>Reviewing and refactoring code</li>
-                        <li>Better formatting email templates</li>
-                        <li>Documenting validation rules</li>
+                        <li>
+                          <b>Apex:</b> Document code
+                        </li>
+                        <li>
+                          <b>Apex:</b> Generating test classes
+                        </li>
+                        <li>
+                          <b>Apex:</b> Adding comments to code
+                        </li>
+                        <li>
+                          <b>Apex:</b> Reviewing and refactoring code
+                        </li>
+                        <li>
+                          <b>Email Templates:</b> Better formatting email
+                          templates
+                        </li>
+                        <li>
+                          <b>Validation Rules:</b> Documenting validation rules
+                        </li>
+                        <li>
+                          <b>Flow:</b> Document Flows
+                        </li>
+                        <li>
+                          <b>Flow:</b> Generate test classes for Flows
+                        </li>
                       </ul>
                     </Typography>
                     <Alert severity="info" color="info" sx={{ mt: 2 }}>
