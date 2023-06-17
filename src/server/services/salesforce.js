@@ -1,6 +1,11 @@
 import jsforce from "jsforce";
 import AdmZip from "adm-zip";
 import { XMLBuilder } from "fast-xml-parser";
+import {
+  ApexLexer,
+  CaseInsensitiveInputStream,
+  CommonTokenStream,
+} from "apex-parser";
 
 class Salesforce {
   session;
@@ -126,13 +131,32 @@ class Salesforce {
     return isValid;
   }
 
+  parseClassName(classStr) {
+    const stream = new CaseInsensitiveInputStream({}, classStr);
+    const lexer = new ApexLexer(stream);
+    const tokens = new CommonTokenStream(lexer);
+    tokens.fill();
+    // get the first Identifier token after class
+    let foundClass = false;
+    for (const token of tokens.tokens) {
+      if (token.type === ApexLexer.CLASS) {
+        foundClass = true;
+      }
+      if (foundClass && token.type === ApexLexer.Identifier) {
+        return token.text;
+      }
+    }
+
+    return;
+  }
+
   /**
    *
    * @param {*} payload {Name, Body}
    */
   async deployClass(cls) {
     const zip = new AdmZip();
-    cls.Name = cls.Name || cls.Body.match(/class\s+(\w+)/i)[1];
+    cls.Name = cls.Name || this.parseClassName(cls.Body);
     cls.Metadata =
       cls.Metadata ||
       `<?xml version="1.0" encoding="UTF-8"?>

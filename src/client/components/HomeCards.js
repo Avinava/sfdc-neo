@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import AuthContext from "./AuthContext";
 import { TbPlugConnected, TbPlugConnectedX } from "react-icons/tb";
+import { BsFillLightningFill } from "react-icons/bs";
 import { BiCodeCurly } from "react-icons/bi";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdRule } from "react-icons/md";
@@ -35,7 +36,7 @@ class HomeCards extends React.Component {
         title: "Flow Generator",
         description:
           "Generate Flow test classes & documentations using OpenAI.",
-        icon: <TbPlugConnected size={25} style={{ color: "#ff9800" }} />,
+        icon: <BsFillLightningFill size={25} style={{ color: "#ff9800" }} />,
         link: "/flow-generator",
         linkText: "Go to Flow Generator",
       },

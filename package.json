@@ -22,6 +22,7 @@
     "@mui/material": "^5.12.1",
     "@supabase/supabase-js": "^2.22.0",
     "adm-zip": "^0.5.10",
+    "apex-parser": "^2.17.0",
     "babel-polyfill": "^6.26.0",
     "celebrate": "^15.0.1",
     "connect-redis": "^7.1.0",

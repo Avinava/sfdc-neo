@@ -12,9 +12,11 @@ import {
   Paper,
   Tooltip,
   Typography,
+  Icon,
 } from "@mui/material";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
-import { MdEmail } from "react-icons/md";
+import { HiOutlineDocumentText } from "react-icons/hi";
+import { GrTest } from "react-icons/gr";
 
 import { toast } from "react-toastify";
 import AuthContext from "../components/AuthContext";
@@ -22,6 +24,13 @@ import APIService from "../services/APIService";
 import Editor from "@monaco-editor/react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Modal from "../components/Modal";
+import DeployResults from "../components/DeployResults";
+import {
+  PublishedWithChanges as PublishedWithChangesIcon,
+  Publish as PublishIcon,
+} from "@mui/icons-material";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 class FlowGenerator extends React.Component {
   static contextType = AuthContext;
@@ -35,6 +44,7 @@ class FlowGenerator extends React.Component {
     loading: true,
     type: "code",
     metrics: {},
+    openDeployConfirmation: false,
   };
   apiService = new APIService({ context: this.context });
 
@@ -104,11 +114,89 @@ class FlowGenerator extends React.Component {
       .catch((err) => this.handleErrors(err));
   }
 
+  generateFlowTest() {
+    if (!this.validateselectedFlow()) {
+      return;
+    }
+
+    const rule = this.state.selectedFlow;
+    this.setState({
+      isResultLoading: true,
+      type: "code",
+      updatedFlow: {},
+    });
+    this.apiService
+      .generateFlowTest(rule)
+      .then((response) => this.handleResponse(response))
+      .catch((err) => this.handleErrors(err));
+  }
+
   async deployFlowConfirm() {
     this.setState({ openDeployConfirmation: true });
   }
 
-  async saveFlowBody() {}
+  async validateClass() {
+    if (!this.validateselectedFlow()) {
+      return;
+    }
+
+    const cls = this.state.updatedFlow;
+    cls.checkOnly = true;
+    this.setState({
+      isResultLoading: true,
+      openDeployConfirmation: false,
+      deployResultTile: "Deployment Results",
+    });
+
+    console.log("cls", cls);
+
+    const deployRes = await this.apiService.deployClass(cls);
+    if (deployRes.id) {
+      this.pollStatus(deployRes.id);
+    }
+  }
+
+  async deployClass() {
+    if (!this.validateselectedFlow()) {
+      return;
+    }
+
+    const cls = this.state.updatedFlow;
+    this.setState({
+      isResultLoading: true,
+      openDeployConfirmation: false,
+      deployResultTile: "Deployment Results",
+    });
+    const deployRes = await this.apiService.deployClass(cls);
+    if (deployRes.id) {
+      this.pollStatus(deployRes.id);
+    }
+  }
+
+  async pollStatus(id) {
+    const statusRes = await this.apiService.getDeployStatus(id);
+    if (statusRes.done) {
+      if (statusRes.success) {
+        toast.success("Class successfully validated");
+      } else {
+        toast.error("Class validation failed");
+      }
+      this.setState({
+        isResultLoading: false,
+        type: "code",
+        deployResults: statusRes,
+        openDeployResults: true,
+      });
+    } else {
+      setTimeout(() => {
+        this.pollStatus(id);
+      }, 5000);
+    }
+  }
+
+  async deployClassConfirm() {
+    this.setState({ openDeployConfirmation: true });
+  }
 
   validateselectedFlow() {
     if (!this.state.selectedFlowId) {
@@ -216,11 +304,23 @@ class FlowGenerator extends React.Component {
                           variant="contained"
                           color="secondary"
                           onClick={() => this.generateFlowDocumentation()}
-                          startIcon={<MdEmail />}
+                          startIcon={<HiOutlineDocumentText />}
                           size="small"
                           disabled={!this.state.selectedFlow?.Id}
                         >
                           Document Flow
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Generate Flow Test">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={() => this.generateFlowTest()}
+                          startIcon={<GrTest />}
+                          size="small"
+                          disabled={!this.state.selectedFlow?.Id}
+                        >
+                          Generate Flow Test
                         </Button>
                       </Tooltip>
                     </ButtonGroup>
@@ -247,6 +347,45 @@ class FlowGenerator extends React.Component {
                           minimap: { enabled: false },
                         }}
                       />
+                      <Paper
+                        sx={{
+                          p: "12px",
+                          mt: 1,
+                          width: "100%",
+                          textAlign: "center",
+                        }}
+                      >
+                        <ButtonGroup
+                          variant="contained"
+                          size="small"
+                          sx={{ textAlign: "center" }}
+                        >
+                          <Tooltip title="Validate the generated class against your org. This is equivalent to validating a changeset">
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => this.validateClass()}
+                              size="small"
+                              disabled={!this.state.updatedFlow?.Body}
+                              startIcon={<PublishedWithChangesIcon />}
+                            >
+                              Validate
+                            </Button>
+                          </Tooltip>
+                          <Tooltip title="Deploys the generated class to your org. This is equivalent to deploying a changeset">
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => this.deployClassConfirm()}
+                              size="small"
+                              disabled={!this.state.updatedFlow?.Body}
+                              startIcon={<PublishIcon />}
+                            >
+                              Deploy to Org
+                            </Button>
+                          </Tooltip>
+                        </ButtonGroup>
+                      </Paper>
                     </Box>
                   )}
                   {this.state.type !== "code" && (
@@ -268,6 +407,55 @@ class FlowGenerator extends React.Component {
             </Grid>
           </Box>
         </Container>
+        {this.state.openDeployResults && (
+          <Modal
+            title={this.state.deployResultTile}
+            body={<DeployResults result={this.state.deployResults} />}
+            cancelBtn={false}
+            onConfirm={() => this.setState({ openDeployResults: false })}
+          ></Modal>
+        )}
+
+        {this.state.openDeployConfirmation && (
+          <Modal
+            title="Deploy Class"
+            body={
+              <React.Fragment>
+                <Box sx={{ textAlign: "center" }}>
+                  <Icon
+                    component={FaExclamationTriangle}
+                    sx={{ color: "orange", fontSize: 30, marginRight: 1 }}
+                  />
+                  <Typography variant="h6" component="div">
+                    Warning
+                  </Typography>
+                  <Typography variant="body2">
+                    Are you sure you want to deploy the generated class to your
+                    org?
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" component={Box}>
+                    <ul>
+                      <li>
+                        This action will overwrite any existing class with the{" "}
+                        <b>same name</b>.
+                      </li>
+                      <li>
+                        Please make sure there is no class with the{" "}
+                        <b>same name</b> in your org before proceeding.
+                      </li>
+                      <li>This action cannot be undone.</li>
+                    </ul>
+                  </Typography>
+                </Box>
+              </React.Fragment>
+            }
+            cancelBtn={true}
+            onConfirm={() => this.deployClass()}
+            onClose={() => this.setState({ openDeployConfirmation: false })}
+          ></Modal>
+        )}
       </React.Fragment>
     );
   }
