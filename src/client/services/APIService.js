@@ -21,6 +21,17 @@ class APIService extends React.Component {
     );
   }
 
+  getFlowDefinitions() {
+    return this.requestHandler("get", "/api/v1/salesforce/flowdefinitions");
+  }
+
+  getFlowDefinition(id) {
+    return this.requestHandler(
+      "get",
+      `/api/v1/salesforce/flowdefinition/${id}`
+    );
+  }
+
   getEmailTemplates() {
     return this.requestHandler("get", "/api/v1/salesforce/emailtemplate");
   }
@@ -87,6 +98,18 @@ class APIService extends React.Component {
       "/api/v1/generator/validationrule/description",
       rule
     );
+  }
+
+  generateFlowDocumentation(flow) {
+    return this.requestHandler(
+      "post",
+      "/api/v1/generator/flow/documentation",
+      flow
+    );
+  }
+
+  generateFlowTest(flow) {
+    return this.requestHandler("post", "/api/v1/generator/flow/test", flow);
   }
 
   formatApex(cls) {

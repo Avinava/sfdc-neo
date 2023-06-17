@@ -11,6 +11,7 @@ Demo : https://neo.sfdxy.com/
    - **Code Review**: Receive intelligent insights and suggestions to improve the quality and efficiency of your Salesforce code.
    - **Email Template**: Better format email templates using OpenAI.
    - **Validation Rule**: Describe and document validation rule.
+   - **Flow**: Document and generate test classes.
    - **Validate & Deploy**: Easily validate and deploy the generated code from the app directly to your Salesforce org.
 
 
@@ -41,9 +42,9 @@ PRODUCTION_TOKEN_URL=https://login.salesforce.com/services/oauth2/token
 SANDBOX_AUTHORIZATION_URL=https://test.salesforce.com/services/oauth2/authorize
 SANDBOX_TOKEN_URL=https://test.salesforce.com/services/oauth2/token
 OPENAI_API_KEY=<your OpenAI API key>
-OPENAI_MAX_TOKENS=3000
+OPENAI_MAX_TOKENS=8000
 OPENAI_TEMPERATURE=0.3
-OPENAI_MODEL_NAME=gpt-3.5-turbo
+OPENAI_MODEL_NAME=gpt-3.5-turbo-16k
 # only needed for enabling quota, by default this shouldn't be needed
 ENABLE_QUOTA=true
 SUPABASE_URL=<your Supabase URL>

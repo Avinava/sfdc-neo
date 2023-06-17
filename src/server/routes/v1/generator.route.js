@@ -7,8 +7,10 @@ import unitTestsWriter from "../../agents/unitTestsWriter.js";
 import emailTemplate from "../../agents/emailTemplate.js";
 import validationRule from "../../agents/validationRule.js";
 import tokenHelperService from "../../services/tokenHelperService.js";
-import * as dotenv from "dotenv";
+import flowTestWriter from "../../agents/flowTestWriter.js";
+import flowDocumenter from "../../agents/flowDocumenter.js";
 
+import * as dotenv from "dotenv";
 dotenv.config();
 const router = express.Router();
 const MAX_TOKEN_ERROR =
@@ -23,6 +25,8 @@ router.post(
     "/apexclass/coderefactor",
     "/emailtemplate/beautify",
     "/validationrule/description",
+    "/flow/documentation",
+    "/flow/test",
   ],
   async (req, res) => {
     await handleRequest(req, res);
@@ -45,6 +49,10 @@ async function generate(req) {
     textResponse = await emailTemplate.generate(req.body);
   } else if (req.path === "/validationrule/description") {
     textResponse = await validationRule.generate(req.body);
+  } else if (req.path === "/flow/documentation") {
+    textResponse = await flowDocumenter.generate(req.body);
+  } else if (req.path === "/flow/test") {
+    textResponse = await flowTestWriter.generate(req.body);
   }
 
   return textResponse;
@@ -57,11 +65,14 @@ function validateTokenLength(req, res) {
     "/apexclass/documentation",
     "/apexclass/codereview",
     "/apexclass/coderefactor",
+    "/flow/documentation",
+    "/flow/test",
   ];
 
   if (
     codeEndpoints.includes(req.path) &&
-    tokenHelperService.getTokenCount(req.body.Body).limitExceeded
+    tokenHelperService.getTokenCount(req.body.Body || req.body.Metadata)
+      .limitExceeded
   ) {
     const err = new Error(MAX_TOKEN_ERROR);
     throw err;

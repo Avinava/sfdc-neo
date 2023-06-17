@@ -6,13 +6,15 @@ import AuthContext from "./components/AuthContext";
 import Header from "./components/Header";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import ApexGenerator from "./pages/ApexGenerator";
-import EmailTemplateGenerator from "./pages/EmailTemplateGenerator";
-import ValidationRuleGenerator from "./pages/ValidationRuleGenerator";
 import RequireAuth from "./components/RequireAuth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CssBaseline from "@mui/material/CssBaseline";
+
+import ApexGenerator from "./pages/ApexGenerator";
+import EmailTemplateGenerator from "./pages/EmailTemplateGenerator";
+import ValidationRuleGenerator from "./pages/ValidationRuleGenerator";
+import FlowGenerator from "./pages/FlowGenerator";
 
 export default class App extends React.Component {
   state = {
@@ -86,6 +88,14 @@ export default class App extends React.Component {
                   element={
                     <RequireAuth>
                       <ValidationRuleGenerator />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/flow-generator"
+                  element={
+                    <RequireAuth>
+                      <FlowGenerator />
                     </RequireAuth>
                   }
                 />
