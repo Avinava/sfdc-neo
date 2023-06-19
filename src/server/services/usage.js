@@ -34,10 +34,10 @@ class Usage {
     return metrics;
   };
 
-  incrementUsage = async (userId) => {
+  incrementUsage = async (req) => {
     const { data, error } = await supabaseAdmin
       .from("app_usage")
-      .insert([{ user: userId }]);
+      .insert([{ user: req.session.passport.user.id, path: req.path }]);
 
     return data;
   };
