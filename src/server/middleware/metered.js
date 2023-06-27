@@ -29,7 +29,7 @@ class Metered {
           }
 
           // increment usage
-          await usage.incrementUsage(req.session.passport.user.id);
+          await usage.incrementUsage(req);
           // update metrics
           metrics = req.session.passport.user.metrics;
           metrics.remainingQuota = metrics.remainingQuota - 1;
