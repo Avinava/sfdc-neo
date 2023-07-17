@@ -78,6 +78,26 @@ class HomeCards extends React.Component {
                     based tools to help you with generating test classes,
                     documenting your code and more.
                   </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      backgroundColor: "#c9e4f0",
+                      mt: 4,
+                      p: 2,
+                      borderRadius: 1,
+                    }}
+                  >
+                    If you enjoyed using sfdc-neo, would greatly appreciate it
+                    if you could take a moment to show your support by giving a
+                    star to the{" "}
+                    <a
+                      href="https://github.com/Avinava/sfdc-neo"
+                      target="_blank"
+                    >
+                      GitHub repository.
+                    </a>
+                  </Typography>
+
                   {this.context.session?.org && (
                     <React.Fragment>
                       <br />
@@ -149,6 +169,7 @@ class HomeCards extends React.Component {
                           </Box>
                         </CardContent>
                       </Card>
+
                       <Grid container spacing={2} sx={{ mt: 2 }}>
                         {this.state.cards.map((card) => (
                           <Grid
