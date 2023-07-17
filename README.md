@@ -17,6 +17,8 @@ Demo : https://neo.sfdxy.com/
 
 SFDC-Neo is currently in active development, which means there may be occasional hiccups along the way. If you encounter any issues or have suggestions for enhancements, please don't hesitate to open a GitHub issue. 
 
+
+
 ## Installation
 
 To install SFDC-Neo, you will need to have Node.js and npm or yarn installed on your system. You can then install the dependencies by running:
@@ -62,6 +64,9 @@ yarn start
 ```
 
 This will start the server on the port specified in the .env file. You can then access the application by navigating to http://localhost:3000 in your web browser.
+
+
+[!["Buy Me A Coffee"](![Alt text](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png))]([https://www.buymeacoffee.com/gbraad](https://www.buymeacoffee.com/avidev))
 
 ## Demo
 
