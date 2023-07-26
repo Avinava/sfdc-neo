@@ -107,10 +107,9 @@ async function handleRequest(req, res) {
 }
 
 function handleException(res, exception) {
-  console.error(exception);
   res.status(500).send({
     success: false,
-    message: exception.message,
+    message: exception.response?.data?.error?.message || exception.message,
   });
 }
 
