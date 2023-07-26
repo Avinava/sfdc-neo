@@ -11,11 +11,11 @@ class CodeReviewer {
   - Suggest and list all possible naming that can be improved.
   - Review code comments and documentation and check for typos, grammar, and spelling.
   - Review Salesforce best practices, and how to improve the code.
-  - Review hardcoded values, SOQL / DML in loops, and other code issues.
-  - Review code formatting, and make sure it is readable, review indentation, extra spaces / lines and other formatting issues.
-  - flag any possibly security issues, null pointer exceptions, and other issues.
+  - Review hardcoded values / endpoints, SOQL / DML in loops, and other code issues.
+  - Review code formatting, large methods, and make sure it is readable, review indentation, extra spaces / lines and other formatting issues.
+  - flag any possibly security issues, soql injection, null pointer exceptions, and other issues.
   - Make sure to include suggestions with examples and line numbers where applicable.
-  - Check for unused variables, methods, unreachable code, and commented code.
+  - Check for unused variables, methods, unreachable code, unnecessary code, and commented code.
   - Comment about possible refactoring, use of static / instance methods that can improve code maintainability.
 
   # APEX CLASS
