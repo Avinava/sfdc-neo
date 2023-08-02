@@ -1,5 +1,6 @@
 import express from "express";
 import codeReviewer from "../../agents/codeReviewer.js";
+import codeReviewerPMD from "../../agents/codeReviewerPMD.js";
 import codeRefactoring from "../../agents/codeRefactoring.js";
 import codeDocumenter from "../../agents/codeDocumenter.js";
 import codeComments from "../../agents/codeComments.js";
@@ -22,6 +23,7 @@ router.post(
     "/apexclass/codecomments",
     "/apexclass/documentation",
     "/apexclass/codereview",
+    "/apexclass/codereviewpmd",
     "/apexclass/coderefactor",
     "/emailtemplate/beautify",
     "/validationrule/description",
@@ -43,6 +45,8 @@ async function generate(req) {
     textResponse = await codeDocumenter.generate(req.body);
   } else if (req.path === "/apexclass/codereview") {
     textResponse = await codeReviewer.generate(req.body);
+  } else if (req.path === "/apexclass/codereviewpmd") {
+    textResponse = await codeReviewerPMD.generate(req.body);
   } else if (req.path === "/apexclass/coderefactor") {
     textResponse = await codeRefactoring.generate(req.body);
   } else if (req.path === "/emailtemplate/beautify") {
