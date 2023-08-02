@@ -334,7 +334,7 @@ class Generator extends React.Component {
                 </Grid>
                 <Grid item xs={12} md={9} sx={{ textAlign: "right" }}>
                   <ButtonGroup variant="contained" size="small">
-                    <Tooltip title="Generate Test Class">
+                    <Tooltip title="Generate a test class for the current Apex class">
                       <Button
                         variant="contained"
                         color="secondary"
@@ -363,12 +363,11 @@ class Generator extends React.Component {
                           variant="subtitle2"
                           sx={{ fontSize: "0.6em", display: "block" }}
                         >
-                          <br />
-                          prompt
+                          (with advanced options)
                         </Typography>
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Add Code Comments">
+                    <Tooltip title="Add comments to the current Apex class">
                       <Button
                         variant="contained"
                         color="secondary"
@@ -379,7 +378,7 @@ class Generator extends React.Component {
                         Comments
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Generate Documentation">
+                    <Tooltip title="Generate documentation for the current Apex class">
                       <Button
                         variant="contained"
                         color="secondary"
@@ -390,7 +389,7 @@ class Generator extends React.Component {
                         Document
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Generate Code Review">
+                    <Tooltip title="Generate a code review for the current Apex class">
                       <Button
                         variant="contained"
                         color="secondary"
@@ -401,7 +400,7 @@ class Generator extends React.Component {
                         Review
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Code Refactor & Optimize">
+                    <Tooltip title="Refactor and optimize the current Apex class">
                       <Button
                         variant="contained"
                         color="secondary"
@@ -412,7 +411,7 @@ class Generator extends React.Component {
                         Refactor
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Formats/Indents your code. It uses prettier to format / prettify your apex code">
+                    <Tooltip title="Format and indent the current Apex code using Prettier">
                       <Button
                         variant="contained"
                         color="secondary"
