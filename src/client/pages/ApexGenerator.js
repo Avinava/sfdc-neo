@@ -22,7 +22,8 @@ import remarkGfm from "remark-gfm";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { SiCodereview } from "react-icons/si";
 import { BiCommentEdit, BiRightIndent } from "react-icons/bi";
-import { GrTest } from "react-icons/gr";
+import { BiTestTube } from "react-icons/bi";
+import { RiTestTubeFill } from "react-icons/ri";
 
 import { FaExclamationTriangle } from "react-icons/fa";
 import { AiOutlineBuild } from "react-icons/ai";
@@ -338,7 +339,7 @@ class Generator extends React.Component {
                         variant="contained"
                         color="secondary"
                         onClick={() => this.generateTestClass()}
-                        startIcon={<GrTest />}
+                        startIcon={<RiTestTubeFill />}
                         size="small"
                       >
                         Test Class
@@ -349,7 +350,7 @@ class Generator extends React.Component {
                         variant="contained"
                         color="secondary"
                         onClick={() => this.generateTestClassAdvanced()}
-                        startIcon={<GrTest />}
+                        startIcon={<BiTestTube />}
                         size="small"
                       >
                         <Typography
