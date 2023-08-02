@@ -13,6 +13,7 @@ import {
   Tooltip,
   Typography,
   Icon,
+  TextField,
 } from "@mui/material";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import ReactMarkdown from "react-markdown";
@@ -21,7 +22,9 @@ import remarkGfm from "remark-gfm";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { SiCodereview } from "react-icons/si";
 import { BiCommentEdit, BiRightIndent } from "react-icons/bi";
-import { GrTest } from "react-icons/gr";
+import { BiTestTube } from "react-icons/bi";
+import { RiTestTubeFill } from "react-icons/ri";
+
 import { FaExclamationTriangle } from "react-icons/fa";
 import { AiOutlineBuild } from "react-icons/ai";
 
@@ -50,6 +53,7 @@ class Generator extends React.Component {
     type: "code",
     metrics: {},
     openDeployResults: false,
+    openTestClassUserPromptInput: false,
     deployResultTile: "Validation Results",
   };
   apiService = new APIService({ context: this.context });
@@ -85,13 +89,27 @@ class Generator extends React.Component {
       .catch((err) => this.handleErrors(err));
   }
 
-  generateTest() {
+  generateTestClassAdvanced() {
+    if (!this.validateSelectedClass()) {
+      return;
+    }
+    this.setState({
+      openTestClassUserPromptInput: true,
+    });
+  }
+
+  generateTestClass() {
     if (!this.validateSelectedClass()) {
       return;
     }
 
     const cls = this.state.selectedClass;
-    this.setState({ isResultLoading: true, type: "code", updatedClass: {} });
+    this.setState({
+      isResultLoading: true,
+      type: "code",
+      updatedClass: {},
+      openTestClassUserPromptInput: false,
+    });
     this.apiService
       .generateTest(cls)
       .then((response) => this.handleResponse(response))
@@ -294,9 +312,9 @@ class Generator extends React.Component {
           />
 
           <Box sx={{ flexGrow: 1, mt: 2 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={6}>
-                <Paper sx={{ p: 1 }}>
+            <Paper sx={{ p: 1 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={3} md={3}>
                   <FormControl fullWidth size="small">
                     <InputLabel id="apex-select">Apex Class</InputLabel>
                     <Select
@@ -313,7 +331,105 @@ class Generator extends React.Component {
                       ))}
                     </Select>
                   </FormControl>
-                </Paper>
+                </Grid>
+                <Grid item xs={12} md={9} sx={{ textAlign: "right" }}>
+                  <ButtonGroup variant="contained" size="small">
+                    <Tooltip title="Generate Test Class">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => this.generateTestClass()}
+                        startIcon={<RiTestTubeFill />}
+                        size="small"
+                      >
+                        Test Class
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Generate Test Class by providing some context about what you want to test">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => this.generateTestClassAdvanced()}
+                        startIcon={<BiTestTube />}
+                        size="small"
+                      >
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ display: "block" }}
+                        >
+                          Test Class
+                        </Typography>
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontSize: "0.6em", display: "block" }}
+                        >
+                          <br />
+                          prompt
+                        </Typography>
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Add Code Comments">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<BiCommentEdit />}
+                        onClick={() => this.generateCodeDocumentation()}
+                        size="small"
+                      >
+                        Comments
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Generate Documentation">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<HiOutlineDocumentText />}
+                        onClick={() => this.generateDocumentation()}
+                        size="small"
+                      >
+                        Document
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Generate Code Review">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<SiCodereview />}
+                        onClick={() => this.generateCodeReview()}
+                        size="small"
+                      >
+                        Review
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Code Refactor & Optimize">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<AiOutlineBuild />}
+                        onClick={() => this.generateCodeRefactor()}
+                        size="small"
+                      >
+                        Refactor
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Formats/Indents your code. It uses prettier to format / prettify your apex code">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<BiRightIndent />}
+                        onClick={() => this.formatApex()}
+                        size="small"
+                      >
+                        Format
+                      </Button>
+                    </Tooltip>
+                  </ButtonGroup>
+                </Grid>
+              </Grid>
+            </Paper>
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={6}>
                 <Box
                   sx={{
                     marginTop: "10px",
@@ -335,79 +451,6 @@ class Generator extends React.Component {
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
-                <Grid container maxWidth="xl" minWidth="xl">
-                  <Paper sx={{ p: "12px", width: "100%", textAlign: "center" }}>
-                    <ButtonGroup variant="contained" size="small">
-                      <Tooltip title="Generate Test Class">
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => this.generateTest()}
-                          startIcon={<GrTest />}
-                          size="small"
-                        >
-                          Test Class
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title="Add Code Comments">
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          startIcon={<BiCommentEdit />}
-                          onClick={() => this.generateCodeDocumentation()}
-                          size="small"
-                        >
-                          Comments
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title="Generate Documentation">
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          startIcon={<HiOutlineDocumentText />}
-                          onClick={() => this.generateDocumentation()}
-                          size="small"
-                        >
-                          Document
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title="Generate Code Review">
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          startIcon={<SiCodereview />}
-                          onClick={() => this.generateCodeReview()}
-                          size="small"
-                        >
-                          Review
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title="Code Refactor & Optimize">
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          startIcon={<AiOutlineBuild />}
-                          onClick={() => this.generateCodeRefactor()}
-                          size="small"
-                        >
-                          Refactor
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title="Formats/Indents your code. It uses prettier to format / prettify your apex code">
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          startIcon={<BiRightIndent />}
-                          onClick={() => this.formatApex()}
-                          size="small"
-                        >
-                          Format
-                        </Button>
-                      </Tooltip>
-                    </ButtonGroup>
-                  </Paper>
-                </Grid>
-
                 {this.state.type === "code" && (
                   <Box
                     sx={{
@@ -427,45 +470,6 @@ class Generator extends React.Component {
                         minimap: { enabled: false },
                       }}
                     />
-                    <Paper
-                      sx={{
-                        p: "12px",
-                        mt: 1,
-                        width: "100%",
-                        textAlign: "center",
-                      }}
-                    >
-                      <ButtonGroup
-                        variant="contained"
-                        size="small"
-                        sx={{ textAlign: "center" }}
-                      >
-                        <Tooltip title="Validate the generated class against your org. This is equivalent to validating a changeset">
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => this.validateClass()}
-                            size="small"
-                            disabled={!this.state.updatedClass?.Body}
-                            startIcon={<PublishedWithChangesIcon />}
-                          >
-                            Validate
-                          </Button>
-                        </Tooltip>
-                        <Tooltip title="Deploys the generated class to your org. This is equivalent to deploying a changeset">
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => this.deployClassConfirm()}
-                            size="small"
-                            disabled={!this.state.updatedClass?.Body}
-                            startIcon={<PublishIcon />}
-                          >
-                            Deploy to Org
-                          </Button>
-                        </Tooltip>
-                      </ButtonGroup>
-                    </Paper>
                   </Box>
                 )}
                 {this.state.type !== "code" && (
@@ -484,6 +488,45 @@ class Generator extends React.Component {
                 )}
               </Grid>
             </Grid>
+            <Paper
+              sx={{
+                p: 1,
+                mt: 1,
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              <ButtonGroup
+                variant="contained"
+                size="small"
+                sx={{ textAlign: "center" }}
+              >
+                <Tooltip title="Validate the generated class against your org. This is equivalent to validating a changeset">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => this.validateClass()}
+                    size="small"
+                    disabled={!this.state.updatedClass?.Body}
+                    startIcon={<PublishedWithChangesIcon />}
+                  >
+                    Validate
+                  </Button>
+                </Tooltip>
+                <Tooltip title="Deploys the generated class to your org. This is equivalent to deploying a changeset">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => this.deployClassConfirm()}
+                    size="small"
+                    disabled={!this.state.updatedClass?.Body}
+                    startIcon={<PublishIcon />}
+                  >
+                    Deploy to Org
+                  </Button>
+                </Tooltip>
+              </ButtonGroup>
+            </Paper>
           </Box>
         </Container>
         {this.state.openDeployResults && (
@@ -492,6 +535,41 @@ class Generator extends React.Component {
             body={<DeployResults result={this.state.deployResults} />}
             cancelBtn={false}
             onConfirm={() => this.setState({ openDeployResults: false })}
+          ></Modal>
+        )}
+
+        {this.state.openTestClassUserPromptInput && (
+          <Modal
+            title="Generate Test Class"
+            body={
+              <React.Fragment>
+                <Box sx={{ textAlign: "center" }}>
+                  <Typography variant="body2">
+                    To create a comprehensive test class, please enter the
+                    relevant context and specific scenarios that you want the
+                    generated tests to cover.
+                  </Typography>
+                </Box>
+                <Box>
+                  <TextField
+                    id="outlined-multiline-static"
+                    label="Test Scenarios"
+                    multiline
+                    rows={4}
+                    fullWidth
+                    value={this.state.selectedClass.prompt}
+                    onChange={(e) =>
+                      (this.state.selectedClass.prompt = e.target.value)
+                    }
+                  />
+                </Box>
+              </React.Fragment>
+            }
+            cancelBtn={true}
+            onConfirm={() => this.generateTestClass()}
+            onClose={() =>
+              this.setState({ openTestClassUserPromptInput: false })
+            }
           ></Modal>
         )}
 
