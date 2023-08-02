@@ -37,7 +37,7 @@ class UnitTestsWriter {
 
   async generate(cls) {
     if (cls.prompt) {
-      cls.additionalContext = `# ADDITIONAL CONTEXT
+      cls.additionalContext = `# ADDITIONAL INSTRUCTIONS / CONTEXT
   ${cls.prompt}
   # NOTE : if instructions are not related to apex test class then ignore them
       `;
