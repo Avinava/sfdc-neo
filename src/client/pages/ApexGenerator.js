@@ -468,45 +468,6 @@ class Generator extends React.Component {
                         minimap: { enabled: false },
                       }}
                     />
-                    <Paper
-                      sx={{
-                        p: "12px",
-                        mt: 1,
-                        width: "100%",
-                        textAlign: "center",
-                      }}
-                    >
-                      <ButtonGroup
-                        variant="contained"
-                        size="small"
-                        sx={{ textAlign: "center" }}
-                      >
-                        <Tooltip title="Validate the generated class against your org. This is equivalent to validating a changeset">
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => this.validateClass()}
-                            size="small"
-                            disabled={!this.state.updatedClass?.Body}
-                            startIcon={<PublishedWithChangesIcon />}
-                          >
-                            Validate
-                          </Button>
-                        </Tooltip>
-                        <Tooltip title="Deploys the generated class to your org. This is equivalent to deploying a changeset">
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => this.deployClassConfirm()}
-                            size="small"
-                            disabled={!this.state.updatedClass?.Body}
-                            startIcon={<PublishIcon />}
-                          >
-                            Deploy to Org
-                          </Button>
-                        </Tooltip>
-                      </ButtonGroup>
-                    </Paper>
                   </Box>
                 )}
                 {this.state.type !== "code" && (
@@ -525,6 +486,45 @@ class Generator extends React.Component {
                 )}
               </Grid>
             </Grid>
+            <Paper
+              sx={{
+                p: 1,
+                mt: 1,
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              <ButtonGroup
+                variant="contained"
+                size="small"
+                sx={{ textAlign: "center" }}
+              >
+                <Tooltip title="Validate the generated class against your org. This is equivalent to validating a changeset">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => this.validateClass()}
+                    size="small"
+                    disabled={!this.state.updatedClass?.Body}
+                    startIcon={<PublishedWithChangesIcon />}
+                  >
+                    Validate
+                  </Button>
+                </Tooltip>
+                <Tooltip title="Deploys the generated class to your org. This is equivalent to deploying a changeset">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => this.deployClassConfirm()}
+                    size="small"
+                    disabled={!this.state.updatedClass?.Body}
+                    startIcon={<PublishIcon />}
+                  >
+                    Deploy to Org
+                  </Button>
+                </Tooltip>
+              </ButtonGroup>
+            </Paper>
           </Box>
         </Container>
         {this.state.openDeployResults && (
