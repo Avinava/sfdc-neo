@@ -11,6 +11,8 @@ class UnitTestsWriter {
 
   # APEX CLASS
   {Body}
+  
+  {additionalContext}
 
   # RESPONSE INSTRUCTIONS
   in your response only return code without any extra text or headers.
@@ -24,11 +26,16 @@ class UnitTestsWriter {
   constructor() {
     this.prompt = new PromptTemplate({
       template: this.promptTemplate,
-      inputVariables: ["Body"],
+      inputVariables: ["Body", "additionalContext"],
     });
   }
 
   async generate(cls) {
+    if (cls.prompt) {
+      cls.additionalContext = `# ADDITIONAL CONTEXT
+${cls.prompt}
+      `;
+    }
     const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;

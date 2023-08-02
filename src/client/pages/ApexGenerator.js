@@ -52,6 +52,7 @@ class Generator extends React.Component {
     type: "code",
     metrics: {},
     openDeployResults: false,
+    openTestClassUserPromptInput: false,
     deployResultTile: "Validation Results",
   };
   apiService = new APIService({ context: this.context });
@@ -543,8 +544,9 @@ class Generator extends React.Component {
               <React.Fragment>
                 <Box sx={{ textAlign: "center" }}>
                   <Typography variant="body2">
-                    To effectively generate a test class, please enter some of
-                    scenarios you want the generated test class to cover.
+                    To create a comprehensive test class, please enter the
+                    relevant context and specific scenarios that you want the
+                    generated tests to cover.
                   </Typography>
                 </Box>
                 <Box>
@@ -554,9 +556,9 @@ class Generator extends React.Component {
                     multiline
                     rows={4}
                     fullWidth
-                    value={this.state.selectedClass.testPrompt}
+                    value={this.state.selectedClass.prompt}
                     onChange={(e) =>
-                      (this.state.selectedClass.testPrompt = e.target.value)
+                      (this.state.selectedClass.prompt = e.target.value)
                     }
                   />
                 </Box>
@@ -564,7 +566,7 @@ class Generator extends React.Component {
             }
             cancelBtn={true}
             onConfirm={() => this.generateTestClass()}
-            onCancel={() =>
+            onClose={() =>
               this.setState({ openTestClassUserPromptInput: false })
             }
           ></Modal>
