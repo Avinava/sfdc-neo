@@ -76,6 +76,14 @@ class APIService extends React.Component {
     );
   }
 
+  generateCodeReviewPMD(cls) {
+    return this.requestHandler(
+      "post",
+      "/api/v1/generator/apexclass/codereviewpmd",
+      cls
+    );
+  }
+
   generateCodeRefactor(cls) {
     return this.requestHandler(
       "post",

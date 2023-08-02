@@ -21,6 +21,7 @@ import remarkGfm from "remark-gfm";
 
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { SiCodereview } from "react-icons/si";
+import { MdReviews } from "react-icons/md";
 import { BiCommentEdit, BiRightIndent } from "react-icons/bi";
 import { BiTestTube } from "react-icons/bi";
 import { RiTestTubeFill } from "react-icons/ri";
@@ -151,6 +152,19 @@ class Generator extends React.Component {
     this.setState({ isResultLoading: true, type: "doc", updatedClass: {} });
     this.apiService
       .generateCodeReview(cls)
+      .then((response) => this.handleResponse(response))
+      .catch((err) => this.handleErrors(err));
+  }
+
+  generateCodeReviewPMD() {
+    if (!this.validateSelectedClass()) {
+      return;
+    }
+
+    const cls = this.state.selectedClass;
+    this.setState({ isResultLoading: true, type: "doc", updatedClass: {} });
+    this.apiService
+      .generateCodeReviewPMD(cls)
       .then((response) => this.handleResponse(response))
       .catch((err) => this.handleErrors(err));
   }
@@ -363,7 +377,8 @@ class Generator extends React.Component {
                           variant="subtitle2"
                           sx={{ fontSize: "0.6em", display: "block" }}
                         >
-                          (with advanced options)
+                          <br />
+                          prompt
                         </Typography>
                       </Button>
                     </Tooltip>
@@ -398,6 +413,24 @@ class Generator extends React.Component {
                         size="small"
                       >
                         Review
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Generate a code review for the current Apex class enhanced by PMD">
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<MdReviews size={12} />}
+                        onClick={() => this.generateCodeReviewPMD()}
+                        size="small"
+                      >
+                        Review
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontSize: "0.6em", display: "block" }}
+                        >
+                          <br />
+                          PMD
+                        </Typography>
                       </Button>
                     </Tooltip>
                     <Tooltip title="Refactor and optimize the current Apex class">
