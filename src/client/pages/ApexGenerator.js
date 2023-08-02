@@ -339,7 +339,7 @@ class Generator extends React.Component {
                         variant="contained"
                         color="secondary"
                         onClick={() => this.generateTestClass()}
-                        startIcon={<RiTestTubeFill />}
+                        startIcon={<RiTestTubeFill size={12} />}
                         size="small"
                       >
                         Test Class
@@ -350,7 +350,7 @@ class Generator extends React.Component {
                         variant="contained"
                         color="secondary"
                         onClick={() => this.generateTestClassAdvanced()}
-                        startIcon={<BiTestTube />}
+                        startIcon={<BiTestTube size={12} />}
                         size="small"
                       >
                         <Typography
@@ -372,7 +372,7 @@ class Generator extends React.Component {
                       <Button
                         variant="contained"
                         color="secondary"
-                        startIcon={<BiCommentEdit />}
+                        startIcon={<BiCommentEdit size={12} />}
                         onClick={() => this.generateCodeDocumentation()}
                         size="small"
                       >
@@ -383,7 +383,7 @@ class Generator extends React.Component {
                       <Button
                         variant="contained"
                         color="secondary"
-                        startIcon={<HiOutlineDocumentText />}
+                        startIcon={<HiOutlineDocumentText size={12} />}
                         onClick={() => this.generateDocumentation()}
                         size="small"
                       >
@@ -394,7 +394,7 @@ class Generator extends React.Component {
                       <Button
                         variant="contained"
                         color="secondary"
-                        startIcon={<SiCodereview />}
+                        startIcon={<SiCodereview size={12} />}
                         onClick={() => this.generateCodeReview()}
                         size="small"
                       >
@@ -405,7 +405,7 @@ class Generator extends React.Component {
                       <Button
                         variant="contained"
                         color="secondary"
-                        startIcon={<AiOutlineBuild />}
+                        startIcon={<AiOutlineBuild size={12} />}
                         onClick={() => this.generateCodeRefactor()}
                         size="small"
                       >
@@ -416,7 +416,7 @@ class Generator extends React.Component {
                       <Button
                         variant="contained"
                         color="secondary"
-                        startIcon={<BiRightIndent />}
+                        startIcon={<BiRightIndent size={12} />}
                         onClick={() => this.formatApex()}
                         size="small"
                       >
@@ -558,9 +558,12 @@ class Generator extends React.Component {
                     rows={4}
                     fullWidth
                     value={this.state.selectedClass.prompt}
-                    onChange={(e) =>
-                      (this.state.selectedClass.prompt = e.target.value)
-                    }
+                    onChange={(e) => {
+                      this.state.selectedClass.prompt = e.target.value;
+                      this.setState({
+                        selectedClass: this.state.selectedClass,
+                      });
+                    }}
                   />
                 </Box>
               </React.Fragment>
