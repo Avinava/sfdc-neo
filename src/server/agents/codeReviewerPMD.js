@@ -18,10 +18,10 @@ class CodeReviewerPMD {
   - Make sure to include suggestions with examples and line numbers where applicable.
   - Check for unused variables, methods, unreachable code, unnecessary code, and commented code.
   - Comment about possible refactoring, use of static / instance methods that can improve code maintainability.
-  - Use the PMD result JSON to help you with your review. Use line numbers to list the issues.
+  - Use the PMD result JSON to help you with your review. Use line numbers to list the issues and provide suggestions.
 
   # PMD SCAN RESULTS
-    {PMDScanResults}
+  {PMDScanResults}
 
   # APEX CLASS
   {Body}
@@ -45,43 +45,11 @@ class CodeReviewerPMD {
   }
 
   async generate(cls) {
-    const results = await this.getScanResults(cls);
-    cls.PMDScanResults = JSON.stringify(results, null, 2);
+    const results = await sfdxScanner.getScanResults(cls);
+    cls.PMDScanResults = JSON.stringify(results);
     const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;
-  }
-
-  async getScanResults(cls) {
-    const sfdxScannerResult = await sfdxScanner.run(cls.Body);
-
-    const violations = sfdxScannerResult.violations || [];
-    // filter out Documentation
-    const filteredViolations = violations.filter(
-      (violation) => violation.category !== "Documentation"
-    );
-    // ];
-
-    // group results by category and then ruleName and create a markdown document
-    const groupedViolations = filteredViolations.reduce((acc, violation) => {
-      const { category, ruleName } = violation;
-      if (!acc[category]) {
-        acc[category] = {};
-      }
-      if (!acc[category][ruleName]) {
-        acc[category][ruleName] = [];
-      }
-
-      delete violation.url;
-      delete violation.ruleName;
-      delete violation.category;
-      delete violation.message;
-      delete violation.endLine;
-      delete violation.endColumn;
-      acc[category][ruleName].push(violation);
-      return acc;
-    }, {});
-    return groupedViolations;
   }
 }
 

@@ -4,15 +4,46 @@ import { join } from "path";
 import fs from "fs-extra";
 
 class SFDXScanner {
-  async run(clsBody) {
+  async getScanResults(cls) {
+    const sfdxScannerResult = await this.scan(cls.Body);
+    const violations = sfdxScannerResult.violations || [];
+    // filter out Documentation
+    const filteredViolations = violations.filter(
+      (violation) => violation.category !== "Documentation"
+    );
+    // group results by category and then ruleName and create a markdown document
+    const groupedViolations = filteredViolations.reduce((acc, violation) => {
+      const { category, ruleName } = violation;
+      if (!acc[category]) {
+        acc[category] = {};
+      }
+      if (!acc[category][ruleName]) {
+        acc[category][ruleName] = [];
+      }
+
+      // remove unneeded properties
+      delete violation.url;
+      delete violation.ruleName;
+      delete violation.category;
+      delete violation.message;
+      delete violation.endLine;
+      delete violation.endColumn;
+      acc[category][ruleName].push(violation);
+      return acc;
+    }, {});
+    return groupedViolations;
+  }
+
+  async scan(clsBody) {
     temp.track();
+    // create a temp file and run sfdx scanner
     const tempDir = await temp.mkdir("sfdx-scanner");
     const tempFile = join(tempDir, "scanner-target.cls");
     const outFile = join(tempDir, "scanner-output.json");
 
     await fs.writeFile(tempFile, clsBody);
     execSync(
-      `sfdx scanner:run --target ${tempFile} --format json --outfile ${outFile}`,
+      `npx sfdx scanner:run --target ${tempFile} --format json --outfile ${outFile}`,
       {
         encoding: "utf-8",
       }
