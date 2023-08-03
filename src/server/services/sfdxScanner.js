@@ -9,7 +9,9 @@ class SFDXScanner {
     const violations = sfdxScannerResult.violations || [];
     // filter out Documentation
     const filteredViolations = violations.filter(
-      (violation) => violation.category !== "Documentation"
+      (violation) =>
+        violation.category !== "Documentation" &&
+        violation.ruleName !== "ApexCRUDViolation"
     );
     // group results by category and then ruleName and create a markdown document
     const groupedViolations = filteredViolations.reduce((acc, violation) => {
