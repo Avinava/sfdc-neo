@@ -1,11 +1,6 @@
 import jsforce from "jsforce";
 import AdmZip from "adm-zip";
 import { XMLBuilder } from "fast-xml-parser";
-import {
-  ApexLexer,
-  CaseInsensitiveInputStream,
-  CommonTokenStream,
-} from "apex-parser";
 
 import codeParser from "./codeParser.js";
 
@@ -216,6 +211,10 @@ class Salesforce {
               length: field.length,
               updateable: field.updateable,
             };
+
+            if (field.type === "reference") {
+              fieldMeta.referenceTo = field.referenceTo;
+            }
 
             if (field.picklistValues) {
               fieldMeta.picklistValues = field.picklistValues.map(

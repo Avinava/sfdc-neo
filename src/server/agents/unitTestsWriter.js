@@ -6,7 +6,8 @@ class UnitTestsWriter {
   # YOUR TASK
   You are a developer who is writing unit test class for the provided apex class.
   - Use the apex class to generate unit test class
-  - Use the provided SObject metadata (required fields, type, length) to generate test data
+  - Use the provided SObject metadata (required fields, type, length) to generate test data and reference data
+  - don't insert custom metadata types (objects ending with __mdt) in test classes
   - Don't use hardcoded ids
   - use @testSetup wherever possible
   - use Asserts wherever possible
@@ -14,11 +15,12 @@ class UnitTestsWriter {
   - use Test.startTest() and Test.stopTest() wherever possible
   - if needed add both positive and negative test cases
   - if needed add test cases for bulk data
+  
 
   # APEX CLASS
   {Body}
 
-  # REQUIRED SOBJECT METADATA
+  # SOBJECT METADATA JSON
   {requiredMetadata}
   
   {additionalContext}
