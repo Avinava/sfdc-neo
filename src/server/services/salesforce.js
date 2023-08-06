@@ -187,6 +187,7 @@ class Salesforce {
    */
   async getRequiredSObjectMetadata(apexCode) {
     const sobjects = codeParser.parseDeclarationTypes(apexCode);
+    const sobjectFields = codeParser.parseReferences(apexCode);
     // describe all sobjects
     const describePromises = Array.from(sobjects).map((sobj) =>
       this.describeSObject(sobj)
@@ -203,15 +204,17 @@ class Salesforce {
         };
         for (const field of result.fields || []) {
           if (
-            !field.nillable &&
-            !field.defaultedOnCreate &&
-            field.createable &&
-            field.type !== "boolean"
+            (!field.nillable &&
+              !field.defaultedOnCreate &&
+              field.createable &&
+              field.type !== "boolean") ||
+            sobjectFields.has(field.name.toLowerCase())
           ) {
             const fieldMeta = {
               name: field.name,
               type: field.type,
               length: field.length,
+              updateable: field.updateable,
             };
 
             if (field.picklistValues) {
