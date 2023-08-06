@@ -7,6 +7,8 @@ import {
   CommonTokenStream,
 } from "apex-parser";
 
+import codeParser from "./codeParser.js";
+
 class Salesforce {
   session;
   connection;
@@ -131,32 +133,13 @@ class Salesforce {
     return isValid;
   }
 
-  parseClassName(classStr) {
-    const stream = new CaseInsensitiveInputStream({}, classStr);
-    const lexer = new ApexLexer(stream);
-    const tokens = new CommonTokenStream(lexer);
-    tokens.fill();
-    // get the first Identifier token after class
-    let foundClass = false;
-    for (const token of tokens.tokens) {
-      if (token.type === ApexLexer.CLASS) {
-        foundClass = true;
-      }
-      if (foundClass && token.type === ApexLexer.Identifier) {
-        return token.text;
-      }
-    }
-
-    return;
-  }
-
   /**
    *
    * @param {*} payload {Name, Body}
    */
   async deployClass(cls) {
     const zip = new AdmZip();
-    cls.Name = cls.Name || this.parseClassName(cls.Body);
+    cls.Name = cls.Name || codeParser.parseClassName(cls.Body);
     cls.Metadata =
       cls.Metadata ||
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -195,6 +178,62 @@ class Salesforce {
       true
     );
     return deployResult;
+  }
+
+  /**
+   * Get the required sobject metadata from the apex code
+   * @param {*} apexCode
+   * @returns {Promise<{ sobject : {fields: {name, type, length}[]}}>}
+   */
+  async getRequiredSObjectMetadata(apexCode) {
+    const sobjects = codeParser.parseDeclarationTypes(apexCode);
+    // describe all sobjects
+    const describePromises = Array.from(sobjects).map((sobj) =>
+      this.describeSObject(sobj)
+    );
+
+    const results = await Promise.all(describePromises);
+    const sobjectMetadata = {};
+
+    for (const result of results) {
+      // check if the result is valid
+      if (result.name) {
+        sobjectMetadata[result.name] = {
+          fields: [],
+        };
+        for (const field of result.fields || []) {
+          if (
+            !field.nillable &&
+            !field.defaultedOnCreate &&
+            field.createable &&
+            field.type !== "boolean"
+          ) {
+            const fieldMeta = {
+              name: field.name,
+              type: field.type,
+              length: field.length,
+            };
+
+            if (field.picklistValues) {
+              fieldMeta.picklistValues = field.picklistValues.map(
+                (v) => v.value
+              );
+            }
+
+            sobjectMetadata[result.name].fields.push(fieldMeta);
+          }
+        }
+      }
+    }
+    return sobjectMetadata;
+  }
+
+  async describeSObject(sobj) {
+    let fields = [];
+    try {
+      fields = await this.connection.sobject(sobj).describe();
+    } catch (e) {}
+    return fields;
   }
 }
 

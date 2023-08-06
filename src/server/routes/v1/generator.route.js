@@ -38,6 +38,11 @@ router.post(
 async function generate(req) {
   let textResponse = "";
   if (req.path === "/apexclass/test") {
+    // inject required fields info for better tests data generation
+    req.body.requiredMetadata = await req.salesforce.getRequiredSObjectMetadata(
+      req.body.Body
+    );
+
     textResponse = await unitTestsWriter.generate(req.body);
   } else if (req.path === "/apexclass/codecomments") {
     textResponse = await codeComments.generate(req.body);
