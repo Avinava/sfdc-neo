@@ -7,6 +7,8 @@ import {
   CommonTokenStream,
 } from "apex-parser";
 
+import codeParser from "./codeParser.js";
+
 class Salesforce {
   session;
   connection;
@@ -195,6 +197,62 @@ class Salesforce {
       true
     );
     return deployResult;
+  }
+
+  /**
+   * Get the required sobject metadata from the apex code
+   * @param {*} apexCode
+   * @returns {Promise<{ sobject : {fields: {name, type, length}[]}}>}
+   */
+  async getRequiredSObjectMetadata(apexCode) {
+    const sobjects = codeParser.parseDeclarationTypes(apexCode);
+    // describe all sobjects
+    const describePromises = Array.from(sobjects).map((sobj) =>
+      this.describeSObject(sobj)
+    );
+
+    const results = await Promise.all(describePromises);
+    const sobjectMetadata = {};
+
+    for (const result of results) {
+      // check if the result is valid
+      if (result.name) {
+        sobjectMetadata[result.name] = {
+          fields: [],
+        };
+        for (const field of result.fields || []) {
+          if (
+            !field.nillable &&
+            !field.defaultedOnCreate &&
+            field.createable &&
+            field.type !== "boolean"
+          ) {
+            const fieldMeta = {
+              name: field.name,
+              type: field.type,
+              length: field.length,
+            };
+
+            if (field.picklistValues) {
+              fieldMeta.picklistValues = field.picklistValues.map(
+                (v) => v.value
+              );
+            }
+
+            sobjectMetadata[result.name].fields.push(fieldMeta);
+          }
+        }
+      }
+    }
+    return sobjectMetadata;
+  }
+
+  async describeSObject(sobj) {
+    let fields = [];
+    try {
+      fields = await this.connection.sobject(sobj).describe();
+    } catch (e) {}
+    return fields;
   }
 }
 

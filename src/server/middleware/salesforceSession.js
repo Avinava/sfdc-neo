@@ -1,5 +1,5 @@
 import Salesforce from "../services/salesforce.js";
-const SALESFORCE_ENDPOINTS = ["/api/v1/salesforce/"];
+const SALESFORCE_ENDPOINTS = ["/api/v1/salesforce/", "/api/v1/generator"];
 
 class SalesforceSession {
   constructor() {

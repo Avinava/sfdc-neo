@@ -6,6 +6,7 @@ class UnitTestsWriter {
   # YOUR TASK
   You are a developer who is writing unit test class for the provided apex class.
   - Use the apex class to generate unit test class
+  - Use the provided SObject metadata (required fields, type, length) to generate test data
   - Don't use hardcoded ids
   - use @testSetup wherever possible
   - use Asserts wherever possible
@@ -16,6 +17,9 @@ class UnitTestsWriter {
 
   # APEX CLASS
   {Body}
+
+  # REQUIRED SOBJECT METADATA
+  {requiredMetadata}
   
   {additionalContext}
 
@@ -31,11 +35,12 @@ class UnitTestsWriter {
   constructor() {
     this.prompt = new PromptTemplate({
       template: this.promptTemplate,
-      inputVariables: ["Body", "additionalContext"],
+      inputVariables: ["Body", "additionalContext", "requiredMetadata"],
     });
   }
 
   async generate(cls) {
+    cls.additionalContext = "";
     if (cls.prompt) {
       cls.additionalContext = `# ADDITIONAL INSTRUCTIONS / CONTEXT
   ${cls.prompt}
