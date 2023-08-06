@@ -5,12 +5,9 @@ import {
   CaseInsensitiveInputStream,
 } from "apex-parser";
 
-
 class DeclarationTypeListener {
   createdNames = new Set();
-  ignoredTypes = new Set([
-    'map', 'set', 'list' 
-  ]);
+  ignoredTypes = new Set(["map", "set", "list"]);
 
   constructor() {}
 
@@ -53,15 +50,14 @@ class DeclarationTypeListener {
   handleSObjects(ctx) {
     const name = ctx.start.text.toLowerCase();
     if (!this.ignoredTypes.has(name)) {
-    this.createdNames.add(name);
+      this.createdNames.add(name);
     }
   }
 }
 
-
 class CodeParser {
   /**
-   * 
+   *
    * @param {*} classBody apex class body
    * @returns list of sobjects / classes / interfaces / enums created in the class
    */
@@ -76,9 +72,32 @@ class CodeParser {
     const listener = new DeclarationTypeListener();
     parser.addParseListener(listener);
     parser.compilationUnit();
-    
 
     return listener.createdNames;
+  }
+
+  /**
+   *
+   * @param {*} classStr apex class body
+   * @returns apex class name
+   */
+  parseClassName(classStr) {
+    const stream = new CaseInsensitiveInputStream({}, classStr);
+    const lexer = new ApexLexer(stream);
+    const tokens = new CommonTokenStream(lexer);
+    tokens.fill();
+    // get the first Identifier token after class
+    let foundClass = false;
+    for (const token of tokens.tokens) {
+      if (token.type === ApexLexer.CLASS) {
+        foundClass = true;
+      }
+      if (foundClass && token.type === ApexLexer.Identifier) {
+        return token.text;
+      }
+    }
+
+    return;
   }
 }
 
