@@ -1,18 +1,18 @@
 # SFDC-Neo
 
-SFDC-Neo is a Node.js application designed to assist developers with Salesforce tasks, such as documenting and generating test classes. It leverages the capabilities of OpenAI to provide an intelligent and efficient solution.
+SFDC-Neo is a Node.js application that helps in Salesforce development by utilizing OpenAI, Salesforce Metadata API, and the Apex Parser. It helps in various tasks, including documentation creation and generation of test classes within the Salesforce ecosystem.
 
 Demo : https://neo.sfdxy.com/
 
 ### Features
-   - **Test Class Generation**: Automate the creation of robust and reliable test classes
-   - **Code Comments**:  Enhance code readability and maintainability by automatically generating helpful comments throughout your codebase.
-   - **Code Documentation**: Save time and effort by generating comprehensive documentation for your Salesforce code, ensuring clarity and understanding.
-   - **Code Review**: Receive intelligent insights and suggestions to improve the quality and efficiency of your Salesforce code.
-   - **Email Template**: Better format email templates using OpenAI.
-   - **Validation Rule**: Describe and document validation rule.
-   - **Flow**: Document and generate test classes.
-   - **Validate & Deploy**: Easily validate and deploy the generated code from the app directly to your Salesforce org.
+- **Test Class Generation**: This feature automates the creation of robust and reliable test classes for your Salesforce code. It uses apex-parser to get the schema of all the object and fields to generate test class. This helps with generating more precise test data generation. Test class generation also now has a prompt feature to let user enter custom prompt if needed.
+- **Code Comments**: This feature enhances code readability and maintainability by automatically generating helpful comments throughout your codebase. The comments are generated based on the code structure and logic, making it easier to understand the code and make changes as needed.
+- **Code Documentation**: This feature saves time and effort by generating comprehensive documentation for your Salesforce code. The documentation is generated in a variety of formats, including HTML, PDF, and Markdown. This makes it easy to share the documentation with others or to use it as a reference guide.
+- **Code Review**: This feature receives intelligent insights and suggestions to improve the quality and efficiency of your Salesforce code. The code review is based on a variety of factors, including code complexity, code style, and code performance. This helps you to identify and fix potential problems in your code before they cause issues.
+- **Email Template**: Better format email templates using OpenAI.
+- **Validation Rule**: Describe and document validation rule.
+- **Flow**: Document and generate test classes.
+- **Validate & Deploy**: Easily validate and deploy the generated code from the app directly to your Salesforce org.
 
 
 SFDC-Neo is currently in active development, which means there may be occasional hiccups along the way. If you encounter any issues or have suggestions for enhancements, please don't hesitate to open a GitHub issue. 
