@@ -216,7 +216,7 @@ class Salesforce {
               fieldMeta.referenceTo = field.referenceTo;
             }
 
-            if (field.picklistValues) {
+            if (field.picklistValues && field.picklistValues.length > 0) {
               fieldMeta.picklistValues = field.picklistValues.map(
                 (v) => v.value
               );
