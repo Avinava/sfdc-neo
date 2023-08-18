@@ -469,7 +469,7 @@ class Generator extends React.Component {
                     >
                       More
                     </Button>
-                    <Menu
+                    {/* <Menu
                       anchorEl={this.state.anchorEl}
                       open={this.state.menuOpen}
                       onClose={() => this.setState({ menuOpen: false })}
@@ -497,7 +497,7 @@ class Generator extends React.Component {
                       >
                         Logout
                       </MenuItem>
-                    </Menu>
+                    </Menu> */}
                   </ButtonGroup>
                 </Grid>
               </Grid>
