@@ -3,13 +3,13 @@ import { model } from "../services/model.js";
 
 class ValidationRule {
   promptTemplate = `
-  # YOUR TASK
-  You are a developer who is writing description for the provided salesforce validation rules
+# YOUR TASK
+You are a developer who is writing description for the provided salesforce validation rules
 
-  # Validation Rule
-  {formula}
+# Validation Rule
+{formula}
 
-  # RESPONSE DESCRIPTION
+# RESPONSE DESCRIPTION
   `;
 
   prompt;

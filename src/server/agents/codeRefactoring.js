@@ -4,17 +4,17 @@ import sfdxScanner from "../services/sfdxScanner.js";
 
 class CodeRefactoring {
   promptTemplate = `
-  # YOUR TASK
-  - You are a Salesforce developer who is tasked to optimize and refactor the provided class keeping in mind salesforce best practices.
-  - Use the PMD result JSON to find the issues and refactor the code.
+# YOUR TASK
+- You are a Salesforce developer who is tasked to optimize and refactor the provided class keeping in mind salesforce best practices.
+- Use the PMD result JSON to guide you in refactoring the code.
 
-  # APEX CLASS
-  {Body}
+# APEX CLASS
+{Body}
 
-  # PMD SCAN RESULTS
-  {PMDScanResults}
+# PMD SCAN RESULTS
+{PMDScanResults}
 
-  # RESPONSE Apex Class
+# RESPONSE Apex Class
   `;
 
   prompt;
