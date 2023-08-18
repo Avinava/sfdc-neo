@@ -2,6 +2,7 @@ import path from "path";
 import * as dotenv from "dotenv";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
 import Dotenv from "dotenv-webpack";
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
@@ -43,6 +44,11 @@ export default {
   },
   resolve: {
     extensions: ["*", ".js", ".jsx"],
+    fallback: {
+      async_hooks: false,
+      fs: false,
+      net: false
+    }
   },
   devServer: {
     port: 3000,
@@ -53,11 +59,12 @@ export default {
     },
   },
   plugins: [
+    new NodePolyfillPlugin(),
     new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: [outputDirectory] }),
     new Dotenv(),
     new HtmlWebpackPlugin.default({
       template: "./public/index.html",
       favicon: "./public/favicon.ico",
     }),
-  ],
+  ]
 };

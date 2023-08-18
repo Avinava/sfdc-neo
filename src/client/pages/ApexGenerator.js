@@ -4,6 +4,7 @@ import {
   Box,
   Grid,
   FormControl,
+  Menu,
   MenuItem,
   Select,
   InputLabel,
@@ -21,9 +22,8 @@ import remarkGfm from "remark-gfm";
 
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { SiCodereview } from "react-icons/si";
-import { MdReviews } from "react-icons/md";
-import { BiCommentEdit, BiRightIndent } from "react-icons/bi";
-import { BiTestTube } from "react-icons/bi";
+import { MdReviews, MdOutlineMoreVert } from "react-icons/md";
+import { BiCommentEdit, BiRightIndent, BiTestTube } from "react-icons/bi";
 import { RiTestTubeFill } from "react-icons/ri";
 
 import { FaExclamationTriangle } from "react-icons/fa";
@@ -56,6 +56,7 @@ class Generator extends React.Component {
     openDeployResults: false,
     openTestClassUserPromptInput: false,
     deployResultTile: "Validation Results",
+    anchorEl: null,
   };
   apiService = new APIService({ context: this.context });
   componentDidMount() {
@@ -291,6 +292,10 @@ class Generator extends React.Component {
     this.setState({ isResultLoading: false, loading: false });
   }
 
+  handleMoreMenuClick(event) {
+    this.setState({ menuOpen: true, anchorEl: event.currentTarget });
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -455,6 +460,44 @@ class Generator extends React.Component {
                         Format
                       </Button>
                     </Tooltip>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      startIcon={<MdOutlineMoreVert size={12} />}
+                      onClick={(event) => this.handleMoreMenuClick(event)}
+                      size="small"
+                    >
+                      More
+                    </Button>
+                    <Menu
+                      anchorEl={this.state.anchorEl}
+                      open={this.state.menuOpen}
+                      onClose={() => this.setState({ menuOpen: false })}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                    >
+                      <MenuItem
+                        onClick={() => this.setState({ menuOpen: false })}
+                      >
+                        Profile
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => this.setState({ menuOpen: false })}
+                      >
+                        My account
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => this.setState({ menuOpen: false })}
+                      >
+                        Logout
+                      </MenuItem>
+                    </Menu>
                   </ButtonGroup>
                 </Grid>
               </Grid>
