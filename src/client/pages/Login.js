@@ -15,7 +15,7 @@ class Login extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Container maxWidth="xl" component="main" sx={{ pt: 14, pb: 6 }}>
+        <Container maxWidth="xl" component="main" sx={{ pt: 5 }}>
           <Grid
             container
             spacing={2}
@@ -25,7 +25,7 @@ class Login extends React.Component {
             <Grid item xs={8} sm={6} lg={5} md={5}>
               <Card>
                 <div style={{ background: "gray", minHeight: "4px" }}></div>
-                <CardContent sx={{ pt: 2 }}>
+                <CardContent sx={{ pt: 1 }}>
                   <Box
                     sx={{
                       mb: 8,

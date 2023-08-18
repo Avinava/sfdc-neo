@@ -3,18 +3,18 @@ import { model } from "../services/model.js";
 
 class FlowTestWriter {
   promptTemplate = `
-  # YOUR TASK
-  You are a salesforce developer who is writing test class for provide flow.
-  - name the test class in <FlowName>Test format where FlowName is the name of the flow
-  - make sure that the flow is covered by the test class
+# YOUR TASK
+You are a salesforce developer who is writing test class for provide flow.
+- name the test class in <FlowName>Test format where FlowName is the name of the flow
+- make sure that the flow is covered by the test class
 
-  
 
-  # FLOW JSON
-  {Metadata}
 
-  # RESPONSE INSTRUCTIONS
-  return only test class in response
+# FLOW JSON
+{Metadata}
+
+# RESPONSE INSTRUCTIONS
+return only test class in response
   `;
 
   prompt;

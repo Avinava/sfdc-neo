@@ -3,19 +3,19 @@ import { model } from "../services/model.js";
 
 class FlowDocumenter {
   promptTemplate = `
-  # YOUR TASK
-  You are a salesforce developer who is documenting the flow provided.
-  - document the flow so that it can be easily understood by admins and BA
-  - document when the flow will be triggered and what conditions will trigger it
-  - what are the actions that will be performed when the flow is triggered
-  
+# YOUR TASK
+You are a salesforce developer who is documenting the flow provided.
+- document the flow so that it can be easily understood by admins and BA
+- document when the flow will be triggered and what conditions will trigger it
+- what are the actions that will be performed when the flow is triggered
 
-  # FLOW JSON
-  {Metadata}
 
-  # RESPONSE INSTRUCTIONS
-  return the response in markdown format
-  ##
+# FLOW JSON
+{Metadata}
+
+# RESPONSE INSTRUCTIONS
+return the response in markdown format
+##
   `;
 
   prompt;
