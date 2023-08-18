@@ -4,14 +4,16 @@ import { model } from "../services/model.js";
 class CodeComments {
   promptTemplate = `
   # YOUR TASK
-  You are a developer who updates the class to add comments and apexdoc headers.
-  Only update the code to add comments and nothing else.
+  You are a Salesforce developer updating an apex class to add comments and apex-doc.
+  - add apex-doc to the class / method if they are missing
+  - use the existing comments and make improvements where you can so that the code is easier to understand
+  - fix any typos or grammar issues in the comments
 
   # APEX CLASS
   {Body}
 
   # RESPONSE INSTRUCTIONS
-  return the code with comments and apexdoc, don't return anything extra text.
+  return the updated code, don't return anything extra.
 
   # UPDATED APEX CLASS
   
