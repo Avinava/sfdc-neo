@@ -5,7 +5,9 @@ class CodeDocumenter {
   promptTemplate = `
   # YOUR TASK
   You are a developer who is documenting the apex class provided.
-  Use the apex class to generate the documentation.
+  - Use the apex class to generate the documentation.
+  - Use the apex-doc to guide you in writing the documentation.
+  - Add an overview of the class and the methods.
 
   # APEX CLASS
   {Body}
