@@ -460,7 +460,7 @@ class Generator extends React.Component {
                         Format
                       </Button>
                     </Tooltip>
-                    <Button
+                    {/* <Button
                       variant="contained"
                       color="secondary"
                       startIcon={<MdOutlineMoreVert size={12} />}
@@ -469,7 +469,7 @@ class Generator extends React.Component {
                     >
                       More
                     </Button>
-                    {/* <Menu
+                    <Menu
                       anchorEl={this.state.anchorEl}
                       open={this.state.menuOpen}
                       onClose={() => this.setState({ menuOpen: false })}
