@@ -1,6 +1,7 @@
 import { PromptTemplate } from "langchain/prompts";
 import { model } from "../services/model.js";
 import sfdxScanner from "../services/sfdxScanner.js";
+import YAML from "json-to-pretty-yaml"
 
 class CodeRefactoring {
   promptTemplate = `
@@ -28,7 +29,7 @@ class CodeRefactoring {
 
   async generate(cls) {
     const results = await sfdxScanner.getScanResults(cls);
-    cls.PMDScanResults = JSON.stringify(results);
+    cls.PMDScanResults = YAML.stringify(results);
     const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;
