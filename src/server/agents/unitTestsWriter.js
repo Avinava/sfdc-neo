@@ -4,29 +4,29 @@ import { model } from "../services/model.js";
 class UnitTestsWriter {
   promptTemplate = `
 # YOUR TASK
-You are a developer who is writing unit test class for the provided apex class.
-- Use the apex class to generate unit test class
-- Use the provided SObject metadata (required fields, type, length) to generate test data and reference data
+You are a developer who is writing unit test class for the provided apex class. Use the provided apex class to generate unit test class 
+by following the below guidelines.
+- generated test class should have private, have apex-doc comments for each method and class
+- use the SObject metadata (required fields, type, length) to guide you in generating test and referenced data. In test data make
+sure you populate all required fields and use the correct data type and length.
 - don't insert custom metadata types (objects ending with __mdt) in test classes
-- Don't use hardcoded ids
-- use @testSetup wherever possible
-- use Asserts wherever possible
-- use System.runAs wherever possible
+- don't use hardcoded ids in test classes
+- use @testSetup, Asserts, System.runAs wherever possible
 - use Test.startTest() and Test.stopTest() wherever possible
-- if needed add both positive and negative test cases
-- if needed add test cases for bulk data
+- add both positive and negative test cases wherever possible
+- add test cases for bulk data wherever possible
 
 
 # APEX CLASS
 {Body}
 
-# SOBJECT METADATA JSON
+# SOBJECT METADATA
 {requiredMetadata}
 
 {additionalContext}
 
 # RESPONSE INSTRUCTIONS
-in your response only return code without any extra text or headers.
+in your response only return generated apex class without any extra text, the generated class should be compilable
 
 # UNIT TEST CLASS
   

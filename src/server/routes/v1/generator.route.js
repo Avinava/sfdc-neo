@@ -10,6 +10,7 @@ import validationRule from "../../agents/validationRule.js";
 import tokenHelperService from "../../services/tokenHelperService.js";
 import flowTestWriter from "../../agents/flowTestWriter.js";
 import flowDocumenter from "../../agents/flowDocumenter.js";
+import YAML from "json-to-pretty-yaml"
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -39,11 +40,9 @@ async function generate(req) {
   let textResponse = "";
   if (req.path === "/apexclass/test") {
     // inject required fields info for better tests data generation
-    req.body.requiredMetadata = JSON.stringify(
+    req.body.requiredMetadata = YAML.stringify(
       await req.salesforce.getRequiredSObjectMetadata(req.body.Body)
     );
-
-    console.log("req.body.requiredMetadata", req.body.requiredMetadata);
 
     textResponse = await unitTestsWriter.generate(req.body);
   } else if (req.path === "/apexclass/codecomments") {

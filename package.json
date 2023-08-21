@@ -35,6 +35,7 @@
     "github-markdown-css": "^5.2.0",
     "interweave": "^13.1.0",
     "jsforce": "^1.11.1",
+    "json-to-pretty-yaml": "^1.2.2",
     "langchain": "^0.0.130",
     "openai": "^4.0.0",
     "passport": "^0.6.0",
