@@ -1,7 +1,7 @@
 import { PromptTemplate } from "langchain/prompts";
 import { model } from "../services/model.js";
 import sfdxScanner from "../services/sfdxScanner.js";
-import YAML from "json-to-pretty-yaml"
+import YAML from "json-to-pretty-yaml";
 
 class CodeRefactoring {
   promptTemplate = `
@@ -10,6 +10,7 @@ class CodeRefactoring {
 - Use the PMD result to guide you in refactoring the code.
 - Break the large method into smaller methods so that it is easier to read and maintain.
 - Add comments and apex-doc to the class / method if they are missing.
+- don't change the existing method signature or functionality.
 
 # APEX CLASS
 {Body}
