@@ -6,7 +6,7 @@ class UnitTestsWriter {
 # YOUR TASK
 You are a developer who is writing unit test class for the provided apex class. Use the provided apex class to generate unit test class 
 by following the below guidelines.
-- generated test class should have private, have apex-doc comments for each method and class
+- generated test class should have private and should have apex-doc comments for each method and class
 - use the SObject metadata (required fields, type, length) to guide you in generating test and referenced data. In test data make
 sure you populate all required fields and use the correct data type and length.
 - don't insert custom metadata types (objects ending with __mdt) in test classes

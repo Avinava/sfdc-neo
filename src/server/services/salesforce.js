@@ -1,6 +1,8 @@
 import jsforce from "jsforce";
 import AdmZip from "adm-zip";
 import { XMLBuilder } from "fast-xml-parser";
+import DependencyParser from "./dependencyParser.js";
+import Papa from "papaparse";
 
 import codeParser from "./codeParser.js";
 
@@ -177,12 +179,30 @@ class Salesforce {
 
   /**
    * Get the required sobject metadata from the apex code
-   * @param {*} apexCode
+   * @param {*} apexClass
    * @returns {Promise<{ sobject : {fields: {name, type, length}[]}}>}
    */
-  async getRequiredSObjectMetadata(apexCode) {
-    const sobjects = codeParser.parseDeclarationTypes(apexCode);
-    const sobjectFields = codeParser.parseReferences(apexCode);
+  async getRequiredSObjectMetadata(apexClass) {
+    const dependencyData = await this.getRequiredSObjectMetadataDependency(
+      apexClass
+    );
+
+    let sobjects = codeParser.parseDeclarationTypes(apexClass.Body);
+    let sobjectFields = codeParser.parseReferences(apexClass.Body);
+
+    // filter all Metadata Type = CustomObject and add to sobjects only return Name
+    const customObjects = dependencyData
+      .filter((d) => d.MetadataComponentType === "CustomObject")
+      .map((d) => d.MetadataComponentName.toLowerCase());
+
+    sobjects = new Set([...sobjects, ...customObjects]);
+
+    const customFields = dependencyData
+      .filter((d) => d.MetadataComponentType === "CustomField")
+      .map((d) => d.MetadataComponentName.toLowerCase());
+
+    sobjectFields = new Set([...sobjectFields, ...customFields]);
+
     // describe all sobjects
     const describePromises = Array.from(sobjects).map((sobj) =>
       this.describeSObject(sobj)
@@ -228,6 +248,21 @@ class Salesforce {
       }
     }
     return sobjectMetadata;
+  }
+
+  async getRequiredSObjectMetadataDependency(apexClass) {
+    const dp = new DependencyParser(this.getConnection());
+
+    const dependencies = await dp.getDependencies({
+      type: "ApexClass",
+      name: apexClass.Name,
+      id: apexClass.Id,
+    });
+
+    const dependencyData =
+      Papa.parse(dependencies.csv, { header: true }).data || {};
+
+    return dependencyData;
   }
 
   async describeSObject(sobj) {
