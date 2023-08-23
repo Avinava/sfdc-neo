@@ -192,14 +192,14 @@ class Salesforce {
 
     // filter all Metadata Type = CustomObject and add to sobjects only return Name
     const customObjects = dependencyData
-      .filter((d) => d.MetadataComponentType === "CustomObject")
-      .map((d) => d.MetadataComponentName.toLowerCase());
+      .filter((d) => d["Metadata Type"] === "CustomObject")
+      .map((d) => d.Name.toLowerCase());
 
     sobjects = new Set([...sobjects, ...customObjects]);
 
     const customFields = dependencyData
-      .filter((d) => d.MetadataComponentType === "CustomField")
-      .map((d) => d.MetadataComponentName.toLowerCase());
+      .filter((d) => d["Metadata Type"] === "CustomField")
+      .map((d) => d.Name.toLowerCase().split(".")[1]);
 
     sobjectFields = new Set([...sobjectFields, ...customFields]);
 
