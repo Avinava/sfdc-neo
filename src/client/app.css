@@ -31,3 +31,8 @@ body {
   border: 1px solid #d5d5d5;
   list-style: none;
 }
+
+sup {
+  font-size: .6rem;
+  vertical-align: super;
+}
