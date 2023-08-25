@@ -1,7 +1,7 @@
 import { PromptTemplate } from "langchain/prompts";
 import { model } from "../services/model.js";
 import sfdxScanner from "../services/sfdxScanner.js";
-import YAML from "json-to-pretty-yaml";
+import YAML from "../services/yamlParser.js";
 
 class CodeRefactoring {
   promptTemplate = `

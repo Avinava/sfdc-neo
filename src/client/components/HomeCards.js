@@ -17,8 +17,8 @@ import { BsFillLightningFill } from "react-icons/bs";
 import { BiCodeCurly } from "react-icons/bi";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdRule } from "react-icons/md";
-
 import { Link } from "react-router-dom";
+import parse from "html-react-parser";
 
 class HomeCards extends React.Component {
   static contextType = AuthContext;
@@ -27,13 +27,13 @@ class HomeCards extends React.Component {
       {
         title: "Apex Code",
         description:
-          "Generate test classes, comments, documentation & code review for your apex classes using OpenAI.",
+          "Generate test classes assisted by the metadata api, add code comments, documentation & code review for your apex classes using OpenAI.",
         icon: <BiCodeCurly size={25} style={{ color: "#ff9800" }} />,
         link: "/apex-generator",
         linkText: "Go to Apex Generator",
       },
       {
-        title: "Flow Generator",
+        title: "Flow Generator <sup>experimental</sup>",
         description:
           "Generate Flow test classes & documentations using OpenAI.",
         icon: <BsFillLightningFill size={25} style={{ color: "#ff9800" }} />,
@@ -41,14 +41,14 @@ class HomeCards extends React.Component {
         linkText: "Go to Flow Generator",
       },
       {
-        title: "Email Template Generator",
+        title: "Email Template Generator <sup>experimental</sup>",
         description: "Better format email templates using OpenAI.",
         icon: <AiOutlineMail size={25} style={{ color: "#ff9800" }} />,
         link: "/email-generator",
         linkText: "Go to Email Template Generator",
       },
       {
-        title: "Validation Rule Documentation",
+        title: "Validation Rule <sup>experimental</sup>",
         description:
           "Generate description & documentation for your validation rules using OpenAI.",
         icon: <MdRule size={25} style={{ color: "#ff9800" }} />,
@@ -193,13 +193,13 @@ class HomeCards extends React.Component {
                                       sx={{ fontSize: 18 }}
                                       variant="h6"
                                     >
-                                      {card.title}
+                                      {parse(card.title)}
                                     </Typography>
                                   </Grid>
                                   <Grid item>{card.icon}</Grid>
                                   <Grid item xs={12}>
                                     <Typography
-                                      sx={{ fontSize: 14, minHeight: 45 }}
+                                      sx={{ fontSize: 14, minHeight: 60 }}
                                       color="text.secondary"
                                       component="div"
                                     >
