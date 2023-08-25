@@ -15,6 +15,7 @@ import {
   Typography,
   Icon,
   TextField,
+  IconButton,
 } from "@mui/material";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import ReactMarkdown from "react-markdown";
@@ -22,7 +23,7 @@ import remarkGfm from "remark-gfm";
 
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { SiCodereview } from "react-icons/si";
-import { MdReviews, MdOutlineMoreVert } from "react-icons/md";
+import { MdReviews, MdOutlineMoreVert, MdRefresh } from "react-icons/md";
 import { BiCommentEdit, BiRightIndent, BiTestTube } from "react-icons/bi";
 import { RiTestTubeFill } from "react-icons/ri";
 
@@ -83,6 +84,7 @@ class Generator extends React.Component {
   };
 
   getApexClasses() {
+    this.setState({ loading: true });
     this.apiService
       .getApexClasses()
       .then((response) => {
@@ -334,22 +336,37 @@ class Generator extends React.Component {
             <Paper sx={{ p: 1 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={3} md={3}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="apex-select">Apex Class</InputLabel>
-                    <Select
-                      labelId="apex-select"
-                      id="apex-select"
-                      label="Apex Class"
-                      onChange={this.onClassChange}
-                      value={this.state.selectedClassId}
-                    >
-                      {this.state.classes.map((cls, index) => (
-                        <MenuItem value={cls.Id} key={index}>
-                          {cls.Name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={11} md={11}>
+                      <FormControl fullWidth size="small">
+                        <InputLabel id="apex-select">Apex Class</InputLabel>
+                        <Select
+                          labelId="apex-select"
+                          id="apex-select"
+                          label="Apex Class"
+                          onChange={this.onClassChange}
+                          value={this.state.selectedClassId}
+                        >
+                          {this.state.classes.map((cls, index) => (
+                            <MenuItem value={cls.Id} key={index}>
+                              {cls.Name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={1} md={1}>
+                      <Tooltip title="Refresh the apex class list">
+                        <IconButton
+                          aria-label="refresh"
+                          size="small"
+                          onClick={() => this.getApexClasses()}
+                        >
+                          <MdRefresh size={25} />
+                        </IconButton>
+                      </Tooltip>
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={12} md={9} sx={{ textAlign: "right" }}>
                   <ButtonGroup variant="contained" size="small">
