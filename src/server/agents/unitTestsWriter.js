@@ -14,7 +14,6 @@ sure you populate all required fields and use the correct data type and length. 
 - test methods should test both positive and negative scenarios and some edge cases
 - add test cases for bulk data wherever possible
 
-
 # APEX CLASS
 {Body}
 
@@ -27,7 +26,6 @@ sure you populate all required fields and use the correct data type and length. 
 in your response only return generated apex class without any extra text, the generated class should be compilable
 
 # UNIT TEST CLASS
-  
   `;
 
   prompt;
