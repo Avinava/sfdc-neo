@@ -353,7 +353,7 @@ class Generator extends React.Component {
                 </Grid>
                 <Grid item xs={12} md={9} sx={{ textAlign: "right" }}>
                   <ButtonGroup variant="contained" size="small">
-                    <Tooltip title="Generate a test class for the current Apex class">
+                    <Tooltip title="Generate a test class for the current Apex class. This uses metadata api along with OpenAI to generate contextually correct test classes">
                       <Button
                         variant="contained"
                         color="secondary"
@@ -387,7 +387,7 @@ class Generator extends React.Component {
                         </Typography>
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Add comments to the current Apex class">
+                    <Tooltip title="Add comments to the current Apex class. Uses OpenAI to add comments to the Apex Code so that its easier to read and maintain">
                       <Button
                         variant="contained"
                         color="secondary"
@@ -398,7 +398,7 @@ class Generator extends React.Component {
                         Comments
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Generate documentation for the current Apex class">
+                    <Tooltip title="Generate documentation for the current Apex class. Using automatically generate comprehensive documentation for the present Apex class and its associated methods.">
                       <Button
                         variant="contained"
                         color="secondary"
@@ -420,7 +420,7 @@ class Generator extends React.Component {
                         Review
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Generate a code review for the current Apex class enhanced by PMD">
+                    <Tooltip title="Generate a code review for the current Apex class enhanced by PMD. This uses PMD scan results along with OpenAI to generate a comprehensive code review.">
                       <Button
                         variant="contained"
                         color="secondary"
