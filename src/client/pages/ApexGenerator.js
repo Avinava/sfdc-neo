@@ -83,14 +83,22 @@ class Generator extends React.Component {
     }
   };
 
-  getApexClasses() {
+  async onRefreshClick() {
+    await this.getApexClasses();
+    // call onClassChange
+    if (this.state.selectedClassId) {
+      this.onClassChange({ target: { value: this.state.selectedClassId } });
+    }
+  }
+
+  async getApexClasses() {
     this.setState({ loading: true });
-    this.apiService
-      .getApexClasses()
-      .then((response) => {
-        this.setState({ classes: response, loading: false });
-      })
-      .catch((err) => this.handleErrors(err));
+    try {
+      const response = await this.apiService.getApexClasses();
+      this.setState({ classes: response, loading: false });
+    } catch (err) {
+      return this.handleErrors(err);
+    }
   }
 
   generateTestClassAdvanced() {
@@ -360,7 +368,7 @@ class Generator extends React.Component {
                         <IconButton
                           aria-label="refresh"
                           size="small"
-                          onClick={() => this.getApexClasses()}
+                          onClick={() => this.onRefreshClick()}
                         >
                           <MdRefresh size={25} />
                         </IconButton>
