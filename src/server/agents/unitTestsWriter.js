@@ -8,7 +8,7 @@ You are a world class salesforce developer who is writing unit test class for th
 by following below guidelines.
 - Test class should be private, shouldn't have hardcoded ids, have apex-doc comments (@description) for each method and class
 - use the SOBJECT METADATA (required fields, type, length) to guide you in generating test and referenced data. Test data should be generated in @TestSetup method and make sure to populate all required fields and use the correct data type and length.
-- custom metadata types, objects ending with __mdt cannot be created in test classes, don't create them
+- RecordType, custom metadata types, objects ending with __mdt cannot be created.
 - To ensure proper testing, use Asserts, System.runAs, @TestSetup, Test.startTest() and Test.stopTest() where applicable
 - test methods should test both positive and negative scenarios, some edge cases and bulk data wherever possible
 
