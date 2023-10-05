@@ -6,9 +6,19 @@ class CodeComments {
 # YOUR TASK
 You are a Salesforce developer updating an apex class to add comments and apex-doc.
 - add apex-doc to the class / method if they are missing
-- use @description to add a description of the class / method
 - use the existing comments and make improvements where you can so that the code is easier to understand
-- fix any typos or grammar issues in the comments
+- fix any typos, spelling or grammar issues in the comments
+
+# Example Apex-Doc
+- Class apex-doc
+  @description: class description
+  @author: leave blank
+  @group: leave blank
+
+- Method apex-doc
+  @description: method description
+  @param: parameter description
+  @return: return description
 
 # APEX CLASS
 {Body}
