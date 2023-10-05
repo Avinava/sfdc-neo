@@ -10,14 +10,16 @@ class Salesforce {
   session;
   connection;
   constructor(session) {
-    this.session = session;
-    const token = this.session.passport.user?.oauth?.accessToken.params;
-    if (token) {
-      this.connection = new jsforce.Connection({
-        instanceUrl: token.instance_url,
-        accessToken: token.access_token,
-        version: "57.0",
-      });
+    if (session) {
+      this.session = session;
+      const token = this.session.passport?.user?.oauth?.accessToken.params;
+      if (token) {
+        this.connection = new jsforce.Connection({
+          instanceUrl: token.instance_url,
+          accessToken: token.access_token,
+          version: "57.0",
+        });
+      }
     }
   }
 
@@ -183,9 +185,8 @@ class Salesforce {
    * @returns {Promise<{ sobject : {fields: {name, type, length}[]}}>}
    */
   async getRequiredSObjectMetadata(apexClass) {
-    const dependencyData = await this.getRequiredSObjectMetadataDependency(
-      apexClass
-    );
+    const dependencyData =
+      await this.getRequiredSObjectMetadataDependency(apexClass);
 
     let sobjects = codeParser.parseDeclarationTypes(apexClass.Body);
     let sobjectFields = codeParser.parseReferences(apexClass.Body);
