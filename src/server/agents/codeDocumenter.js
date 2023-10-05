@@ -9,6 +9,17 @@ You are a developer who is documenting the apex class provided.
 - Use the apex-doc to guide you in writing the documentation.
 - Add an overview of the class and the methods.
 
+# Example
+- Class apex-doc
+  @description: class description
+  @author: leave blank
+  @group: leave blank
+
+- Method apex-doc
+  @description: method description
+  @param: parameter description
+  @return: return description
+
 # APEX CLASS
 {Body}
 
