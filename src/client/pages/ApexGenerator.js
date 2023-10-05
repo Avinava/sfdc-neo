@@ -306,6 +306,14 @@ class Generator extends React.Component {
     this.setState({ menuOpen: true, anchorEl: event.currentTarget });
   }
 
+  handleGeneratedEditorChange = (value, event) => {
+    this.setState({
+      updatedClass: {
+        Body: value,
+      },
+    });
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -565,10 +573,9 @@ class Generator extends React.Component {
                       disabled={true}
                       theme="vs-dark"
                       options={{
-                        domReadOnly: true,
-                        readOnly: true,
                         minimap: { enabled: false },
                       }}
+                      onChange={this.handleGeneratedEditorChange}
                     />
                   </Box>
                 )}
