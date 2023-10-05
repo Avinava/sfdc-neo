@@ -8,12 +8,33 @@ class TestFactoryDiscovery {
   }
 
   async run() {
+    const res = {};
+    const factoryDef = await this.generate();
+    for (const clsName in factoryDef) {
+      res[clsName] = {
+        methods: {},
+      };
+      const apexClass = factoryDef[clsName];
+      for (const method in apexClass.methods) {
+        const methodDef = apexClass.methods[method];
+        res[clsName].methods[method] = {
+          description: methodDef.description,
+          parameters: methodDef.parameters,
+          returnType: methodDef.returnType,
+        };
+      }
+    }
+
+    return res;
+  }
+
+  async generate() {
     const factoryDef = await this.discover();
     // iterate over the factoryDef and generate the test factory
     for (const clsName in factoryDef) {
       const apexClass = factoryDef[clsName];
       const reflectData = reflect(apexClass.body).typeMirror;
-
+      delete apexClass.body;
       if (reflectData.methods) {
         // move reflect.methods to factoryDef[clsName].methods
         factoryDef[clsName].methods = factoryDef[clsName].methods || {};
@@ -67,8 +88,6 @@ class TestFactoryDiscovery {
       if (member.SymbolTable) {
         for (const externalReference of member.SymbolTable.externalReferences ||
           []) {
-          console.log(externalReference);
-
           if (
             externalReference.namespace == null &&
             externalReference.methods &&
