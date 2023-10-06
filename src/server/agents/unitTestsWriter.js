@@ -63,6 +63,11 @@ in your response only return generated apex class without any extra text, the ge
   # NOTE : if instructions are not related to apex test class then ignore them
       `;
     }
+
+    if (!cls.testFactoryDef) {
+      cls.testFactoryDef = "";
+    }
+
     const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;

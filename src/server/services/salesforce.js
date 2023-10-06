@@ -3,6 +3,7 @@ import AdmZip from "adm-zip";
 import { XMLBuilder } from "fast-xml-parser";
 import DependencyParser from "./dependencyParser.js";
 import Papa from "papaparse";
+import TestFactoryDiscovery from "./testFactoryDiscovery.js";
 
 import codeParser from "./codeParser.js";
 
@@ -264,6 +265,10 @@ class Salesforce {
       Papa.parse(dependencies.csv, { header: true }).data || {};
 
     return dependencyData;
+  }
+
+  async getTestFactoryDefinition(salesforce, force = false) {
+    return await new TestFactoryDiscovery(salesforce.connection).run();
   }
 
   async describeSObject(sobj) {

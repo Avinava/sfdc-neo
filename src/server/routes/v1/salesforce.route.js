@@ -34,4 +34,13 @@ router.get("/deployclass/:id", async (req, res) => {
   res.send(await req.salesforce.checkDeployStatus(req.params.id, true));
 });
 
+router.get("/test/factory-def", async (req, res) => {
+  res.send(
+    await req.salesforce.getTestFactoryDefinition(
+      req.salesforce,
+      req.query.force
+    )
+  );
+});
+
 export default router;

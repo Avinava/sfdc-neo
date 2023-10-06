@@ -44,9 +44,11 @@ async function generate(req) {
     req.body.requiredMetadata = YAML.stringify(
       await req.salesforce.getRequiredSObjectMetadata(req.body)
     );
-
-    const def = await new TestFactoryDiscovery(req.salesforce.connection).run();
-    req.body.testFactoryDef = YAML.stringify(def);
+    if (req.body.factoryDef) {
+      try {
+        req.body.testFactoryDef = YAML.stringify(req.body.factoryDef);
+      } catch (error) {}
+    }
 
     textResponse = await unitTestsWriter.generate(req.body);
   } else if (req.path === "/apexclass/codecomments") {

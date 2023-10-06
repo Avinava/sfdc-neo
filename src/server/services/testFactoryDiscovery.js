@@ -7,7 +7,7 @@ class TestFactoryDiscovery {
     this.connection = connection;
   }
 
-  async run() {
+  async run(forceBuild = false) {
     const res = {};
     const factoryDef = await this.generate();
     for (const clsName in factoryDef) {
@@ -28,8 +28,8 @@ class TestFactoryDiscovery {
     return res;
   }
 
-  async generate() {
-    const factoryDef = await this.discover();
+  async generate(forceBuild = false) {
+    const factoryDef = await this.discover(forceBuild);
     // iterate over the factoryDef and generate the test factory
     for (const clsName in factoryDef) {
       const apexClass = factoryDef[clsName];

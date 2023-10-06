@@ -40,6 +40,13 @@ class APIService extends React.Component {
     return this.requestHandler("get", "/api/v1/salesforce/apexclass");
   }
 
+  getTestFactoryDefinition(force = false) {
+    return this.requestHandler(
+      "get",
+      `/api/v1/salesforce/test/factory-def?force=${force}`
+    );
+  }
+
   generateTest(cls) {
     return this.requestHandler("post", "/api/v1/generator/apexclass/test", cls);
   }
