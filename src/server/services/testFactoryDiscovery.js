@@ -113,7 +113,9 @@ class TestFactoryDiscovery {
     const factory = {};
     if (top3.length > 0) {
       // find the records in symbolTableResult.records
-      const records = symbolRecords.filter((member) => {
+      const records = (
+        await new SymbolTableGenerator(this.connection).run(top3)
+      ).records.filter((member) => {
         return top3.includes(member.ContentEntity.Name);
       });
 
@@ -133,11 +135,11 @@ class TestFactoryDiscovery {
         }
       }
 
-      // get the top 3 apex class body
-      const query = `SELECT Id, Name, Body FROM ApexClass WHERE Name IN ('${top3.join(
-        "','"
-      )}')`;
-      const apexClasses = await this.connection.query(query);
+      const apexClasses = await this.connection.query(
+        `SELECT Id, Name, Body FROM ApexClass WHERE Name IN ('${top3.join(
+          "','"
+        )}')`
+      );
       // assign the body to the factory
       for (const record of apexClasses.records) {
         factory[record.Name].body = record.Body;
