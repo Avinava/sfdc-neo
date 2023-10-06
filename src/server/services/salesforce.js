@@ -3,6 +3,7 @@ import AdmZip from "adm-zip";
 import { XMLBuilder } from "fast-xml-parser";
 import DependencyParser from "./dependencyParser.js";
 import Papa from "papaparse";
+import TestFactoryDiscovery from "./testFactoryDiscovery.js";
 
 import codeParser from "./codeParser.js";
 
@@ -10,14 +11,16 @@ class Salesforce {
   session;
   connection;
   constructor(session) {
-    this.session = session;
-    const token = this.session.passport.user?.oauth?.accessToken.params;
-    if (token) {
-      this.connection = new jsforce.Connection({
-        instanceUrl: token.instance_url,
-        accessToken: token.access_token,
-        version: "57.0",
-      });
+    if (session) {
+      this.session = session;
+      const token = this.session.passport?.user?.oauth?.accessToken.params;
+      if (token) {
+        this.connection = new jsforce.Connection({
+          instanceUrl: token.instance_url,
+          accessToken: token.access_token,
+          version: "57.0",
+        });
+      }
     }
   }
 
@@ -183,9 +186,8 @@ class Salesforce {
    * @returns {Promise<{ sobject : {fields: {name, type, length}[]}}>}
    */
   async getRequiredSObjectMetadata(apexClass) {
-    const dependencyData = await this.getRequiredSObjectMetadataDependency(
-      apexClass
-    );
+    const dependencyData =
+      await this.getRequiredSObjectMetadataDependency(apexClass);
 
     let sobjects = codeParser.parseDeclarationTypes(apexClass.Body);
     let sobjectFields = codeParser.parseReferences(apexClass.Body);
@@ -263,6 +265,10 @@ class Salesforce {
       Papa.parse(dependencies.csv, { header: true }).data || {};
 
     return dependencyData;
+  }
+
+  async getTestFactoryDefinition(salesforce, force = false) {
+    return await new TestFactoryDiscovery(salesforce.connection).run();
   }
 
   async describeSObject(sobj) {

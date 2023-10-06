@@ -7,7 +7,9 @@ class UnitTestsWriter {
 You are a world class salesforce developer who is writing unit test class for the provided APEX CLASS. Generate unit test class 
 by using below guidelines.
 - Test class should be private, shouldn't have hardcoded ids and must have apex-doc for each method and class
-- use the SOBJECT METADATA (required fields, type, length) to guide you in generating test and referenced data. Test data should be generated in @TestSetup method and make sure to populate all required fields and use the correct data type and length.
+- if TEST FACTORY DEFINITION available then use the class and methods to generate test data
+- incase suitable methods are not available in TEST FACTORY DEFINITION then use the SOBJECT METADATA (required fields, type, length) to guide you in generating test and referenced data.
+
 - RecordType, custom metadata types, objects ending with __mdt cannot be created.
 - To ensure proper testing, use Asserts, System.runAs, @TestSetup, Test.startTest() and Test.stopTest() where applicable
 - test methods should test both positive and negative scenarios, some edge cases and bulk data wherever possible
@@ -28,6 +30,9 @@ by using below guidelines.
 # SOBJECT METADATA
 {requiredMetadata}
 
+# TEST FACTORY DEFINITION
+{testFactoryDef}
+
 {additionalContext}
 
 # RESPONSE INSTRUCTIONS
@@ -41,7 +46,12 @@ in your response only return generated apex class without any extra text, the ge
   constructor() {
     this.prompt = new PromptTemplate({
       template: this.promptTemplate,
-      inputVariables: ["Body", "additionalContext", "requiredMetadata"],
+      inputVariables: [
+        "Body",
+        "additionalContext",
+        "requiredMetadata",
+        "testFactoryDef",
+      ],
     });
   }
 
@@ -53,6 +63,11 @@ in your response only return generated apex class without any extra text, the ge
   # NOTE : if instructions are not related to apex test class then ignore them
       `;
     }
+
+    if (!cls.testFactoryDef) {
+      cls.testFactoryDef = "";
+    }
+
     const input = await this.prompt.format(cls);
     const response = await model.call(input);
     return response;

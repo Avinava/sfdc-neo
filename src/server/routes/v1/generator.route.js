@@ -10,6 +10,7 @@ import validationRule from "../../agents/validationRule.js";
 import tokenHelperService from "../../services/tokenHelperService.js";
 import flowTestWriter from "../../agents/flowTestWriter.js";
 import flowDocumenter from "../../agents/flowDocumenter.js";
+import TestFactoryDiscovery from "../../services/testFactoryDiscovery.js";
 import YAML from "../../services/yamlParser.js";
 
 import * as dotenv from "dotenv";
@@ -43,6 +44,12 @@ async function generate(req) {
     req.body.requiredMetadata = YAML.stringify(
       await req.salesforce.getRequiredSObjectMetadata(req.body)
     );
+    if (req.body.factoryDef) {
+      try {
+        req.body.testFactoryDef = YAML.stringify(req.body.factoryDef);
+      } catch (error) {}
+    }
+
     textResponse = await unitTestsWriter.generate(req.body);
   } else if (req.path === "/apexclass/codecomments") {
     textResponse = await codeComments.generate(req.body);

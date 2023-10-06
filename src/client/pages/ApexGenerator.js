@@ -110,7 +110,7 @@ class Generator extends React.Component {
     });
   }
 
-  generateTestClass() {
+  async generateTestClass() {
     if (!this.validateSelectedClass()) {
       return;
     }
@@ -122,6 +122,14 @@ class Generator extends React.Component {
       updatedClass: {},
       openTestClassUserPromptInput: false,
     });
+
+    try {
+      const def = await this.getTestFactoryDefinition();
+      cls.factoryDef = def?.factory;
+    } catch (error) {
+      console.log("error", error);
+    }
+
     this.apiService
       .generateTest(cls)
       .then((response) => this.handleResponse(response))
@@ -208,6 +216,39 @@ class Generator extends React.Component {
 
   async deployClassConfirm() {
     this.setState({ openDeployConfirmation: true });
+  }
+
+  async getTestFactoryDefinition() {
+    // check the local storage for the test factory definition
+    // if it exists and is older than a 5 days, then fetch it again
+
+    // if it does not exist, then fetch it
+    // save it in the local storage
+    const key = this.context.session.id + "-test-factory";
+    let def = localStorage.getItem(key);
+    if (def) {
+      const defObj = JSON.parse(def);
+      const now = new Date();
+      const lastUpdated = new Date(defObj.lastUpdated);
+      const diff = now.getTime() - lastUpdated.getTime();
+      const days = diff / (1000 * 3600 * 24);
+      if (days < 5) {
+        return defObj;
+      } else {
+        localStorage.removeItem(key);
+        def = null;
+      }
+    }
+
+    if (!def) {
+      let res = await this.apiService.getTestFactoryDefinition();
+      def = {};
+      def.lastUpdated = new Date();
+      def.factory = res;
+      localStorage.setItem(key, JSON.stringify(def));
+    }
+
+    return def;
   }
 
   async deployClass() {
