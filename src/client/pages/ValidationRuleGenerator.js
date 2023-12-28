@@ -17,9 +17,12 @@ import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import { MdEmail } from "react-icons/md";
 
 import { toast } from "react-toastify";
+import ReactMarkdown from "react-markdown";
+import Editor from "@monaco-editor/react";
+
+import remarkGfm from "remark-gfm";
 import AuthContext from "../components/AuthContext";
 import APIService from "../services/APIService";
-import Editor from "@monaco-editor/react";
 
 class ValidationRuleGenerator extends React.Component {
   static contextType = AuthContext;
@@ -239,13 +242,15 @@ class ValidationRuleGenerator extends React.Component {
 
                 <Box
                   sx={{
-                    marginTop: "11px",
-                    backgroundColor: "#f5f5f5",
-                    minHeight: "calc(100vh - 215px)",
-                    padding: "10px",
+                    marginTop: "13px",
                   }}
                 >
-                  {this.state.updatedValidationRule?.Description}
+                  <article className="markdown-body">
+                    <ReactMarkdown
+                      children={this.state.updatedValidationRule?.Description}
+                      remarkPlugins={[remarkGfm]}
+                    />
+                  </article>
                 </Box>
               </Grid>
             </Grid>

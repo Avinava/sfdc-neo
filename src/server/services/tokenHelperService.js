@@ -16,8 +16,9 @@ class TokenHelperService {
     const result = this.countTokens(input);
     return {
       result: result,
-      limit: Number(process.env.OPENAI_MAX_TOKENS || 3000),
-      limitExceeded: result > Number(process.env.OPENAI_MAX_TOKENS || 3000),
+      limit: Number(process.env.OPENAI_CONTEXT_MAX_TOKENS || 3000),
+      limitExceeded:
+        result > Number(process.env.OPENAI_CONTEXT_MAX_TOKENS || 3000),
     };
   }
 }

@@ -15,6 +15,22 @@ You are a salesforce developer who is documenting the flow provided.
 
 # RESPONSE INSTRUCTIONS
 return the response in markdown format
+
+# RESPONSE TEMPLATE
+## Flow: <flow name> Documentation
+<flow description>
+
+### Flow Trigger
+<when will the flow be triggered>
+
+### Flow Steps
+<flow steps in bullet format>
+
+### Flow Actions
+<actions performed by the flow in bullet format>
+
+### Additional Notes
+
 ##
   `;
 
