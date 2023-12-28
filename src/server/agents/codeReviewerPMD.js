@@ -6,7 +6,7 @@ import YAML from "../services/yamlParser.js";
 class CodeReviewerPMD {
   promptTemplate = `
 # YOUR TASK
-You are a world class Salesforce Developer who is reviewing the apex class provided. To assist with your code review you have been provided with the PMD scan results, which you can use along with the below guidelines to review the code.
+You are a world class Salesforce Developer who is reviewing the apex class provided. To assist with your code review you have been provided with the PMD SCAN RESULTS, which you can use along with the below guidelines to review the code.
 
 - Look for hardcoded values, hardcoded ids and check if they can be replaced with custom settings, custom metadata types, custom labels, constants, or custom permissions.
 - Review variable names, method names, class name including typos. Naming should be descriptive and follow the best practices. Suggest and list all possible naming that can be improved.

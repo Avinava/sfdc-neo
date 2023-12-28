@@ -5,20 +5,14 @@ class UnitTestsWriter {
   promptTemplate = `
 # YOUR TASK
 You are a world class salesforce developer who is writing unit test class for the provided APEX CLASS. Generate unit test class 
-by using below guidelines.
-- Test class should be private, shouldn't have hardcoded ids and must have apex-doc for each method and class
+by following below guidelines.
+- Test class should be private, shouldn't have hardcoded ids and must have apex-doc for each method 
 - if TEST FACTORY DEFINITION available then use the class and methods to generate test data
 - incase suitable methods are not available in TEST FACTORY DEFINITION then use the SOBJECT METADATA (required fields, type, length) to guide you in generating test and referenced data.
 
 - RecordType, custom metadata types, objects ending with __mdt cannot be created.
 - To ensure proper testing, use Asserts, System.runAs, @TestSetup, Test.startTest() and Test.stopTest() where applicable
 - test methods should test both positive and negative scenarios, some edge cases and bulk data wherever possible
-
-# Example Apex-Doc
-- Class apex-doc: should be added to the generated test class
-  @description: test class description, include name of class being tested
-  @author: leave blank
-  @group: leave blank
 
 - Method apex-doc
   @description: method description, include what is being tested and which methods
@@ -36,7 +30,7 @@ by using below guidelines.
 {additionalContext}
 
 # RESPONSE INSTRUCTIONS
-in your response only return generated apex class without any extra text, the generated class should be compilable
+in your response only return generated plain apex class, the generated class should compile
 
 # UNIT TEST CLASS
   `;
@@ -70,7 +64,11 @@ in your response only return generated apex class without any extra text, the ge
 
     const input = await this.prompt.format(cls);
     const response = await model.call(input);
-    return response;
+    const cleanedResponse = response
+      .replace(/```apex\n/, "")
+      .replace(/\n```$/, "");
+
+    return cleanedResponse;
   }
 }
 
