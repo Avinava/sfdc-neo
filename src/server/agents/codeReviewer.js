@@ -25,6 +25,42 @@ Use the apex class that was provided in context to review the code based on the 
 - return the review  in markdown format.
 - include *Code Rating* from 1 to 10, 1 being the worst, with very short description. example: 5 - Code is readable, but needs improvement.
 
+# FORMAT
+## <Class Name> - Review
+### Code Rating: <Rating>
+<Short Summary of Rating>
+
+### Review
+<Summary>
+
+#### Naming Conventions
+- <Issues & Suggestions 1>
+- <Issues & Suggestions 2>
+
+#### Hardcoded Values
+- <Issues & Suggestions>
+
+#### Code Formatting
+- <Issues & Suggestions>
+
+#### Comments and Documentation
+- <Issues & Suggestions>
+
+#### Security
+- <Issues & Suggestions>
+
+#### Best Practices
+- <Issues & Suggestions>
+
+#### Possible Refactoring & Unused Code
+- <Issues & Suggestions>
+
+#### Maintainability
+- <Issues & Suggestions>
+
+#### Additional Suggestions
+- <Issues & Suggestions>
+
 ##
   `;
 

@@ -9,7 +9,17 @@ You are a developer who is writing description for the provided salesforce valid
 # Validation Rule
 {formula}
 
-# RESPONSE DESCRIPTION
+# RESPONSE TEMPLATE
+## Validation Rule: <validation rule name> Documentation
+<insert formatted and indented validation rule>
+
+### Description
+<insert description what it does in simple terms>
+
+### Examples
+- <insert example when error will happen>
+- <example 2>
+
   `;
 
   prompt;
