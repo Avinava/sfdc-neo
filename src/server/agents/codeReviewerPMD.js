@@ -17,7 +17,6 @@ You are a world class Salesforce Developer who is reviewing the apex class provi
 - Check for unused variables, methods, unreachable code, unnecessary code, and commented code.
 - Comment about possible refactoring, use of static / instance methods that can improve code maintainability.
 
-
 # PMD SCAN RESULTS
 {PMDScanResults}
 
@@ -27,6 +26,42 @@ You are a world class Salesforce Developer who is reviewing the apex class provi
 # RESPONSE INSTRUCTIONS
 - return the review  in markdown format.
 - include *Code Rating* from 1 to 10, 1 being the worst, with very short description. example: 5 - Code is readable, but needs improvement.
+
+# FORMAT
+## <Class Name> - Review
+### Code Rating: <Rating>
+<Short Summary of Rating>
+
+### Review
+<Summary>
+
+#### Naming Conventions
+- <Issues & Suggestions 1>
+- <Issues & Suggestions 2>
+
+#### Hardcoded Values
+- <Issues & Suggestions>
+
+#### Code Formatting
+- <Issues & Suggestions>
+
+#### Comments and Documentation
+- <Issues & Suggestions>
+
+#### Security
+- <Issues & Suggestions>
+
+#### Best Practices
+- <Issues & Suggestions>
+
+#### Possible Refactoring & Unused Code
+- <Issues & Suggestions>
+
+#### Maintainability
+- <Issues & Suggestions>
+
+#### Additional Suggestions
+- <Issues & Suggestions>
 
 ##
   `;
