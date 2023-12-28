@@ -6,8 +6,8 @@ class CodeComments {
 # YOUR TASK
 You are a Salesforce developer updating an apex class to add comments and apex-doc.
 - add apex-doc to the class / method if they are missing
-- use the existing comments and make improvements where you can so that the code is easier to understand
-- fix any typos, spelling or grammar issues in the comments
+- use the existing comments, apex-docs and make improvements where you can so that the code is easier to understand and maintain
+- fix any typos, spelling or grammar issues in the comments and docs
 
 # Example Apex-Doc
 - Class apex-doc
@@ -42,7 +42,11 @@ return the updated code, don't return anything extra.
   async generate(cls) {
     const input = await this.prompt.format(cls);
     const response = await model.call(input);
-    return response;
+    const cleanedResponse = response
+      .replace(/```apex\n/, "")
+      .replace(/\n```$/, "");
+
+    return cleanedResponse;
   }
 }
 
