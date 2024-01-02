@@ -9,7 +9,7 @@ class TestFactoryDiscovery {
 
   async run(forceBuild = false) {
     const res = {};
-    const factoryDef = await this.generate();
+    const factoryDef = await this.generate(forceBuild);
     for (const clsName in factoryDef) {
       res[clsName] = {
         methods: {},
@@ -64,21 +64,26 @@ class TestFactoryDiscovery {
         )}')`
       );
 
-      // get all classes that doesn't have symbol table
-      classesWithoutSymbolTable =
-        classesWithSymbolTableResult.records
-          .filter((r) => !r.SymbolTable)
-          .map((r) => r.Name) || [];
+      if (classesWithSymbolTableResult.records.length > 0) {
+        // get all classes that doesn't have symbol table
+        classesWithoutSymbolTable =
+          classesWithSymbolTableResult.records
+            .filter((r) => !r.SymbolTable)
+            .map((r) => r.Name) || [];
+      } else {
+        classesWithoutSymbolTable = classes;
+      }
 
       symbolRecords = classesWithSymbolTableResult.records.filter(
         (r) => r.SymbolTable
       );
     }
 
-    if (!classesWithoutSymbolTable.length) {
+    if (classesWithoutSymbolTable.length > 0) {
       const symbolTableResult = await new SymbolTableGenerator(
         this.connection
       ).run(classesWithoutSymbolTable);
+
       symbolRecords.push(...symbolTableResult.records);
     }
 
