@@ -6,13 +6,10 @@ Demo : https://neo.sfdxy.com/
 
 ### Features
 - **Test Class Generation**: This feature automates the creation of test classes for your Salesforce code by leveraging apex-parser and metadata API to retrieve the schema of related objects and fields. This allows for more precise test data generation. Additionally, it utilizes the tooling API and sfdc-soup to identify dependencies and automatically detect test factories that should be used.
-
 Moreover, this feature offers the option to include custom prompts, enhancing the assistance provided during test class generation.
 - **Code Comments**: This feature enhances code readability and maintainability by automatically generating helpful comments throughout your codebase. The comments are generated based on existing comments, code structure and logic, making it easier to understand the code and make changes as needed.
 - **Code Documentation**: This feature saves time and effort by generating comprehensive documentation for your Salesforce code. The documentation is generated in a variety of formats, including HTML, PDF, and Markdown. This makes it easy to share the documentation with others or to use it as a reference guide.
-- **Code Review**: This feature incorporates OpenAI to conduct code reviews. The code review process evaluates various factors such as code complexity, code style, and code performance. By analyzing these aspects, it assists in identifying and addressing potential issues in your code before they manifest as problems.
-
-Furthermore, this feature augments the code review process by leveraging PMD results, which further enhances the guidance and recommendations provided during the review.
+- **Code Review**: This feature incorporates OpenAI to conduct code reviews. The code review process evaluates various factors such as code complexity, code style, and code performance. By analyzing these aspects, it assists in identifying and addressing potential issues in your code before they manifest as problems. Furthermore, this feature augments the code review process by leveraging PMD results, which further enhances the guidance and recommendations provided during the review.
 - **Email Template**: Better format email templates using OpenAI.
 - **Validation Rule**: This feature uses OpenAI to automatically generate documentation for validation rules. It provides easy-to-read descriptions and includes relevant examples, making it user-friendly and helpful for understanding and documenting validation rules.
 - **Flow**: This feature uses OpenAI to automatically generate documentation for Flow.
