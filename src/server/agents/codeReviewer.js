@@ -27,7 +27,7 @@ Use the apex class that was provided in context to review the code based on the 
 
 # FORMAT
 ## <Class Name> - Review
-### Code Rating: <Rating>
+### Code Rating: <Rating> / 10
 <Short Summary of Rating>
 
 ### Review

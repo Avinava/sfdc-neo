@@ -5,13 +5,14 @@ SFDC-Neo is a Node.js application that helps in Salesforce development by utiliz
 Demo : https://neo.sfdxy.com/
 
 ### Features
-- **Test Class Generation**: This feature automates the creation of robust and reliable test classes for your Salesforce code. It uses apex-parser to get the schema of all the object and fields to generate test class. This helps with generating more precise test data generation. Test class generation also now has a prompt feature to let user enter custom prompt if needed.
-- **Code Comments**: This feature enhances code readability and maintainability by automatically generating helpful comments throughout your codebase. The comments are generated based on the code structure and logic, making it easier to understand the code and make changes as needed.
+- **Test Class Generation**: This feature automates the creation of test classes for your Salesforce code by leveraging apex-parser and metadata API to retrieve the schema of related objects and fields. This allows for more precise test data generation. Additionally, it utilizes the tooling API and sfdc-soup to identify dependencies and automatically detect test factories that should be used.
+Moreover, this feature offers the option to include custom prompts, enhancing the assistance provided during test class generation.
+- **Code Comments**: This feature enhances code readability and maintainability by automatically generating helpful comments throughout your codebase. The comments are generated based on existing comments, code structure and logic, making it easier to understand the code and make changes as needed.
 - **Code Documentation**: This feature saves time and effort by generating comprehensive documentation for your Salesforce code. The documentation is generated in a variety of formats, including HTML, PDF, and Markdown. This makes it easy to share the documentation with others or to use it as a reference guide.
-- **Code Review**: This feature receives intelligent insights and suggestions to improve the quality and efficiency of your Salesforce code. The code review is based on a variety of factors, including code complexity, code style, and code performance. This helps you to identify and fix potential problems in your code before they cause issues.
+- **Code Review**: This feature incorporates OpenAI to conduct code reviews. The code review process evaluates various factors such as code complexity, code style, and code performance. By analyzing these aspects, it assists in identifying and addressing potential issues in your code before they manifest as problems. Furthermore, this feature augments the code review process by leveraging PMD results, which further enhances the guidance and recommendations provided during the review.
 - **Email Template**: Better format email templates using OpenAI.
-- **Validation Rule**: Describe and document validation rule.
-- **Flow**: Document and generate test classes.
+- **Validation Rule**: This feature uses OpenAI to automatically generate documentation for validation rules. It provides easy-to-read descriptions and includes relevant examples, making it user-friendly and helpful for understanding and documenting validation rules.
+- **Flow**: This feature uses OpenAI to automatically generate documentation for Flow.
 - **Validate & Deploy**: Easily validate and deploy the generated code from the app directly to your Salesforce org.
 
 
@@ -44,9 +45,10 @@ PRODUCTION_TOKEN_URL=https://login.salesforce.com/services/oauth2/token
 SANDBOX_AUTHORIZATION_URL=https://test.salesforce.com/services/oauth2/authorize
 SANDBOX_TOKEN_URL=https://test.salesforce.com/services/oauth2/token
 OPENAI_API_KEY=<your OpenAI API key>
-OPENAI_MAX_TOKENS=8000
+OPENAI_MAX_TOKENS=4096
+OPENAI_CONTEXT_MAX_TOKENS=20000
 OPENAI_TEMPERATURE=0.3
-OPENAI_MODEL_NAME=gpt-3.5-turbo-16k
+OPENAI_MODEL_NAME=gpt-4-1106-preview
 # only needed for enabling quota, by default this shouldn't be needed
 ENABLE_QUOTA=true
 SUPABASE_URL=<your Supabase URL>
