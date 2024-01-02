@@ -29,7 +29,7 @@ You are a world class Salesforce Developer who is reviewing the apex class provi
 
 # FORMAT
 ## <Class Name> - Review
-### Code Rating: <Rating>/10
+### Code Rating: <Rating> / 10
 <Short Summary of Rating>
 
 ### Review
@@ -62,6 +62,9 @@ You are a world class Salesforce Developer who is reviewing the apex class provi
 
 #### Additional Suggestions
 - <Issues & Suggestions>
+
+#### PMD Summary
+- <Issues & Suggestions from PMD SCAN RESULTS>
 
 ##
   `;
