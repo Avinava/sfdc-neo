@@ -129,7 +129,7 @@ class Generator extends React.Component {
         message: {
           title: "Searching for test factories",
           subtitle:
-            "The app is searching for test factories in your org... This may take few seconds...",
+            "Searching for test factories in your org... This may take few seconds...",
         },
       });
       const def = await this.getTestFactoryDefinition();
@@ -141,8 +141,7 @@ class Generator extends React.Component {
     this.setState({
       message: {
         title: "Generating test class",
-        subtitle:
-          "The app is generating a test class for you... This may take few seconds...",
+        subtitle: "This may take few seconds... Can take upto 40 seconds",
       },
     });
 
