@@ -1,80 +1,84 @@
 import express from "express";
-import codeReviewer from "../../agents/codeReviewer.js";
-import codeReviewerPMD from "../../agents/codeReviewerPMD.js";
-import codeRefactoring from "../../agents/codeRefactoring.js";
-import codeDocumenter from "../../agents/codeDocumenter.js";
-import codeComments from "../../agents/codeComments.js";
-import unitTestsWriter from "../../agents/unitTestsWriter.js";
-import emailTemplate from "../../agents/emailTemplate.js";
-import validationRule from "../../agents/validationRule.js";
-import tokenHelperService from "../../services/tokenHelperService.js";
-import flowTestWriter from "../../agents/flowTestWriter.js";
-import flowDocumenter from "../../agents/flowDocumenter.js";
-import TestFactoryDiscovery from "../../services/testFactoryDiscovery.js";
-import YAML from "../../services/yamlParser.js";
-
 import * as dotenv from "dotenv";
+import YAML from "../../services/yamlParser.js";
+import tokenHelperService from "../../services/tokenHelperService.js";
+
+import {
+  codeReviewer,
+  codeReviewerPMD,
+  codeRefactoring,
+  codeDocumenter,
+  codeComments,
+  unitTestsWriter,
+  emailTemplate,
+  validationRule,
+  flowTestWriter,
+  flowDocumenter,
+} from "../../agents/index.js";
+
 dotenv.config();
+
 const router = express.Router();
 const MAX_TOKEN_ERROR =
   "Max token length exceeded. Please select a smaller file.";
 
-router.post(
-  [
-    "/apexclass/test",
-    "/apexclass/codecomments",
-    "/apexclass/documentation",
-    "/apexclass/codereview",
-    "/apexclass/codereviewpmd",
-    "/apexclass/coderefactor",
-    "/emailtemplate/beautify",
-    "/validationrule/description",
-    "/flow/documentation",
-    "/flow/test",
-  ],
-  async (req, res) => {
-    await handleRequest(req, res);
+const endpoints = [
+  "/apexclass/test",
+  "/apexclass/codecomments",
+  "/apexclass/documentation",
+  "/apexclass/codereview",
+  "/apexclass/codereviewpmd",
+  "/apexclass/coderefactor",
+  "/emailtemplate/beautify",
+  "/validationrule/description",
+  "/flow/documentation",
+  "/flow/test",
+];
+
+router.post(endpoints, handleRequest);
+
+async function handleRequest(req, res) {
+  try {
+    validateTokenLength(req);
+    const result = await generate(req);
+    res.send({ success: true, result });
+  } catch (exception) {
+    handleException(res, exception);
   }
-);
-
-async function generate(req) {
-  let textResponse = "";
-  if (req.path === "/apexclass/test") {
-    // inject required fields info for better tests data generation
-    req.body.requiredMetadata = YAML.stringify(
-      await req.salesforce.getRequiredSObjectMetadata(req.body)
-    );
-    if (req.body.factoryDef) {
-      try {
-        req.body.testFactoryDef = YAML.stringify(req.body.factoryDef);
-      } catch (error) {}
-    }
-
-    textResponse = await unitTestsWriter.generate(req.body);
-  } else if (req.path === "/apexclass/codecomments") {
-    textResponse = await codeComments.generate(req.body);
-  } else if (req.path === "/apexclass/documentation") {
-    textResponse = await codeDocumenter.generate(req.body);
-  } else if (req.path === "/apexclass/codereview") {
-    textResponse = await codeReviewer.generate(req.body);
-  } else if (req.path === "/apexclass/codereviewpmd") {
-    textResponse = await codeReviewerPMD.generate(req.body);
-  } else if (req.path === "/apexclass/coderefactor") {
-    textResponse = await codeRefactoring.generate(req.body);
-  } else if (req.path === "/emailtemplate/beautify") {
-    textResponse = await emailTemplate.generate(req.body);
-  } else if (req.path === "/validationrule/description") {
-    textResponse = await validationRule.generate(req.body);
-  } else if (req.path === "/flow/documentation") {
-    textResponse = await flowDocumenter.generate(req.body);
-  } else if (req.path === "/flow/test") {
-    textResponse = await flowTestWriter.generate(req.body);
-  }
-
-  return textResponse;
 }
 
-function validateTokenLength(req, res) {
+async function generate(req) {
+  const generators = {
+    "/apexclass/test": {
+      generate: async (body) => {
+        // inject required fields info for better tests data generation
+        body.requiredMetadata = YAML.stringify(
+          await req.salesforce.getRequiredSObjectMetadata(body)
+        );
+        if (body.factoryDef) {
+          try {
+            body.testFactoryDef = YAML.stringify(body.factoryDef);
+          } catch (error) {}
+        }
+        return await unitTestsWriter.generate(body);
+      },
+    },
+    "/apexclass/codecomments": codeComments,
+    "/apexclass/documentation": codeDocumenter,
+    "/apexclass/codereview": codeReviewer,
+    "/apexclass/codereviewpmd": codeReviewerPMD,
+    "/apexclass/coderefactor": codeRefactoring,
+    "/emailtemplate/beautify": emailTemplate,
+    "/validationrule/description": validationRule,
+    "/flow/documentation": flowDocumenter,
+    "/flow/test": flowTestWriter,
+  };
+
+  const generator = generators[req.path];
+  return generator ? await generator.generate(req.body) : "";
+}
+
+function validateTokenLength(req) {
   const codeEndpoints = [
     "/apexclass/test",
     "/apexclass/codecomments",
@@ -85,40 +89,15 @@ function validateTokenLength(req, res) {
     "/flow/test",
   ];
 
-  if (
-    codeEndpoints.includes(req.path) &&
-    tokenHelperService.getTokenCount(req.body.Body || req.body.Metadata)
-      .limitExceeded
-  ) {
-    const err = new Error(MAX_TOKEN_ERROR);
-    throw err;
-  } else if (
-    req.path === "/emailtemplate/beautify" &&
-    tokenHelperService.getTokenCount(req.body.HtmlValue).limitExceeded
-  ) {
-    const err = new Error(MAX_TOKEN_ERROR);
-    throw err;
-  } else if (
-    req.path === "/validationrule/description" &&
-    tokenHelperService.getTokenCount(req.body?.Metadata?.errorConditionFormula)
-      .limitExceeded
-  ) {
-    const err = new Error(MAX_TOKEN_ERROR);
-    throw err;
-  }
-}
+  const tokenCount = tokenHelperService.getTokenCount(
+    req.body.Body ||
+      req.body.Metadata ||
+      req.body.HtmlValue ||
+      req.body?.Metadata?.errorConditionFormula
+  );
 
-async function handleRequest(req, res) {
-  try {
-    validateTokenLength(req, res);
-    const result = await generate(req);
-
-    res.send({
-      success: true,
-      result: result,
-    });
-  } catch (exception) {
-    handleException(res, exception);
+  if (codeEndpoints.includes(req.path) && tokenCount.limitExceeded) {
+    throw new Error(MAX_TOKEN_ERROR);
   }
 }
 
