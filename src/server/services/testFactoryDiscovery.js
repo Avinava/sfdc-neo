@@ -9,7 +9,7 @@ class TestFactoryDiscovery {
 
   async run(forceBuild = false) {
     const res = {};
-    const factoryDef = await this.generate();
+    const factoryDef = await this.generate(forceBuild);
     for (const clsName in factoryDef) {
       res[clsName] = {
         methods: {},

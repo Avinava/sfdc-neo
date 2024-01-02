@@ -38,7 +38,7 @@ router.get("/test/factory-def", async (req, res) => {
   res.send(
     await req.salesforce.getTestFactoryDefinition(
       req.salesforce,
-      req.query.force
+      req.query.force === "true"
     )
   );
 });

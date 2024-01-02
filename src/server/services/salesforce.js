@@ -268,7 +268,7 @@ class Salesforce {
   }
 
   async getTestFactoryDefinition(salesforce, force = false) {
-    return await new TestFactoryDiscovery(salesforce.connection).run();
+    return await new TestFactoryDiscovery(salesforce.connection).run(force);
   }
 
   async describeSObject(sobj) {

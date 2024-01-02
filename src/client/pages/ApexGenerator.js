@@ -241,7 +241,7 @@ class Generator extends React.Component {
     }
 
     if (!def) {
-      let res = await this.apiService.getTestFactoryDefinition();
+      let res = await this.apiService.getTestFactoryDefinition(true);
       def = {};
       def.lastUpdated = new Date();
       def.factory = res;
