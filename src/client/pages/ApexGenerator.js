@@ -58,6 +58,7 @@ class Generator extends React.Component {
     openTestClassUserPromptInput: false,
     deployResultTile: "Validation Results",
     anchorEl: null,
+    message: {},
   };
   apiService = new APIService({ context: this.context });
   componentDidMount() {
@@ -124,11 +125,26 @@ class Generator extends React.Component {
     });
 
     try {
+      this.setState({
+        message: {
+          title: "Searching for test factories",
+          subtitle:
+            "The app is searching for test factories in your org... This may take few seconds...",
+        },
+      });
       const def = await this.getTestFactoryDefinition();
       cls.factoryDef = def?.factory;
     } catch (error) {
       console.log("error", error);
     }
+
+    this.setState({
+      message: {
+        title: "Generating test class",
+        subtitle:
+          "The app is generating a test class for you... This may take few seconds...",
+      },
+    });
 
     this.apiService
       .generateTest(cls)
@@ -336,11 +352,22 @@ class Generator extends React.Component {
         Body: response.result,
       },
       isResultLoading: false,
+      message: {
+        title: "",
+        subtitle: "",
+      },
     });
   };
 
   handleErrors(err) {
-    this.setState({ isResultLoading: false, loading: false });
+    this.setState({
+      isResultLoading: false,
+      loading: false,
+      message: {
+        title: "",
+        subtitle: "",
+      },
+    });
   }
 
   handleMoreMenuClick(event) {
@@ -379,10 +406,11 @@ class Generator extends React.Component {
             message={
               <React.Fragment>
                 <Typography variant="body1" sx={{ color: "white" }}>
-                  Processing your request...
+                  {this.state.message.title || " Processing your request... "}
                 </Typography>
                 <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
+                  {this.state.message.subtitle ||
+                    "This may take few seconds..."}
                 </Typography>
               </React.Fragment>
             }
