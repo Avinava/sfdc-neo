@@ -186,7 +186,10 @@ class ValidationRuleGenerator extends React.Component {
           errorMessage: generatedMetadata.ErrorMessage,
           active: rule.Active,
           errorConditionFormula: rule.Metadata.errorConditionFormula,
+          fullName: generatedMetadata.Name,
+          errorDisplayField: rule.Metadata.errorDisplayField,
         },
+        FullName: generatedMetadata.ValidationName,
       })
       .then((response) => this.handleDeployResponse(response))
       .catch((err) => this.handleErrors(err));
@@ -277,10 +280,7 @@ class ValidationRuleGenerator extends React.Component {
                     <CardContent>
                       {this.state.selectedValidationRule?.ValidationName ? (
                         <>
-                          <Typography
-                            variant="body2"
-                            sx={{ mt: 1, color: "#3794ff" }}
-                          >
+                          <Typography variant="body2" sx={{ color: "#3794ff" }}>
                             <strong>Name</strong>
                           </Typography>
                           <Typography variant="body2" sx={{ mb: 2 }}>

@@ -8,6 +8,7 @@ class ValidationRule {
 You are a developer who is reviewing the provided salesforce validation rules.
 - Review the validation rule and provide feedback to the developer.
 - Use the METADATA to generate the documentation.
+- Suggested Description & Error Message should be under 255 characters.
 
 # METADATA
 {metadata}
@@ -21,7 +22,7 @@ You are a developer who is reviewing the provided salesforce validation rules.
 
 ### Suggested Improvements / Updates
 #### Name
-<validate name if its appropriate, if not suggest a new name>
+<validate name if its appropriate, if not suggest a descriptive new name>
 #### Description
 <validate the existing description and suggest improvements if needed including grammar and typos>
 #### Formula

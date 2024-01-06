@@ -30,7 +30,7 @@ const endpoints = [
   "/apexclass/codereviewpmd",
   "/apexclass/coderefactor",
   "/emailtemplate/beautify",
-  "/validationrule/description",
+  "/validationrule/review",
   "/flow/documentation",
   "/flow/test",
 ];
