@@ -265,8 +265,44 @@ class ValidationRuleGenerator extends React.Component {
                     marginTop: "10px",
                   }}
                 >
+                  <Card
+                    sx={{
+                      mt: 2,
+                      backgroundColor: "#1e1e1e",
+                      color: "#fff",
+                      mb: 2,
+                      minHeight: 250,
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant="subtitle1" component="div">
+                        Selected Validation Rule Details
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ mt: 1, color: "#3794ff" }}
+                      >
+                        <strong>Name</strong>
+                      </Typography>
+                      <Typography variant="body2" sx={{ mb: 2 }}>
+                        {this.state.selectedValidationRule?.ValidationName}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: "#3794ff" }}>
+                        <strong>Description</strong>
+                      </Typography>
+                      <Typography variant="body2" sx={{ mb: 2 }}>
+                        {this.state.selectedValidationRule?.Description}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: "#3794ff" }}>
+                        <strong>Error Message</strong>
+                      </Typography>
+                      <Typography variant="body2" sx={{ mb: 2 }}>
+                        {this.state.selectedValidationRule?.ErrorMessage}
+                      </Typography>
+                    </CardContent>
+                  </Card>
                   <Editor
-                    height="calc(100vh - 215px)"
+                    height="calc(100vh - 600px)"
                     defaultLanguage="apex"
                     defaultValue="Get started by selecting an ValidationRule."
                     value={
