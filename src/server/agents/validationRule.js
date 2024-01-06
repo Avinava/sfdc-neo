@@ -23,11 +23,11 @@ You are a developer who is reviewing the provided salesforce validation rules.
 #### Name
 <validate name if its appropriate, if not suggest a new name>
 #### Description
-<validate description and suggest improvements if needed>
+<validate the existing description and suggest improvements if needed including grammar and typos>
 #### Formula
 <check errorConditionFormula against best practices and suggest if any improvement needed>
 #### Error Message
-<check if the errorMessage is user friendly and easy to understand, otherwise suggest changes, return the complete updated text>
+<check if the errorMessage is user friendly and easy to understand, otherwise suggest changes including grammar and typos, return the complete updated text>
 
 ### Examples
 - <insert example when error will happen>
