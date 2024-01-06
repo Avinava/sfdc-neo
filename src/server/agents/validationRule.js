@@ -58,8 +58,6 @@ json representation suggestion
       metadata: YAML.stringify(rule.Metadata),
     });
     const response = await model.call(input);
-    // split and extract the JSON under ### JSON
-    const json = response.split("### JSON")[1].trim();
     return response;
   }
 }
