@@ -107,10 +107,10 @@ class APIService extends React.Component {
     );
   }
 
-  generateValidationRuleDesc(rule) {
+  generateValidationRuleReview(rule) {
     return this.requestHandler(
       "post",
-      "/api/v1/generator/validationrule/description",
+      "/api/v1/generator/validationrule/review",
       rule
     );
   }
@@ -129,6 +129,14 @@ class APIService extends React.Component {
 
   formatApex(cls) {
     return this.requestHandler("post", "/api/v1/prettier/apex", cls);
+  }
+
+  toolingUpdate(entity, body) {
+    return this.requestHandler(
+      "post",
+      `/api/v1/salesforce/tooling/${entity}`,
+      body
+    );
   }
 
   /**

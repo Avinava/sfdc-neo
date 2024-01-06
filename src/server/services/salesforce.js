@@ -278,6 +278,11 @@ class Salesforce {
     } catch (e) {}
     return fields;
   }
+
+  async toolingUpdate(entity, body) {
+    // NOTE: only metadata fields are updated https://salesforce.stackexchange.com/questions/82069/salesforce-tooling-api-for-validationrule
+    return await this.connection.tooling.sobject(entity).update(body);
+  }
 }
 
 export default Salesforce;

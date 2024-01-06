@@ -27,18 +27,18 @@ You are a developer who is reviewing the provided salesforce validation rules.
 #### Formula
 <check errorConditionFormula against best practices and suggest if any improvement needed>
 #### Error Message
-<check if the errorMessage is user friendly and easy to understand, otherwise suggest changes>
+<check if the errorMessage is user friendly and easy to understand, otherwise suggest changes, return the complete updated text>
 
 ### Examples
 - <insert example when error will happen>
 - <example 2>
 
 ### JSON
-json representation suggestion
+complete json representation of suggestion
 
-  "Name" : "Validation Rule Name",
-  "Description" : "Validation Rule Description",
-  "ErrorMessage" : "Validation Rule Error Message",
+  "Name" : "<validation rule name>",
+  "Description" : "<complete description>",
+  "ErrorMessage" : "<error message>",
 
 
   `;
