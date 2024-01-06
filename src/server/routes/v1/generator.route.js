@@ -14,7 +14,7 @@ import {
   validationRule,
   flowTestWriter,
   flowDocumenter,
-} from "../../agents/index.js";
+} from "../../prompts/index.js";
 
 dotenv.config();
 
