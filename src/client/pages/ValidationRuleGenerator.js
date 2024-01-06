@@ -271,7 +271,7 @@ class ValidationRuleGenerator extends React.Component {
                       backgroundColor: "#1e1e1e",
                       color: "#fff",
                       mb: 2,
-                      minHeight: 250,
+                      minHeight: 300,
                     }}
                   >
                     <CardContent>
