@@ -30,7 +30,7 @@ const endpoints = [
   "/apexclass/codereviewpmd",
   "/apexclass/coderefactor",
   "/emailtemplate/beautify",
-  "/validationrule/description",
+  "/validationrule/review",
   "/flow/documentation",
   "/flow/test",
 ];
@@ -69,7 +69,7 @@ async function generate(req) {
     "/apexclass/codereviewpmd": codeReviewerPMD,
     "/apexclass/coderefactor": codeRefactoring,
     "/emailtemplate/beautify": emailTemplate,
-    "/validationrule/description": validationRule,
+    "/validationrule/review": validationRule,
     "/flow/documentation": flowDocumenter,
     "/flow/test": flowTestWriter,
   };

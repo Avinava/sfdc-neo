@@ -43,4 +43,8 @@ router.get("/test/factory-def", async (req, res) => {
   );
 });
 
+router.post("/tooling/:entity", async (req, res) => {
+  res.send(await req.salesforce.toolingUpdate(req.params.entity, req.body));
+});
+
 export default router;

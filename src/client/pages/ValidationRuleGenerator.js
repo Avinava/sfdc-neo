@@ -12,17 +12,34 @@ import {
   Paper,
   Tooltip,
   Typography,
+  Icon,
+  Card,
+  CardContent,
 } from "@mui/material";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
-import { MdEmail } from "react-icons/md";
 
 import { toast } from "react-toastify";
 import ReactMarkdown from "react-markdown";
 import Editor from "@monaco-editor/react";
+import { Publish as PublishIcon } from "@mui/icons-material";
+import { BiTestTube } from "react-icons/bi";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 import remarkGfm from "remark-gfm";
 import AuthContext from "../components/AuthContext";
 import APIService from "../services/APIService";
+import Modal from "../components/Modal";
+
+const LabelValuePair = ({ label, value }) => (
+  <Grid item xs={12}>
+    <Typography variant="body2" component="span" style={{ fontWeight: "bold" }}>
+      {label}:
+    </Typography>{" "}
+    <Typography variant="body2" component="span">
+      {value}
+    </Typography>
+  </Grid>
+);
 
 class ValidationRuleGenerator extends React.Component {
   static contextType = AuthContext;
@@ -36,6 +53,7 @@ class ValidationRuleGenerator extends React.Component {
     loading: true,
     type: "code",
     metrics: {},
+    openDeployConfirmation: false,
   };
   apiService = new APIService({ context: this.context });
 
@@ -105,7 +123,7 @@ class ValidationRuleGenerator extends React.Component {
       updatedValidationRule: {},
     });
     this.apiService
-      .generateValidationRuleDesc(rule)
+      .generateValidationRuleReview(rule)
       .then((response) => this.handleResponse(response))
       .catch((err) => this.handleErrors(err));
   }
@@ -125,17 +143,65 @@ class ValidationRuleGenerator extends React.Component {
   }
 
   handleResponse = (response) => {
-    console.log("response", response);
+    const jsonPayload = this.extractJSON(response);
     this.setState({
       updatedValidationRule: {
         Description: response.result,
+        GeneratedMetadata: jsonPayload,
       },
       isResultLoading: false,
     });
   };
 
+  extractJSON = (response) => {
+    const parts = response.result.split("### JSON");
+    if (parts.length === 2) {
+      response.result = parts[0].trim();
+      const json = parts[1].trim().replace(/^```json|```$/g, "");
+      try {
+        return JSON.parse(json);
+      } catch (error) {}
+    }
+    return {};
+  };
+
   handleErrors(err) {
     this.setState({ isResultLoading: false, loading: false });
+  }
+
+  deployConfirm() {
+    this.setState({ openDeployConfirmation: true });
+  }
+
+  async deployValidationRule() {
+    this.setState({ openDeployConfirmation: false, isResultLoading: true });
+    const rule = this.state.selectedValidationRule;
+    const generatedMetadata =
+      this.state.updatedValidationRule.GeneratedMetadata;
+    this.apiService
+      .toolingUpdate("ValidationRule", {
+        Id: rule.Id,
+        Metadata: {
+          description: generatedMetadata.Description,
+          errorMessage: generatedMetadata.ErrorMessage,
+          active: rule.Active,
+          errorConditionFormula: rule.Metadata.errorConditionFormula,
+          fullName: generatedMetadata.Name,
+          errorDisplayField: rule.Metadata.errorDisplayField,
+        },
+        FullName: generatedMetadata.ValidationName,
+      })
+      .then((response) => this.handleDeployResponse(response))
+      .catch((err) => this.handleErrors(err));
+  }
+
+  handleDeployResponse(response) {
+    this.setState({ isResultLoading: false });
+    if (response.success) {
+      toast.success("Validation Rule deployed successfully");
+    } else {
+      toast.error("Validation Rule deployment failed");
+    }
   }
 
   render() {
@@ -202,8 +268,50 @@ class ValidationRuleGenerator extends React.Component {
                     marginTop: "10px",
                   }}
                 >
+                  <Card
+                    sx={{
+                      mt: 2,
+                      backgroundColor: "#1e1e1e",
+                      color: "#fff",
+                      mb: 2,
+                      minHeight: 300,
+                    }}
+                  >
+                    <CardContent>
+                      {this.state.selectedValidationRule?.ValidationName ? (
+                        <>
+                          <Typography variant="body2" sx={{ color: "#3794ff" }}>
+                            <strong>Name</strong>
+                          </Typography>
+                          <Typography variant="body2" sx={{ mb: 2 }}>
+                            {this.state.selectedValidationRule?.ValidationName}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "#3794ff" }}>
+                            <strong>Description</strong>
+                          </Typography>
+                          <Typography variant="body2" sx={{ mb: 2 }}>
+                            {this.state.selectedValidationRule?.Description}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "#3794ff" }}>
+                            <strong>Error Message</strong>
+                          </Typography>
+                          <Typography variant="body2" sx={{ mb: 2 }}>
+                            {this.state.selectedValidationRule?.ErrorMessage}
+                          </Typography>
+                        </>
+                      ) : (
+                        <Typography
+                          variant="body2"
+                          sx={{ fontSize: "0.8rem", color: "#ffd700" }}
+                        >
+                          Select a validation rule from the dropdown to get
+                          started.
+                        </Typography>
+                      )}
+                    </CardContent>
+                  </Card>
                   <Editor
-                    height="calc(100vh - 215px)"
+                    height="calc(100vh - 600px)"
                     defaultLanguage="apex"
                     defaultValue="Get started by selecting an ValidationRule."
                     value={
@@ -224,16 +332,16 @@ class ValidationRuleGenerator extends React.Component {
                 <Grid container maxWidth="xl" minWidth="xl">
                   <Paper sx={{ p: "12px", width: "100%", textAlign: "center" }}>
                     <ButtonGroup variant="contained" size="small">
-                      <Tooltip title="Describe ValidationRule">
+                      <Tooltip title="Review Validation Rule">
                         <Button
                           variant="contained"
                           color="secondary"
                           onClick={() => this.generateValidationRule()}
-                          startIcon={<MdEmail />}
+                          startIcon={<BiTestTube />}
                           size="small"
                           disabled={!this.state.selectedValidationRule?.Id}
                         >
-                          Describe ValidationRule
+                          Review Validation Rule
                         </Button>
                       </Tooltip>
                     </ButtonGroup>
@@ -254,8 +362,98 @@ class ValidationRuleGenerator extends React.Component {
                 </Box>
               </Grid>
             </Grid>
+            <Paper
+              sx={{
+                p: 1,
+                mt: 1,
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              <ButtonGroup
+                variant="contained"
+                size="small"
+                sx={{ textAlign: "center" }}
+              >
+                <Tooltip title="Deploys the suggestions to your Salesforce org">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => this.deployConfirm()}
+                    size="small"
+                    disabled={
+                      !this.state.updatedValidationRule?.GeneratedMetadata
+                    }
+                    startIcon={<PublishIcon />}
+                  >
+                    Save suggestions to Org
+                  </Button>
+                </Tooltip>
+              </ButtonGroup>
+            </Paper>
           </Box>
         </Container>
+
+        {this.state.openDeployConfirmation && (
+          <Modal
+            title="Deploy Validation Rule"
+            body={
+              <React.Fragment>
+                <Box sx={{ textAlign: "center" }}>
+                  <Icon
+                    component={FaExclamationTriangle}
+                    sx={{ color: "orange", fontSize: 30, marginRight: 1 }}
+                  />
+                  <Typography variant="h6" component="div">
+                    Warning
+                  </Typography>
+                  <Typography variant="body2">
+                    Are you sure you want to deploy the the suggested validation
+                    changes to your org ?
+                  </Typography>
+                  <Card sx={{ mt: 2 }}>
+                    <CardContent>
+                      <Grid container alignItems="flex-start" spacing={2}>
+                        <LabelValuePair
+                          label="Name"
+                          value={
+                            this.state.updatedValidationRule?.GeneratedMetadata
+                              ?.Name
+                          }
+                        />
+                        <LabelValuePair
+                          label="Description"
+                          value={
+                            this.state.updatedValidationRule?.GeneratedMetadata
+                              ?.Description
+                          }
+                        />
+                        <LabelValuePair
+                          label="Error Message"
+                          value={
+                            this.state.updatedValidationRule?.GeneratedMetadata
+                              ?.ErrorMessage
+                          }
+                        />
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                </Box>
+                <Box>
+                  <Typography variant="body2" component={Box}>
+                    <ul>
+                      <li>This action will update existing validation rule</li>
+                      <li>This action cannot be undone.</li>
+                    </ul>
+                  </Typography>
+                </Box>
+              </React.Fragment>
+            }
+            cancelBtn={true}
+            onConfirm={() => this.deployValidationRule()}
+            onClose={() => this.setState({ openDeployConfirmation: false })}
+          ></Modal>
+        )}
       </React.Fragment>
     );
   }
