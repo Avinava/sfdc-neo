@@ -3,7 +3,15 @@ import temp from "temp";
 import { join } from "path";
 import fs from "fs-extra";
 
+/**
+ * Class for handling SFDX scanning.
+ */
 class SFDXScanner {
+  /**
+   * Get scan results for a given class.
+   * @param {Object} cls - The class to scan.
+   * @returns {Promise<Object>} The grouped violations.
+   */
   async getScanResults(cls) {
     const sfdxScannerResult = await this.scan(cls.Body);
     const violations = sfdxScannerResult.violations || [];
@@ -36,6 +44,11 @@ class SFDXScanner {
     return groupedViolations;
   }
 
+  /**
+   * Scan a given class body.
+   * @param {string} clsBody - The body of the class to scan.
+   * @returns {Promise<Object>} The result of the scan.
+   */
   async scan(clsBody) {
     temp.track();
     // create a temp file and run sfdx scanner

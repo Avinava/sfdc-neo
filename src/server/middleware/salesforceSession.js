@@ -1,4 +1,4 @@
-import Salesforce from "../services/salesforce.js";
+import Salesforce from "../services/salesforce/salesforce.js";
 const SALESFORCE_ENDPOINTS = ["/api/v1/salesforce/", "/api/v1/generator"];
 
 class SalesforceSession {

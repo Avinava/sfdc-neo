@@ -1,6 +1,6 @@
 import { PromptTemplate } from "langchain/prompts";
 import { model } from "../services/model.js";
-import sfdxScanner from "../services/sfdxScanner.js";
+import sfdxScanner from "../services/salesforce/sfdxScanner.js";
 import YAML from "../services/yamlParser.js";
 
 class CodeRefactoring {

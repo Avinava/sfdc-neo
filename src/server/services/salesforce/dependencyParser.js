@@ -13,7 +13,6 @@ class DependencyParser {
     let soupApi = sfdcSoup(this.connection, entryPoint);
     let dependencyResponse = await soupApi.getDependencies();
     return dependencyResponse;
-    ß;
   }
 }
 
