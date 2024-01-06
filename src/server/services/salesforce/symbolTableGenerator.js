@@ -1,8 +1,20 @@
+/**
+ * Class for generating symbol tables.
+ */
 class SymbolTableGenerator {
+  /**
+   * Create a SymbolTableGenerator.
+   * @param {Object} connection - The connection object.
+   */
   constructor(connection) {
     this.connection = connection;
   }
 
+  /**
+   * Generate a symbol table for the given classes.
+   * @param {Array<string>} classes - The names of the classes.
+   * @returns {Promise<Object>} The results of the symbol table generation.
+   */
   async generateSymbolTable(classes) {
     // query if there is a metadata container named neo-container
     const query = `SELECT Id, Name FROM MetadataContainer WHERE Name = 'neo-container'`;
@@ -60,6 +72,11 @@ class SymbolTableGenerator {
     };
   }
 
+  /**
+   * Wait for the ContainerAsyncRequest to finish.
+   * @param {string} id - The ID of the ContainerAsyncRequest.
+   * @returns {Promise<Object>} The ContainerAsyncRequest.
+   */
   async waitForContainerAsyncRequest(id) {
     const containerAsyncRequest = await this.connection.tooling.retrieve(
       "ContainerAsyncRequest",
@@ -80,6 +97,11 @@ class SymbolTableGenerator {
     }
   }
 
+  /**
+   * Run the symbol table generation for the given classes.
+   * @param {Array<string>} classes - The names of the classes.
+   * @returns {Promise<Object>} The results of the symbol table generation.
+   */
   async run(classes) {
     const result = await this.generateSymbolTable(classes);
     // get apex class member ids

@@ -1,12 +1,23 @@
 import { reflect } from "@cparra/apex-reflection";
-
 import SymbolTableGenerator from "./symbolTableGenerator.js";
 
+/**
+ * Class for discovering test factories.
+ */
 class TestFactoryDiscovery {
+  /**
+   * Create a TestFactoryDiscovery.
+   * @param {Object} connection - The connection object.
+   */
   constructor(connection) {
     this.connection = connection;
   }
 
+  /**
+   * Run the test factory discovery.
+   * @param {boolean} [forceBuild=false] - Whether to force build.
+   * @return {Object} The result of the discovery.
+   */
   async run(forceBuild = false) {
     const res = {};
     const factoryDef = await this.generate(forceBuild);
@@ -28,6 +39,11 @@ class TestFactoryDiscovery {
     return res;
   }
 
+  /**
+   * Generate the test factory.
+   * @param {boolean} [forceBuild=false] - Whether to force build.
+   * @return {Object} The generated factory definition.
+   */
   async generate(forceBuild = false) {
     const factoryDef = await this.discover(forceBuild);
     // iterate over the factoryDef and generate the test factory
@@ -50,6 +66,11 @@ class TestFactoryDiscovery {
     return factoryDef;
   }
 
+  /**
+   * Discover the test factory.
+   * @param {boolean} [forceBuild=false] - Whether to force build.
+   * @return {Object} The discovered factory.
+   */
   async discover(forceBuild = false) {
     const testClasses = await this.getAllTestClasses();
     const classes = testClasses.map((testClass) => testClass.Name);
@@ -153,6 +174,10 @@ class TestFactoryDiscovery {
     return factory;
   }
 
+  /**
+   * Get all test classes.
+   * @return {Array} The list of all test classes.
+   */
   async getAllTestClasses() {
     const result = await this.connection.search(
       `FIND {@isTest} IN ALL FIELDS RETURNING ApexClass(Id, Name)`
