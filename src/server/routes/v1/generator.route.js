@@ -90,10 +90,10 @@ function validateTokenLength(req) {
   ];
 
   const tokenCount = tokenHelperService.getTokenCount(
-    req.body.Body ||
+    req.body?.Metadata?.errorConditionFormula ||
       req.body.Metadata ||
       req.body.HtmlValue ||
-      req.body?.Metadata?.errorConditionFormula
+      req.body.Body
   );
 
   if (codeEndpoints.includes(req.path) && tokenCount.limitExceeded) {
