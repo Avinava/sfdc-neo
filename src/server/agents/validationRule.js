@@ -33,6 +33,14 @@ You are a developer who is reviewing the provided salesforce validation rules.
 - <insert example when error will happen>
 - <example 2>
 
+### JSON
+json representation suggestion
+
+  "Name" : "Validation Rule Name",
+  "Description" : "Validation Rule Description",
+  "ErrorMessage" : "Validation Rule Error Message",
+
+
   `;
 
   prompt;
@@ -50,6 +58,8 @@ You are a developer who is reviewing the provided salesforce validation rules.
       metadata: YAML.stringify(rule.Metadata),
     });
     const response = await model.call(input);
+    // split and extract the JSON under ### JSON
+    const json = response.split("### JSON")[1].trim();
     return response;
   }
 }

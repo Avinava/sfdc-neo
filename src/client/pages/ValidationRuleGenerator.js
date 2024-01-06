@@ -125,13 +125,26 @@ class ValidationRuleGenerator extends React.Component {
   }
 
   handleResponse = (response) => {
-    console.log("response", response);
+    const jsonPayload = this.extractJSON(response);
     this.setState({
       updatedValidationRule: {
         Description: response.result,
+        GeneratedMetadata: jsonPayload,
       },
       isResultLoading: false,
     });
+  };
+
+  extractJSON = (response) => {
+    const parts = response.result.split("### JSON");
+    if (parts.length === 2) {
+      response.result = parts[0].trim();
+      const json = parts[1].trim().replace(/^```json|```$/g, "");
+      try {
+        return JSON.parse(json);
+      } catch (error) {}
+    }
+    return {};
   };
 
   handleErrors(err) {
