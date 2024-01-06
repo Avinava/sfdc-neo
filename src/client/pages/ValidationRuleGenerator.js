@@ -275,30 +275,39 @@ class ValidationRuleGenerator extends React.Component {
                     }}
                   >
                     <CardContent>
-                      <Typography variant="subtitle1" component="div">
-                        Validation Rule Details
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{ mt: 1, color: "#3794ff" }}
-                      >
-                        <strong>Name</strong>
-                      </Typography>
-                      <Typography variant="body2" sx={{ mb: 2 }}>
-                        {this.state.selectedValidationRule?.ValidationName}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: "#3794ff" }}>
-                        <strong>Description</strong>
-                      </Typography>
-                      <Typography variant="body2" sx={{ mb: 2 }}>
-                        {this.state.selectedValidationRule?.Description}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: "#3794ff" }}>
-                        <strong>Error Message</strong>
-                      </Typography>
-                      <Typography variant="body2" sx={{ mb: 2 }}>
-                        {this.state.selectedValidationRule?.ErrorMessage}
-                      </Typography>
+                      {this.state.selectedValidationRule?.ValidationName ? (
+                        <>
+                          <Typography
+                            variant="body2"
+                            sx={{ mt: 1, color: "#3794ff" }}
+                          >
+                            <strong>Name</strong>
+                          </Typography>
+                          <Typography variant="body2" sx={{ mb: 2 }}>
+                            {this.state.selectedValidationRule?.ValidationName}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "#3794ff" }}>
+                            <strong>Description</strong>
+                          </Typography>
+                          <Typography variant="body2" sx={{ mb: 2 }}>
+                            {this.state.selectedValidationRule?.Description}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "#3794ff" }}>
+                            <strong>Error Message</strong>
+                          </Typography>
+                          <Typography variant="body2" sx={{ mb: 2 }}>
+                            {this.state.selectedValidationRule?.ErrorMessage}
+                          </Typography>
+                        </>
+                      ) : (
+                        <Typography
+                          variant="body2"
+                          sx={{ fontSize: "0.8rem", color: "#ffd700" }}
+                        >
+                          Select a validation rule from the dropdown to get
+                          started.
+                        </Typography>
+                      )}
                     </CardContent>
                   </Card>
                   <Editor
