@@ -276,7 +276,7 @@ class ValidationRuleGenerator extends React.Component {
                   >
                     <CardContent>
                       <Typography variant="subtitle1" component="div">
-                        Selected Validation Rule Details
+                        Validation Rule Details
                       </Typography>
                       <Typography
                         variant="body2"
