@@ -10,6 +10,14 @@ You are a developer who is reviewing the provided salesforce validation rules.
 - Use the METADATA to generate the documentation.
 - Suggested Description & Error Message should be under 255 characters.
 
+# Naming Guidelines
+Validation rule names should be unique, beginning with an uppercase letter. Use spaces to separate words.
+examples:
+- Street Address < 60 chars	
+- Zipcode required (Suburb)
+- Comments required (if Status = 'Closed Won')
+
+
 # METADATA
 {metadata}
 
@@ -22,7 +30,7 @@ You are a developer who is reviewing the provided salesforce validation rules.
 
 ### Suggested Improvements / Updates
 #### Name
-<validate name if its appropriate, if not suggest a descriptive new name>
+<validate name name against "Naming Guidelines", if it doesn't follows it, suggest a new name based on Naming Guidelines>
 #### Description
 <validate the existing description and suggest improvements if needed including grammar and typos>
 #### Formula
@@ -40,7 +48,6 @@ complete json representation of suggestion
   "Name" : "<validation rule name>",
   "Description" : "<complete description>",
   "ErrorMessage" : "<error message>",
-
 
   `;
 
