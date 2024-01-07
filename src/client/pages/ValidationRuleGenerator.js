@@ -181,7 +181,8 @@ class ValidationRuleGenerator extends React.Component {
     const parts = response.result.split("### JSON");
     if (parts.length === 2) {
       response.result = parts[0].trim();
-      const json = parts[1].trim().replace(/^```json|```$/g, "");
+      const match = parts[1].match(/```json([\s\S]*?)```/);
+      const json = match && match[1].trim();
       try {
         return JSON.parse(json);
       } catch (error) {}
