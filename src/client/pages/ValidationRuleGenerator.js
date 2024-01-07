@@ -15,6 +15,8 @@ import {
   Icon,
   Card,
   CardContent,
+  TextareaAutosize,
+  TextField,
 } from "@mui/material";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 
@@ -30,14 +32,21 @@ import AuthContext from "../components/AuthContext";
 import APIService from "../services/APIService";
 import Modal from "../components/Modal";
 
-const LabelValuePair = ({ label, value }) => (
+const LabelValuePair = ({ label, value, onChange, type }) => (
   <Grid item xs={12}>
-    <Typography variant="body2" component="span" style={{ fontWeight: "bold" }}>
-      {label}:
-    </Typography>{" "}
-    <Typography variant="body2" component="span">
-      {value}
-    </Typography>
+    {type === "textarea" ? (
+      <TextField
+        label={label}
+        value={value}
+        onChange={onChange}
+        fullWidth
+        multiline
+        rows={2}
+        maxRows={4}
+      />
+    ) : (
+      <TextField label={label} value={value} onChange={onChange} fullWidth />
+    )}
   </Grid>
 );
 
@@ -111,8 +120,20 @@ class ValidationRuleGenerator extends React.Component {
       .catch((err) => this.handleErrors(err));
   }
 
+  handleInputChange(field, value) {
+    this.setState((prevState) => ({
+      updatedValidationRule: {
+        ...prevState.updatedValidationRule,
+        GeneratedMetadata: {
+          ...prevState.updatedValidationRule.GeneratedMetadata,
+          [field]: value,
+        },
+      },
+    }));
+  }
+
   generateValidationRule() {
-    if (!this.validateselectedValidationRule()) {
+    if (!this.validateSelectedRule()) {
       return;
     }
 
@@ -134,7 +155,7 @@ class ValidationRuleGenerator extends React.Component {
 
   async saveValidationRuleBody() {}
 
-  validateselectedValidationRule() {
+  validateSelectedRule() {
     if (!this.state.selectedValidationRuleId) {
       toast.error("Please select an Email ValidationRule first");
       return false;
@@ -178,6 +199,7 @@ class ValidationRuleGenerator extends React.Component {
     const rule = this.state.selectedValidationRule;
     const generatedMetadata =
       this.state.updatedValidationRule.GeneratedMetadata;
+    const sobjectName = rule.EntityDefinition?.MasterLabel;
     this.apiService
       .toolingUpdate("ValidationRule", {
         Id: rule.Id,
@@ -186,10 +208,10 @@ class ValidationRuleGenerator extends React.Component {
           errorMessage: generatedMetadata.ErrorMessage,
           active: rule.Active,
           errorConditionFormula: rule.Metadata.errorConditionFormula,
-          fullName: generatedMetadata.Name,
+          fullName: sobjectName + "." + generatedMetadata.Name,
           errorDisplayField: rule.Metadata.errorDisplayField,
         },
-        FullName: generatedMetadata.ValidationName,
+        FullName: sobjectName + "." + generatedMetadata.Name,
       })
       .then((response) => this.handleDeployResponse(response))
       .catch((err) => this.handleErrors(err));
@@ -420,6 +442,10 @@ class ValidationRuleGenerator extends React.Component {
                             this.state.updatedValidationRule?.GeneratedMetadata
                               ?.Name
                           }
+                          onChange={(event) =>
+                            this.handleInputChange("Name", event.target.value)
+                          }
+                          type="text"
                         />
                         <LabelValuePair
                           label="Description"
@@ -427,6 +453,13 @@ class ValidationRuleGenerator extends React.Component {
                             this.state.updatedValidationRule?.GeneratedMetadata
                               ?.Description
                           }
+                          onChange={(event) =>
+                            this.handleInputChange(
+                              "Description",
+                              event.target.value
+                            )
+                          }
+                          type="textarea"
                         />
                         <LabelValuePair
                           label="Error Message"
@@ -434,6 +467,13 @@ class ValidationRuleGenerator extends React.Component {
                             this.state.updatedValidationRule?.GeneratedMetadata
                               ?.ErrorMessage
                           }
+                          onChange={(event) =>
+                            this.handleInputChange(
+                              "ErrorMessage",
+                              event.target.value
+                            )
+                          }
+                          type="textarea"
                         />
                       </Grid>
                     </CardContent>
