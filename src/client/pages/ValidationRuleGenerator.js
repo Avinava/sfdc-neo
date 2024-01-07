@@ -15,7 +15,6 @@ import {
   Icon,
   Card,
   CardContent,
-  TextareaAutosize,
   TextField,
 } from "@mui/material";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
