@@ -32,7 +32,7 @@ by following below guidelines.
 {additionalContext}
 
 # RESPONSE INSTRUCTIONS
-in your response only return generated plain apex class, the generated class should compile
+Provide a generated Apex test class that compiles successfully as the response, excluding any additional information.
 
 # UNIT TEST CLASS
   `;
@@ -65,6 +65,7 @@ in your response only return generated plain apex class, the generated class sho
     }
 
     const input = await this.prompt.format(cls);
+    console.log(input);
     const response = await model.call(input);
     const cleanedResponse = response
       .replace(/```apex\n/, "")

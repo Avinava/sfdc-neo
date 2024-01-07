@@ -231,19 +231,6 @@ class Salesforce {
   }
 
   /**
-   * Describes an sObject.
-   * @param {string} sobj - The name of the sObject.
-   * @returns {Promise<Array>} A promise that resolves with the sObject fields.
-   */
-  async describeSObject(sobj) {
-    let fields = [];
-    try {
-      fields = await this.connection.sobject(sobj).describe();
-    } catch (e) {}
-    return fields;
-  }
-
-  /**
    * Updates an entity using the tooling API.
    * @param {string} entity - The name of the entity.
    * @param {Object} body - The body of the request.
