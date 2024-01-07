@@ -17,7 +17,6 @@ import {
   CardContent,
   TextField,
 } from "@mui/material";
-import { CircleSpinnerOverlay } from "react-spinner-overlay";
 
 import { toast } from "react-toastify";
 import ReactMarkdown from "react-markdown";
@@ -30,6 +29,7 @@ import remarkGfm from "remark-gfm";
 import AuthContext from "../components/AuthContext";
 import APIService from "../services/APIService";
 import Modal from "../components/Modal";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const LabelValuePair = ({ label, value, onChange, type, maxLength }) => (
   <Grid item xs={12}>
@@ -245,34 +245,16 @@ class ValidationRuleGenerator extends React.Component {
     return (
       <React.Fragment>
         <Container maxWidth="xl">
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  Fetching ValidationRules...
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.loading}
+            message="Fetching Validation Rules"
+            subtitle="Please wait while we fetch the validation rules..."
           />
 
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  Processing your request...
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.isResultLoading}
+            message="Processing your request"
+            subtitle="Please wait while we process your request..."
           />
 
           <Box sx={{ flexGrow: 1, mt: 2 }}>
