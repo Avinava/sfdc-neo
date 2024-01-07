@@ -31,7 +31,7 @@ import AuthContext from "../components/AuthContext";
 import APIService from "../services/APIService";
 import Modal from "../components/Modal";
 
-const LabelValuePair = ({ label, value, onChange, type }) => (
+const LabelValuePair = ({ label, value, onChange, type, maxLength }) => (
   <Grid item xs={12}>
     {type === "textarea" ? (
       <TextField
@@ -41,10 +41,16 @@ const LabelValuePair = ({ label, value, onChange, type }) => (
         fullWidth
         multiline
         rows={2}
-        maxRows={4}
+        inputProps={{ maxLength }}
       />
     ) : (
-      <TextField label={label} value={value} onChange={onChange} fullWidth />
+      <TextField
+        label={label}
+        value={value}
+        onChange={onChange}
+        fullWidth
+        inputProps={{ maxLength }}
+      />
     )}
   </Grid>
 );
@@ -120,6 +126,11 @@ class ValidationRuleGenerator extends React.Component {
   }
 
   handleInputChange(field, value) {
+    // if name is changed and has spaces, replace with _
+    if (field === "Name") {
+      value = value.replace(/ /g, "_");
+    }
+
     this.setState((prevState) => ({
       updatedValidationRule: {
         ...prevState.updatedValidationRule,
@@ -450,6 +461,7 @@ class ValidationRuleGenerator extends React.Component {
                             this.handleInputChange("Name", event.target.value)
                           }
                           type="text"
+                          maxLength={40}
                         />
                         <LabelValuePair
                           label="Description"
@@ -464,6 +476,7 @@ class ValidationRuleGenerator extends React.Component {
                             )
                           }
                           type="textarea"
+                          maxLength={255}
                         />
                         <LabelValuePair
                           label="Error Message"
@@ -478,6 +491,7 @@ class ValidationRuleGenerator extends React.Component {
                             )
                           }
                           type="textarea"
+                          maxLength={255}
                         />
                       </Grid>
                     </CardContent>
