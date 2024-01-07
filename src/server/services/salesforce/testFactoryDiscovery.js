@@ -239,6 +239,32 @@ class TestFactoryDiscovery {
     }
     return factory;
   }
+
+  /**
+   * Retrieves classes that already have a symbol table.
+   * @param {Array} classes - The classes to check.
+   * @return {Promise<Array>} The classes that have a symbol table.
+   */
+  async getClassesWithSymbolTable(classes) {
+    const result = await this.connection.query(
+      `SELECT Id, Name, SymbolTable FROM ApexClass WHERE Name IN ('${classes.join(
+        "','"
+      )}') AND SymbolTable != null`
+    );
+    return result.records || [];
+  }
+
+  /**
+   * Retrieves classes that do not have a symbol table.
+   * @param {Array} classesWithSymbolTable - The classes that have a symbol table.
+   * @return {Array} The classes that do not have a symbol table.
+   */
+  getClassesWithoutSymbolTable(classesWithSymbolTable) {
+    const classesWithSymbolTableSet = new Set(
+      classesWithSymbolTable.map((cls) => cls.Name)
+    );
+    return this.classes.filter((cls) => !classesWithSymbolTableSet.has(cls));
+  }
 }
 
 export default TestFactoryDiscovery;
