@@ -164,6 +164,9 @@ class ValidationRuleGenerator extends React.Component {
 
   handleResponse = (response) => {
     const jsonPayload = this.extractJSON(response);
+    if (jsonPayload == null) {
+      toast.error("Error generating validation rule review. Please try again.");
+    }
     this.setState({
       updatedValidationRule: {
         Description: response.result,
