@@ -4,22 +4,28 @@ import YAML from "../services/yamlParser.js";
 
 class ValidationRule {
   promptTemplate = `
-# YOUR TASK
 You are a developer who is reviewing the provided salesforce validation rules.
-- Review the validation rule and provide feedback to the developer.
+- Review the validation rule and provide feedback based on GUIDELINES.
 - Use the METADATA to generate the documentation.
-- Suggested Description & Error Message should be under 255 characters.
+- Provide score between (1-10) for Naming, Description and ErrorMessage in JSON based on how much they follow the GUIDELINES, where 10 means they follow guidelines strictly
 
-# NAMING GUIDELINES
+# GUIDELINES
+
+## NAMING
 Validation rule names should be unique, beginning with an uppercase letter. 
 - Use underscores to separate words
 - Name should be descriptive and not generic. 
 - Should be under 40 characters.
 - Examples:
-  - Street Address < 60 chars	
-  - Zipcode required (Suburb)
-  - Comments required (if Status = 'Closed Won')
+  - Street_Address_Required
+  - Zipcode_Required
+  - Comments_Required_If_Status_Closed_Won
 
+## DESCRIPTION
+- The description should be descriptive and should clearly tell what this validation rule does under 255 characters
+
+## ERROR MESSAGE
+- The error message should be descriptive and should guide the user about the error under 255 characters
 
 # METADATA
 {metadata}
@@ -33,7 +39,7 @@ Validation rule names should be unique, beginning with an uppercase letter.
 
 ### Suggested Improvements / Updates
 #### Name
-<validate name name against "NAMING GUIDELINES", if it doesn't follows it, suggest a new name based on NAMING GUIDELINES>
+<validate name name against "NAMING GUIDELINES" >
 #### Description
 <validate the existing description and suggest improvements if needed including grammar and typos>
 #### Formula
@@ -46,12 +52,18 @@ Validation rule names should be unique, beginning with an uppercase letter.
 - <example 2>
 
 ### JSON
-complete json representation of suggestion
-
-  "Name" : "<validation rule name>",
-  "Description" : "<complete description>",
-  "ErrorMessage" : "<error message>",
-
+<insert json representation of suggestion for application use, this should parse and in below format
+{{
+  "Name":"<new name>",
+  "Description":"<new description>",
+  "ErrorMessage":"<new error message>",
+  "score": {{ 
+    "Name": <score in integer>,
+    "Description": <score>,
+    "ErrorMessage": <score>
+  }}
+}}
+>
   `;
 
   prompt;
