@@ -105,6 +105,19 @@ class MetadataDependency {
 
     return dependencyData;
   }
+
+  /**
+   * Describes an sObject.
+   * @param {string} sobj - The name of the sObject.
+   * @returns {Promise<Array>} A promise that resolves with the sObject fields.
+   */
+  async describeSObject(sobj) {
+    let fields = [];
+    try {
+      fields = await this.connection.sobject(sobj).describe();
+    } catch (e) {}
+    return fields;
+  }
 }
 
 export default MetadataDependency;
