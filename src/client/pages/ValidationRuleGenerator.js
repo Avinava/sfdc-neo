@@ -351,17 +351,19 @@ class ValidationRuleGenerator extends React.Component {
                 <Grid container maxWidth="xl" minWidth="xl">
                   <Paper sx={{ p: "12px", width: "100%", textAlign: "center" }}>
                     <ButtonGroup variant="contained" size="small">
-                      <Tooltip title="Review Validation Rule">
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => this.generateValidationRule()}
-                          startIcon={<BiTestTube />}
-                          size="small"
-                          disabled={!this.state.selectedValidationRule?.Id}
-                        >
-                          Review Validation Rule
-                        </Button>
+                      <Tooltip title="Review Validation Rule using OpenAI">
+                        <Box>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => this.generateValidationRule()}
+                            startIcon={<BiTestTube />}
+                            size="small"
+                            disabled={!this.state.selectedValidationRule?.Id}
+                          >
+                            Review Validation Rule
+                          </Button>
+                        </Box>
                       </Tooltip>
                     </ButtonGroup>
                   </Paper>
@@ -394,19 +396,21 @@ class ValidationRuleGenerator extends React.Component {
                 size="small"
                 sx={{ textAlign: "center" }}
               >
-                <Tooltip title="Deploys the suggestions to your Salesforce org">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => this.deployConfirm()}
-                    size="small"
-                    disabled={
-                      !this.state.updatedValidationRule?.GeneratedMetadata
-                    }
-                    startIcon={<PublishIcon />}
-                  >
-                    Save suggestions to Org
-                  </Button>
+                <Tooltip title="Applies the recommended modifications to the Validation Name, Description, and Error Message in your Salesforce organization">
+                  <Box>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => this.deployConfirm()}
+                      size="small"
+                      disabled={
+                        !this.state.updatedValidationRule?.GeneratedMetadata
+                      }
+                      startIcon={<PublishIcon />}
+                    >
+                      Save suggestions to Org
+                    </Button>
+                  </Box>
                 </Tooltip>
               </ButtonGroup>
             </Paper>
