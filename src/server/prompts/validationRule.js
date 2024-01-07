@@ -13,7 +13,8 @@ You are a developer who is reviewing the provided salesforce validation rules.
 # NAMING GUIDELINES
 Validation rule names should be unique, beginning with an uppercase letter. 
 - Use spaces to separate words
-- Name should be descriptive and not generic.
+- Name should be descriptive and not generic. 
+- Should be under 40 characters.
 - Examples:
   - Street Address < 60 chars	
   - Zipcode required (Suburb)
