@@ -44,7 +44,18 @@ router.get("/test/factory-def", async (req, res) => {
 });
 
 router.post("/tooling/:entity", async (req, res) => {
-  res.send(await req.salesforce.toolingUpdate(req.params.entity, req.body));
+  try {
+    const result = await req.salesforce.toolingUpdate(
+      req.params.entity,
+      req.body
+    );
+    res.send(result);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send({ error: "An error occurred while processing your request." });
+  }
 });
 
 export default router;

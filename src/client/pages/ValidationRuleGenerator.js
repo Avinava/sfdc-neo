@@ -15,7 +15,6 @@ import {
   Icon,
   Card,
   CardContent,
-  TextareaAutosize,
   TextField,
 } from "@mui/material";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
@@ -165,6 +164,10 @@ class ValidationRuleGenerator extends React.Component {
 
   handleResponse = (response) => {
     const jsonPayload = this.extractJSON(response);
+
+    if (jsonPayload == null || Object.keys(jsonPayload).length === 0) {
+      toast.error("Error generating validation rule review. Please try again.");
+    }
     this.setState({
       updatedValidationRule: {
         Description: response.result,
