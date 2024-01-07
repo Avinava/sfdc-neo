@@ -11,9 +11,7 @@ import {
   ButtonGroup,
   Paper,
   Tooltip,
-  Typography,
 } from "@mui/material";
-import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import { MdEmail } from "react-icons/md";
 
 import { toast } from "react-toastify";
@@ -21,6 +19,7 @@ import AuthContext from "../components/AuthContext";
 import APIService from "../services/APIService";
 import Editor from "@monaco-editor/react";
 import { Interweave } from "interweave";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 class EmailTemplateGenerator extends React.Component {
   static contextType = AuthContext;
@@ -137,34 +136,14 @@ class EmailTemplateGenerator extends React.Component {
     return (
       <React.Fragment>
         <Container maxWidth="xl">
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  Fetching apex templates...
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.loading}
+            message="Fetching email templates"
           />
 
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  Processing your request...
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.isResultLoading}
+            message="Processing your request..."
           />
 
           <Box sx={{ flexGrow: 1, mt: 2 }}>

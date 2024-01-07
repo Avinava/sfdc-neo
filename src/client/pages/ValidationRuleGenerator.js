@@ -17,7 +17,6 @@ import {
   CardContent,
   TextField,
 } from "@mui/material";
-import { CircleSpinnerOverlay } from "react-spinner-overlay";
 
 import { toast } from "react-toastify";
 import ReactMarkdown from "react-markdown";
@@ -30,8 +29,9 @@ import remarkGfm from "remark-gfm";
 import AuthContext from "../components/AuthContext";
 import APIService from "../services/APIService";
 import Modal from "../components/Modal";
+import LoadingOverlay from "../components/LoadingOverlay";
 
-const LabelValuePair = ({ label, value, onChange, type }) => (
+const LabelValuePair = ({ label, value, onChange, type, maxLength }) => (
   <Grid item xs={12}>
     {type === "textarea" ? (
       <TextField
@@ -41,10 +41,16 @@ const LabelValuePair = ({ label, value, onChange, type }) => (
         fullWidth
         multiline
         rows={2}
-        maxRows={4}
+        inputProps={{ maxLength }}
       />
     ) : (
-      <TextField label={label} value={value} onChange={onChange} fullWidth />
+      <TextField
+        label={label}
+        value={value}
+        onChange={onChange}
+        fullWidth
+        inputProps={{ maxLength }}
+      />
     )}
   </Grid>
 );
@@ -120,6 +126,11 @@ class ValidationRuleGenerator extends React.Component {
   }
 
   handleInputChange(field, value) {
+    // if name is changed and has spaces, replace with _
+    if (field === "Name") {
+      value = value.replace(/ /g, "_");
+    }
+
     this.setState((prevState) => ({
       updatedValidationRule: {
         ...prevState.updatedValidationRule,
@@ -181,7 +192,8 @@ class ValidationRuleGenerator extends React.Component {
     const parts = response.result.split("### JSON");
     if (parts.length === 2) {
       response.result = parts[0].trim();
-      const json = parts[1].trim().replace(/^```json|```$/g, "");
+      const match = parts[1].match(/```json([\s\S]*?)```/);
+      const json = match && match[1].trim();
       try {
         return JSON.parse(json);
       } catch (error) {}
@@ -233,34 +245,16 @@ class ValidationRuleGenerator extends React.Component {
     return (
       <React.Fragment>
         <Container maxWidth="xl">
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  Fetching ValidationRules...
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.loading}
+            message="Fetching Validation Rules"
+            subtitle="Please wait while we fetch the validation rules..."
           />
 
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  Processing your request...
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.isResultLoading}
+            message="Processing your request"
+            subtitle="Please wait while we process your request..."
           />
 
           <Box sx={{ flexGrow: 1, mt: 2 }}>
@@ -357,17 +351,19 @@ class ValidationRuleGenerator extends React.Component {
                 <Grid container maxWidth="xl" minWidth="xl">
                   <Paper sx={{ p: "12px", width: "100%", textAlign: "center" }}>
                     <ButtonGroup variant="contained" size="small">
-                      <Tooltip title="Review Validation Rule">
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => this.generateValidationRule()}
-                          startIcon={<BiTestTube />}
-                          size="small"
-                          disabled={!this.state.selectedValidationRule?.Id}
-                        >
-                          Review Validation Rule
-                        </Button>
+                      <Tooltip title="Review Validation Rule using OpenAI">
+                        <Box>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => this.generateValidationRule()}
+                            startIcon={<BiTestTube />}
+                            size="small"
+                            disabled={!this.state.selectedValidationRule?.Id}
+                          >
+                            Review Validation Rule
+                          </Button>
+                        </Box>
                       </Tooltip>
                     </ButtonGroup>
                   </Paper>
@@ -400,19 +396,21 @@ class ValidationRuleGenerator extends React.Component {
                 size="small"
                 sx={{ textAlign: "center" }}
               >
-                <Tooltip title="Deploys the suggestions to your Salesforce org">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => this.deployConfirm()}
-                    size="small"
-                    disabled={
-                      !this.state.updatedValidationRule?.GeneratedMetadata
-                    }
-                    startIcon={<PublishIcon />}
-                  >
-                    Save suggestions to Org
-                  </Button>
+                <Tooltip title="Applies the recommended modifications to the Validation Name, Description, and Error Message in your Salesforce organization">
+                  <Box>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => this.deployConfirm()}
+                      size="small"
+                      disabled={
+                        !this.state.updatedValidationRule?.GeneratedMetadata
+                      }
+                      startIcon={<PublishIcon />}
+                    >
+                      Save suggestions to Org
+                    </Button>
+                  </Box>
                 </Tooltip>
               </ButtonGroup>
             </Paper>
@@ -449,6 +447,7 @@ class ValidationRuleGenerator extends React.Component {
                             this.handleInputChange("Name", event.target.value)
                           }
                           type="text"
+                          maxLength={40}
                         />
                         <LabelValuePair
                           label="Description"
@@ -463,6 +462,7 @@ class ValidationRuleGenerator extends React.Component {
                             )
                           }
                           type="textarea"
+                          maxLength={255}
                         />
                         <LabelValuePair
                           label="Error Message"
@@ -477,6 +477,7 @@ class ValidationRuleGenerator extends React.Component {
                             )
                           }
                           type="textarea"
+                          maxLength={255}
                         />
                       </Grid>
                     </CardContent>

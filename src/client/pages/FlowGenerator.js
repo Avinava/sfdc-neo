@@ -14,7 +14,6 @@ import {
   Typography,
   Icon,
 } from "@mui/material";
-import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { GrTest } from "react-icons/gr";
 
@@ -31,6 +30,7 @@ import {
   Publish as PublishIcon,
 } from "@mui/icons-material";
 import { FaExclamationTriangle } from "react-icons/fa";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 class FlowGenerator extends React.Component {
   static contextType = AuthContext;
@@ -224,34 +224,14 @@ class FlowGenerator extends React.Component {
     return (
       <React.Fragment>
         <Container maxWidth="xl">
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  Fetching Flows...
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.loading}
+            message="Fetching Flows..."
           />
 
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  Processing your request...
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.isResultLoading}
+            message="Processing your request..."
           />
 
           <Box sx={{ flexGrow: 1, mt: 2 }}>

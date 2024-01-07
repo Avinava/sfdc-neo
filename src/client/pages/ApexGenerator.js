@@ -4,7 +4,6 @@ import {
   Box,
   Grid,
   FormControl,
-  Menu,
   MenuItem,
   Select,
   InputLabel,
@@ -41,6 +40,8 @@ import {
   PublishedWithChanges as PublishedWithChangesIcon,
   Publish as PublishIcon,
 } from "@mui/icons-material";
+
+import LoadingOverlay from "../components/LoadingOverlay";
 
 class Generator extends React.Component {
   static contextType = AuthContext;
@@ -385,35 +386,15 @@ class Generator extends React.Component {
     return (
       <React.Fragment>
         <Container maxWidth="xl">
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  Fetching apex classes...
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  This may take few seconds...
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.loading}
+            message="Fetching apex classes"
           />
 
-          <CircleSpinnerOverlay
-            overlayColor="rgba(0,153,255,0.2)"
-            message={
-              <React.Fragment>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  {this.state.message.title || " Processing your request... "}
-                </Typography>
-                <Typography variant="body1" sx={{ color: "white" }}>
-                  {this.state.message.subtitle ||
-                    "This may take few seconds..."}
-                </Typography>
-              </React.Fragment>
-            }
+          <LoadingOverlay
             loading={this.state.isResultLoading}
+            message={this.state.message.title || "Processing your request..."}
+            subtitle={this.state.message.subtitle}
           />
 
           <Box sx={{ flexGrow: 1, mt: 2 }}>
