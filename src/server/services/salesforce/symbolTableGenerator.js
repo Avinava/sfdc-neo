@@ -88,6 +88,7 @@ class SymbolTableGenerator {
       if (containerAsyncRequest.DeployDetails.componentSuccesses.length > 0) {
         return containerAsyncRequest;
       }
+      console.error(containerAsyncRequest);
       throw new Error("symbol table generation failed");
     } else if (containerAsyncRequest.State === "Completed") {
       return containerAsyncRequest;
