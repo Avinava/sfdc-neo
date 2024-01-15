@@ -35,12 +35,19 @@ router.get("/deployclass/:id", async (req, res) => {
 });
 
 router.get("/test/factory-def", async (req, res) => {
-  res.send(
-    await req.salesforce.getTestFactoryDefinition(
-      req.salesforce,
-      req.query.force === "true"
-    )
-  );
+  try {
+    res.send(
+      await req.salesforce.getTestFactoryDefinition(
+        req.salesforce,
+        req.query.force === "true"
+      )
+    );
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send({ error: "An error occurred while processing your request." });
+  }
 });
 
 router.post("/tooling/:entity", async (req, res) => {

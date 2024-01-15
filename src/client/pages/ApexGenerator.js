@@ -257,7 +257,13 @@ class Generator extends React.Component {
     }
 
     if (!def) {
-      let res = await this.apiService.getTestFactoryDefinition(true);
+      let res = {};
+      try {
+        res = await this.apiService.getTestFactoryDefinition(true);
+      } catch (error) {
+        console.log("failed to find test factory", error);
+        toast.warn("Failed to find test factory in your org, using default");
+      }
       def = {};
       def.lastUpdated = new Date();
       def.factory = res;
