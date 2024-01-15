@@ -5,7 +5,7 @@
   "main": "src/server/index.js",
   "type": "module",
   "scripts": {
-    "build": "export NODE_OPTIONS=--max-old-space-size=2048 && webpack --mode production",
+    "build": "export NODE_OPTIONS=--max-old-space-size=4096 && webpack --mode production",
     "start": "npm run build && node src/server/index.js",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
