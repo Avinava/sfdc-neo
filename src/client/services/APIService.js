@@ -10,6 +10,14 @@ class APIService extends React.Component {
     this.context = props.context;
   }
 
+  getRecordDetail(objectName, recordId, fields, tooling = false) {
+    const fieldsStr = fields ? fields.join(",") : "";
+    return this.requestHandler(
+      "get",
+      `/api/v1/salesforce/record/${objectName}/${recordId}?fields=${fieldsStr}&tooling=${tooling}`
+    );
+  }
+
   getValidationRules() {
     return this.requestHandler("get", "/api/v1/salesforce/validationrule");
   }
