@@ -65,4 +65,27 @@ router.post("/tooling/:entity", async (req, res) => {
   }
 });
 
+router.get("/record/:sobject/:recordId", async (req, res) => {
+  try {
+    const tooling = req.query.tooling === "true";
+    const fields = req.query.fields ? req.query.fields.split(",") : undefined;
+    if (fields && fields.length > 0) {
+      const result = await req.salesforce.getRecordDetails(
+        req.params.sobject,
+        req.params.recordId,
+        fields,
+        tooling
+      );
+      res.json(result);
+    } else {
+      res.status(400).send({ error: "You must specify at least one field." });
+    }
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send({ error: "An error occurred while processing your request." });
+  }
+});
+
 export default router;

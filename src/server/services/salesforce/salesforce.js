@@ -92,11 +92,28 @@ class Salesforce {
   }
 
   /**
+   * Fetches records from an object.
+   * @param {string} objectName - The name of the object.
+   * @param {Array} fields - The fields to fetch.
+   * @param {boolean} tooling - Whether to use the tooling API.
+   * @returns {Promise<Array>} A promise that resolves with the records.
+   */
+  async getRecordDetails(objectName, recordId, fields, tooling = false) {
+    const query = `SELECT ${fields.join(
+      ","
+    )} FROM ${objectName} WHERE Id = '${recordId}'`;
+    const records = await (tooling
+      ? this.toolingQueryAll(query)
+      : this.queryAll(query));
+    return records[0];
+  }
+
+  /**
    * Fetches all Apex classes.
    * @returns {Promise<Array>} A promise that resolves with the Apex classes.
    */
   async getApexClasses() {
-    const query = `SELECT Id, Name, Body, ApiVersion, Status FROM ApexClass WHERE NamespacePrefix = null ORDER BY Name ASC`;
+    const query = `SELECT Id, Name, ApiVersion, Status FROM ApexClass WHERE ManageableState != 'installed' ORDER BY Name ASC`;
     const apexClasses = await this.toolingQueryAll(query);
     return apexClasses;
   }
