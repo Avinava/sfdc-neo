@@ -116,8 +116,19 @@ class Generator extends React.Component {
     }
   }
 
+  validateIsTestClass() {
+    const result =
+      this.state.selectedClass?.Body &&
+      this.state.selectedClass.Body.toLowerCase().includes("@istest");
+
+    if (result) {
+      toast.warn("This class is already a test class");
+    }
+    return result;
+  }
+
   generateTestClassAdvanced() {
-    if (!this.validateSelectedClass()) {
+    if (!this.validateSelectedClass() || this.validateIsTestClass()) {
       return;
     }
     this.setState({
@@ -126,7 +137,7 @@ class Generator extends React.Component {
   }
 
   async generateTestClass() {
-    if (!this.validateSelectedClass()) {
+    if (!this.validateSelectedClass() || this.validateIsTestClass()) {
       return;
     }
 
