@@ -32,7 +32,7 @@ by following below guidelines.
 {additionalContext}
 
 # RESPONSE INSTRUCTIONS
-Provide a generated Apex test class that compiles successfully as the response, excluding any additional information.
+Provide a generated Apex test class that compiles successfully as the response, excluding any additional information. Never truncate the code.
 
 # UNIT TEST CLASS
   `;

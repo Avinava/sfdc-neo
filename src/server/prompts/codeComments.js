@@ -25,7 +25,7 @@ While updating the APEX CLASS make sure to follow the following guidelines.
 {Body}
 
 # RESPONSE INSTRUCTIONS
-return the updated code only.
+return the updated code only. never truncate the code.
 
 # UPDATED APEX CLASS
   
