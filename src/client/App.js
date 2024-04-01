@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ReactGA from "react-ga4";
+
 import "./app.css";
 import AuthContext from "./components/AuthContext";
 import Header from "./components/Header";
@@ -15,6 +17,10 @@ import ApexGenerator from "./pages/ApexGenerator";
 import EmailTemplateGenerator from "./pages/EmailTemplateGenerator";
 import ValidationRuleGenerator from "./pages/ValidationRuleGenerator";
 import FlowGenerator from "./pages/FlowGenerator";
+
+if (process.env.GA_MEASUREMENT_ID) {
+  ReactGA.default.initialize(process.env.GA_MEASUREMENT_ID);
+}
 
 export default class App extends React.Component {
   state = {
