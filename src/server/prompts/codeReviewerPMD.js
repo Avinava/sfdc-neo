@@ -49,35 +49,35 @@ PMD Summary: 5%
 <Summary>
 
 #### Naming Conventions
-- <Issues & Suggestions 1>
-- <Issues & Suggestions 2>
+- <Suggestions 1>
+- <Suggestions 2>
 
 #### Hardcoded Values
-- <Issues & Suggestions>
+- <Suggestions>
 
 #### Code Formatting
-- <Issues & Suggestions>
+- <Suggestions>
 
 #### Comments and Documentation
-- <Issues & Suggestions>
+- <Suggestions>
 
 #### Security
-- <Issues & Suggestions>
+- <Suggestions>
 
 #### Best Practices
-- <Issues & Suggestions>
+- <Suggestions>
 
-#### Possible Refactoring & Unused Code
-- <Issues & Suggestions>
+#### Refactoring & Unused Code
+- <Suggestions>
 
 #### Maintainability
-- <Issues & Suggestions>
+- <Suggestions>
 
 #### Additional Suggestions
-- <Issues & Suggestions>
+- <Suggestions>
 
 #### PMD Summary
-- <Issues & Suggestions from PMD SCAN RESULTS>
+- <Suggestions from PMD SCAN RESULTS>
 
 #### How to Improve
 - <Suggestions to improve the rating>
