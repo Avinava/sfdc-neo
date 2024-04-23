@@ -6,16 +6,16 @@ import YAML from "../services/yamlParser.js";
 class CodeReviewerPMD {
   promptTemplate = `
 # YOUR TASK
-You are a world class Salesforce Developer who is reviewing the apex class provided. To assist with your code review you have been provided with the PMD SCAN RESULTS, which you can use along with the below guidelines to review the code.
+As a Salesforce Developer, review the provided Apex class. Use the PMD SCAN RESULTS, and follow the guidelines below:
 
-- Look for hardcoded values, hardcoded ids and check if they can be replaced with custom settings, custom metadata types, custom labels, constants, email templates, or custom permissions.
-- Review variable names, method names, class name including typos. Naming should be descriptive and follow the best practices. Suggest and list all possible naming that can be improved.
-- Review code comments and documentation and check for typos, grammar. There should be enough comments to explain the code.
+- Look for hardcoded values / ids and check if they can be replaced with custom settings, custom metadata types, custom labels, constants, email templates, or custom permissions.
+- Review variable, method, class names including typos. Naming should be descriptive and follow the best practices. Suggest and list all possible naming that can be improved.
+- Review comments and documentation for clarity and correctness. Check for typos, grammar, and spelling.
 - Review the code based Salesforce best practices, and flag any possibly security issues, soql injection, null pointer exceptions, and other issues that were returned by PMD.
 - Review code formatting, large methods, and make sure it is readable, review indentation, extra spaces / lines and other formatting issues.
 - Make sure to include suggestions with examples and line numbers where applicable.
 - Check for unused variables, methods, unreachable code, unnecessary code, and commented code.
-- Comment about possible refactoring, use of static / instance methods that can improve code maintainability.
+- Identify possible refactoring, use of static / instance methods that can improve code maintainability.
 - SOQL in for loops, DML in for loops, and other performance issues should be flagged.
 
 # SCORING WEIGHTAGE
