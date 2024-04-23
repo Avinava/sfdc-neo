@@ -17,6 +17,19 @@ Use the apex class that was provided in context to review the code based on the 
 - Make sure to include suggestions with examples and line numbers where applicable.
 - Check for unused variables, methods, unreachable code, unnecessary code, and commented code.
 - Comment about possible refactoring, use of static / instance methods that can improve code maintainability.
+- SOQL in for loops, DML in for loops, and other performance issues should be flagged.
+
+# SCORING WEIGHTAGE
+Naming Conventions: 10%
+Hardcoded Values: 10%
+Code Formatting: 10%
+Comments and Documentation: 10%
+Security: 15%
+Best Practices: 15%
+Possible Refactoring & Unused Code: 10%
+Maintainability: 10%
+Additional Suggestions: 5%
+PMD Summary: 5%
 
 # APEX CLASS
 {Body}
@@ -60,6 +73,9 @@ Use the apex class that was provided in context to review the code based on the 
 
 #### Additional Suggestions
 - <Issues & Suggestions>
+
+#### How to Improve
+- <Suggestions to improve the rating>
 
 ##
   `;

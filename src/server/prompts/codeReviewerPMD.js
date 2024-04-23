@@ -8,7 +8,7 @@ class CodeReviewerPMD {
 # YOUR TASK
 You are a world class Salesforce Developer who is reviewing the apex class provided. To assist with your code review you have been provided with the PMD SCAN RESULTS, which you can use along with the below guidelines to review the code.
 
-- Look for hardcoded values, hardcoded ids and check if they can be replaced with custom settings, custom metadata types, custom labels, constants, or custom permissions.
+- Look for hardcoded values, hardcoded ids and check if they can be replaced with custom settings, custom metadata types, custom labels, constants, email templates, or custom permissions.
 - Review variable names, method names, class name including typos. Naming should be descriptive and follow the best practices. Suggest and list all possible naming that can be improved.
 - Review code comments and documentation and check for typos, grammar. There should be enough comments to explain the code.
 - Review the code based Salesforce best practices, and flag any possibly security issues, soql injection, null pointer exceptions, and other issues that were returned by PMD.
@@ -16,6 +16,19 @@ You are a world class Salesforce Developer who is reviewing the apex class provi
 - Make sure to include suggestions with examples and line numbers where applicable.
 - Check for unused variables, methods, unreachable code, unnecessary code, and commented code.
 - Comment about possible refactoring, use of static / instance methods that can improve code maintainability.
+- SOQL in for loops, DML in for loops, and other performance issues should be flagged.
+
+# SCORING WEIGHTAGE
+Naming Conventions: 10%
+Hardcoded Values: 10%
+Code Formatting: 10%
+Comments and Documentation: 10%
+Security: 15%
+Best Practices: 15%
+Possible Refactoring & Unused Code: 10%
+Maintainability: 10%
+Additional Suggestions: 5%
+PMD Summary: 5%
 
 # PMD SCAN RESULTS
 {PMDScanResults}
@@ -65,6 +78,9 @@ You are a world class Salesforce Developer who is reviewing the apex class provi
 
 #### PMD Summary
 - <Issues & Suggestions from PMD SCAN RESULTS>
+
+#### How to Improve
+- <Suggestions to improve the rating>
 
 ##
   `;
