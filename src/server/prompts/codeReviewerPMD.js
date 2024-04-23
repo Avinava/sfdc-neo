@@ -80,7 +80,7 @@ PMD Summary: 5%
 - <Suggestions from PMD SCAN RESULTS>
 
 #### How to Improve
-- <Suggestions to improve the rating>
+- <Suggestions to improve the rating - include specific points and action items>
 
 ##
   `;
