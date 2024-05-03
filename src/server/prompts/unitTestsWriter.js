@@ -66,8 +66,8 @@ Provide a generated Apex test class that compiles successfully as the response, 
 
     const input = await this.prompt.format(cls);
     console.log(input);
-    const response = await model.call(input);
-    const cleanedResponse = response
+    const response = await model.invoke(input);
+    const cleanedResponse = response.content
       .replace(/```apex\n/, "")
       .replace(/\n```$/, "");
 

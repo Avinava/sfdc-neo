@@ -28,8 +28,8 @@ return only test class in response
 
   async generate(flow) {
     const input = await this.prompt.format(flow);
-    const response = await model.call(input);
-    return response;
+    const response = await model.invoke(input);
+    return response.content;
   }
 }
 

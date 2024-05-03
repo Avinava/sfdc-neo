@@ -27,8 +27,8 @@ Generate without DOCTYPE, html, head, body tags.
 
   async generate(template) {
     const input = await this.prompt.format(template);
-    const response = await model.call(input);
-    return response;
+    const response = await model.invoke(input);
+    return response.content;
   }
 }
 
