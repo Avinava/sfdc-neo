@@ -4,14 +4,14 @@ import { model } from "../services/model.js";
 class UnitTestsWriter {
   promptTemplate = `
 # YOUR TASK
-You are a world class salesforce developer who is writing unit test class for the provided APEX CLASS. Generate unit test class 
-by following below guidelines.
+You are a world class salesforce developer who is writing unit test class for the provided APEX CLASS. Generate unit test class  by following below guidelines.
 - Test class should be private, shouldn't have hardcoded ids and must have apex-doc for each method 
 - if TEST FACTORY DEFINITION available then use the class and methods to generate test data
 - incase suitable methods are not available in TEST FACTORY DEFINITION then use the SOBJECT METADATA (required fields, type, length) to guide you in generating test and referenced data.
 - RecordType, custom metadata types, objects ending with __mdt cannot be created.
-- To ensure proper testing, use Asserts, System.runAs, @TestSetup, Test.startTest() and Test.stopTest() where applicable
+- To ensure proper testing, use Assert class, System.runAs, @TestSetup, Test.startTest() and Test.stopTest() where applicable
 - test methods should test both positive and negative scenarios, some edge cases and bulk data wherever possible
+- follow best practices and ensure that the test class is well structured and easy to read
 
 - Method apex-doc
   @description: method description, include what is being tested and which methods
@@ -69,6 +69,7 @@ Provide a generated Apex test class that compiles successfully as the response, 
     const response = await model.invoke(input);
     const cleanedResponse = response.content
       .replace(/```apex\n/, "")
+      .replace(/```Apex\n/, "")
       .replace(/\n```$/, "");
 
     return cleanedResponse;
