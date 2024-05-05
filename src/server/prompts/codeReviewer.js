@@ -91,8 +91,8 @@ PMD Summary: 5%
 
   async generate(cls) {
     const input = await this.prompt.format(cls);
-    const response = await model.call(input);
-    return response;
+    const response = await model.invoke(input);
+    return response.content;
   }
 }
 

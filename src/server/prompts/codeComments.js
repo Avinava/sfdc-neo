@@ -42,8 +42,8 @@ return the updated code only. never truncate the code.
 
   async generate(cls) {
     const input = await this.prompt.format(cls);
-    const response = await model.call(input);
-    const cleanedResponse = response
+    const response = await model.invoke(input);
+    const cleanedResponse = response.content
       .replace(/```apex\n/, "")
       .replace(/\n```$/, "");
 

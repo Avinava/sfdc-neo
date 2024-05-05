@@ -36,7 +36,7 @@ class SymbolTableGenerator {
     );
 
     // query classes by name
-    const apexClassQuery = `SELECT Id, Name, Body FROM ApexClass WHERE Name IN ('${classes.join(
+    const apexClassQuery = `SELECT Id, Name, Body FROM ApexClass WHERE ManageableState IN ('installedEditable', 'unmanaged') AND Name IN ('${classes.join(
       "','"
     )}')`;
     const apexClasses = await this.connection.tooling.query(apexClassQuery);
