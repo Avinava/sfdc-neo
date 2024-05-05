@@ -58,7 +58,7 @@ class SFDXScanner {
 
     await fs.writeFile(tempFile, clsBody);
     execSync(
-      `npx sfdx scanner:run --target ${tempFile} --format json --outfile ${outFile}`,
+      `npx sfdx scanner:run --target ${tempFile} --format json --outfile ${outFile} --engine cpd,pmd`,
       {
         encoding: "utf-8",
       }
