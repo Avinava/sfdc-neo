@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import AuthContext from "./AuthContext";
 import { Link } from "react-router-dom";
-import icon from "../../../public/logo.png";
+import icon from "/logo.png";
 import { FaGithub } from "react-icons/fa";
 
 class Header extends React.Component {

@@ -18,10 +18,6 @@ import EmailTemplateGenerator from "./pages/EmailTemplateGenerator";
 import ValidationRuleGenerator from "./pages/ValidationRuleGenerator";
 import FlowGenerator from "./pages/FlowGenerator";
 
-if (process.env.GA_MEASUREMENT_ID) {
-  ReactGA.default.initialize(process.env.GA_MEASUREMENT_ID);
-}
-
 export default class App extends React.Component {
   state = {
     theme: createTheme({

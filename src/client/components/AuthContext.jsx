@@ -6,6 +6,7 @@ const AuthContext = React.createContext({
   identity: null,
   ready: false,
   metrics: null,
+  gaMeasurementId: null,
   setMetrics: () => {},
   setRemainingQuota: () => {},
 });

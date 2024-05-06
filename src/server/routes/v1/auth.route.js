@@ -46,6 +46,8 @@ router.get("/session", async (req, res) => {
     user.metrics = await usage.getMetrics(user.id);
   }
 
+  user.gaMeasurementId = process.env.GA_MEASUREMENT_ID;
+
   res.send(user);
 });
 

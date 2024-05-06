@@ -16,12 +16,11 @@ import {
   TextField,
   IconButton,
 } from "@mui/material";
-import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { SiCodereview } from "react-icons/si";
+import { GoCodescan } from "react-icons/go";
 import { MdReviews, MdOutlineMoreVert, MdRefresh } from "react-icons/md";
 import { BiCommentEdit, BiRightIndent, BiTestTube } from "react-icons/bi";
 import { RiTestTubeFill } from "react-icons/ri";
@@ -528,7 +527,7 @@ class Generator extends React.Component {
                       <Button
                         variant="contained"
                         color="secondary"
-                        startIcon={<SiCodereview size={12} />}
+                        startIcon={<GoCodescan size={12} />}
                         onClick={() => this.generateCodeReview()}
                         size="small"
                       >
