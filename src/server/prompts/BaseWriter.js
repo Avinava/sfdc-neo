@@ -1,14 +1,11 @@
-import { zodToJsonSchema } from "zod-to-json-schema";
-import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 import {
   ChatPromptTemplate,
   SystemMessagePromptTemplate,
   HumanMessagePromptTemplate,
 } from "@langchain/core/prompts";
-import { model } from "../services/model.js";
 
 class BaseWriter {
-  constructor(basePrompt, schema, inputVariables) {
+  constructor(basePrompt, inputVariables) {
     // Handle input variables
     const { promptInputVariables, formattedInputVariables } =
       this.handleInputVariables(inputVariables);
@@ -28,21 +25,6 @@ class BaseWriter {
       promptMessages,
       inputVariables: promptInputVariables,
     });
-
-    // Set schema
-    this.schema = schema;
-
-    // Bind model to output formatter function
-    this.functionCallingModel = model.bind({
-      functions: [
-        {
-          name: "output_formatter",
-          description: "Should always be used to properly format output",
-          parameters: zodToJsonSchema(this.schema),
-        },
-      ],
-      function_call: { name: "output_formatter" },
-    });
   }
 
   // Method to handle input variables
@@ -60,16 +42,6 @@ class BaseWriter {
     }
 
     return { promptInputVariables, formattedInputVariables };
-  }
-
-  // Method to generate response
-  async generate(data) {
-    const outputParser = new JsonOutputFunctionsParser();
-    const chain = this.prompt
-      .pipe(this.functionCallingModel)
-      .pipe(outputParser);
-    const response = await chain.invoke(data);
-    return response;
   }
 }
 

@@ -46,7 +46,7 @@ You are a world class salesforce developer who is writing unit test class for th
       },
     ];
 
-    super(basePrompt, schema, inputVariables);
+    super(basePrompt, inputVariables, schema);
   }
 
   async generate(cls) {
