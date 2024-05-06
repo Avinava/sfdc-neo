@@ -1,10 +1,10 @@
-import { PromptTemplate } from "langchain/prompts";
-import { model } from "../services/model.js";
+import BaseChatWriter from "./BaseChatWriter.js";
 import sfdxScanner from "../services/salesforce/sfdxScanner.js";
 import YAML from "../services/yamlParser.js";
 
-class CodeReviewerPMD {
-  promptTemplate = `
+class CodeReviewerPMD extends BaseChatWriter {
+  constructor() {
+    const basePrompt = `
 # YOUR TASK
 As a Salesforce Developer, review the provided Apex class. Use the PMD SCAN RESULTS, and follow the guidelines below:
 
@@ -29,12 +29,6 @@ Possible Refactoring & Unused Code: 10%
 Maintainability: 10%
 Additional Suggestions: 5%
 PMD Summary: 5%
-
-# PMD SCAN RESULTS
-{PMDScanResults}
-
-# APEX CLASS
-{Body}
 
 # RESPONSE INSTRUCTIONS
 - return the review  in markdown format.
@@ -85,22 +79,24 @@ PMD Summary: 5%
 ##
   `;
 
-  prompt;
+    const inputVariables = [
+      {
+        label: "Apex Class",
+        value: "Body",
+      },
+      {
+        label: "PMD Scan Results",
+        value: "PMDScanResults",
+      },
+    ];
 
-  constructor() {
-    this.prompt = new PromptTemplate({
-      template: this.promptTemplate,
-      inputVariables: ["Body", "PMDScanResults"],
-    });
+    super(basePrompt, inputVariables);
   }
 
   async generate(cls) {
     const results = await sfdxScanner.getScanResults(cls);
     cls.PMDScanResults = YAML.stringify(results);
-
-    const input = await this.prompt.format(cls);
-    const response = await model.invoke(input);
-    return response.content;
+    return this.extractCode(await super.generate(cls));
   }
 }
 

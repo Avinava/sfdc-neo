@@ -1,35 +1,29 @@
-import { PromptTemplate } from "langchain/prompts";
-import { model } from "../services/model.js";
+import BaseChatWriter from "./BaseChatWriter.js";
 
-class FlowTestWriter {
-  promptTemplate = `
+class FlowTestWriter extends BaseChatWriter {
+  constructor() {
+    const basePrompt = `
 # YOUR TASK
 You are a salesforce developer who is writing test class for provide flow.
 - name the test class in <FlowName>Test format where FlowName is the name of the flow
 - make sure that the flow is covered by the test class
 
-
-
-# FLOW JSON
-{Metadata}
-
 # RESPONSE INSTRUCTIONS
 return only test class in response
   `;
 
-  prompt;
+    const inputVariables = [
+      {
+        label: "Flow JSON",
+        value: "Metadata",
+      },
+    ];
 
-  constructor() {
-    this.prompt = new PromptTemplate({
-      template: this.promptTemplate,
-      inputVariables: ["Metadata"],
-    });
+    super(basePrompt, inputVariables);
   }
 
   async generate(flow) {
-    const input = await this.prompt.format(flow);
-    const response = await model.invoke(input);
-    return response.content;
+    return this.extractCode(await super.generate(flow));
   }
 }
 

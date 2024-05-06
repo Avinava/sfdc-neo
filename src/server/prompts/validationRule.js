@@ -1,9 +1,9 @@
-import { PromptTemplate } from "langchain/prompts";
-import { model } from "../services/model.js";
+import BaseChatWriter from "./BaseChatWriter.js";
 import YAML from "../services/yamlParser.js";
 
-class ValidationRule {
-  promptTemplate = `
+class ValidationRule extends BaseChatWriter {
+  constructor() {
+    const basePrompt = `
 You are a developer who is reviewing the provided salesforce validation rules.
 - Review the validation rule and provide feedback based on GUIDELINES.
 - Use the METADATA to generate the documentation.
@@ -26,9 +26,6 @@ Validation rule names should be unique, beginning with an uppercase letter.
 
 ## ERROR MESSAGE
 - The error message should be descriptive and should guide the user about the error under 255 characters
-
-# METADATA
-{metadata}
 
 # RESPONSE TEMPLATE
 ## Validation Rule: <validation rule name> Documentation
@@ -66,22 +63,23 @@ Validation rule names should be unique, beginning with an uppercase letter.
 >
   `;
 
-  prompt;
+    const inputVariables = [
+      {
+        label: "Metadata",
+        value: "metadata",
+      },
+    ];
 
-  constructor() {
-    this.prompt = new PromptTemplate({
-      template: this.promptTemplate,
-      inputVariables: ["metadata"],
-    });
+    super(basePrompt, inputVariables);
   }
 
   async generate(rule) {
-    rule.Metadata.name = rule?.ValidationName;
-    const input = await this.prompt.format({
-      metadata: YAML.stringify(rule.Metadata),
-    });
-    const response = await model.invoke(input);
-    return response.content;
+    rule.metadata.name = rule?.ValidationName;
+    return this.extractCode(
+      await super.generate({
+        metadata: YAML.stringify(rule.metadata),
+      })
+    );
   }
 }
 

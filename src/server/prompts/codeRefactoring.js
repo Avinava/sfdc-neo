@@ -1,10 +1,10 @@
-import { PromptTemplate } from "langchain/prompts";
-import { model } from "../services/model.js";
+import BaseChatWriter from "./BaseChatWriter.js";
 import sfdxScanner from "../services/salesforce/sfdxScanner.js";
 import YAML from "../services/yamlParser.js";
 
-class CodeRefactoring {
-  promptTemplate = `
+class CodeRefactoring extends BaseChatWriter {
+  constructor() {
+    const basePrompt = `
 # YOUR TASK
 You are a world class Salesforce developer who is tasked to optimize and refactor the provided class keeping in mind salesforce best practices
 - Use the PMD result to guide you in refactoring the code and fixing the issues
@@ -13,31 +13,27 @@ You are a world class Salesforce developer who is tasked to optimize and refacto
 - don't change the existing method signature or functionality, you can update function level variable naming and add new variables if needed
 - the updated code should compile and run without any errors, any new methods that are called from code should be defined in the class or should already exist
 
-# APEX CLASS
-{Body}
-
-# PMD SCAN RESULTS
-{PMDScanResults}
-
 # RESPONSE Apex Class
   `;
 
-  prompt;
+    const inputVariables = [
+      {
+        label: "Apex Class",
+        value: "Body",
+      },
+      {
+        label: "PMD Scan Results",
+        value: "PMDScanResults",
+      },
+    ];
 
-  constructor() {
-    this.prompt = new PromptTemplate({
-      template: this.promptTemplate,
-      inputVariables: ["Body", "PMDScanResults"],
-    });
+    super(basePrompt, inputVariables);
   }
 
   async generate(cls) {
     const results = await sfdxScanner.getScanResults(cls);
     cls.PMDScanResults = YAML.stringify(results);
-    const input = await this.prompt.format(cls);
-
-    const response = await model.invoke(input);
-    return response.content;
+    return this.extractCode(await super.generate(cls));
   }
 }
 
