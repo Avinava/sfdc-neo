@@ -1,8 +1,8 @@
-import { PromptTemplate } from "langchain/prompts";
-import { model } from "../services/model.js";
+import BaseChatWriter from "./BaseChatWriter.js";
 
-class CodeReviewer {
-  promptTemplate = `
+class CodeReviewer extends BaseChatWriter {
+  constructor() {
+    const basePrompt = `
 # YOUR TASK
 You are a Salesforce Technical Architect who is reviewing the apex class provided.
 Use the apex class that was provided in context to review the code based on the following criteria.
@@ -30,9 +30,6 @@ Possible Refactoring & Unused Code: 10%
 Maintainability: 10%
 Additional Suggestions: 5%
 PMD Summary: 5%
-
-# APEX CLASS
-{Body}
 
 # RESPONSE INSTRUCTIONS
 - return the review  in markdown format.
@@ -80,19 +77,18 @@ PMD Summary: 5%
 ##
   `;
 
-  prompt;
+    const inputVariables = [
+      {
+        label: "Apex Class",
+        value: "Body",
+      },
+    ];
 
-  constructor() {
-    this.prompt = new PromptTemplate({
-      template: this.promptTemplate,
-      inputVariables: ["Body"],
-    });
+    super(basePrompt, inputVariables);
   }
 
   async generate(cls) {
-    const input = await this.prompt.format(cls);
-    const response = await model.invoke(input);
-    return response.content;
+    return this.extractCode(await super.generate(cls));
   }
 }
 

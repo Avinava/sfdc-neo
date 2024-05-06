@@ -1,8 +1,9 @@
-import { PromptTemplate } from "langchain/prompts";
-import { model } from "../services/model.js";
+import { z } from "zod";
+import BaseChatWriter from "./BaseChatWriter.js";
 
-class UnitTestsWriter {
-  promptTemplate = `
+class UnitTestsWriter extends BaseChatWriter {
+  constructor() {
+    const basePrompt = `
 # YOUR TASK
 You are a world class salesforce developer who is writing unit test class for the provided APEX CLASS. Generate unit test class  by following below guidelines.
 - Test class should be private, shouldn't have hardcoded ids and must have apex-doc for each method 
@@ -18,37 +19,30 @@ You are a world class salesforce developer who is writing unit test class for th
 
 - Assertion
   Avoid System.assert and Always use the new Assert class for Assertion using methods: areEqual(expected, actual, msg), areNotEqual(notExpected, actual), isTrue(condition, msg), isFalse(condition, msg), isNull(actual, msg), isNotNull(actual, msg), fail(msg), isInstanceOfType(instance, expectedType, msg), isNotInstanceOfType(instance, notExpectedType, msg)
-
-
-# APEX CLASS
-{Body}
-
-# SOBJECT METADATA
-{requiredMetadata}
-
-# TEST FACTORY DEFINITION
-{testFactoryDef}
-
-{additionalContext}
-
+  
 # RESPONSE INSTRUCTIONS
-Provide a generated Apex test class that compiles successfully as the response, excluding any additional information. Never truncate the code.
-
-# UNIT TEST CLASS
+Provide a generated Apex test class that compiles successfully as the response, excluding any additional information. Never truncate the code. 
   `;
+    const inputVariables = [
+      {
+        label: "Apex Class Body",
+        value: "Body",
+      },
+      {
+        label: "Additional Context",
+        value: "additionalContext",
+      },
+      {
+        label: "Required Metadata",
+        value: "requiredMetadata",
+      },
+      {
+        label: "Test Factory Definition",
+        value: "testFactoryDef",
+      },
+    ];
 
-  prompt;
-
-  constructor() {
-    this.prompt = new PromptTemplate({
-      template: this.promptTemplate,
-      inputVariables: [
-        "Body",
-        "additionalContext",
-        "requiredMetadata",
-        "testFactoryDef",
-      ],
-    });
+    super(basePrompt, inputVariables);
   }
 
   async generate(cls) {
@@ -64,15 +58,7 @@ Provide a generated Apex test class that compiles successfully as the response, 
       cls.testFactoryDef = "";
     }
 
-    const input = await this.prompt.format(cls);
-    console.log(input);
-    const response = await model.invoke(input);
-    const cleanedResponse = response.content
-      .replace(/```apex\n/, "")
-      .replace(/```Apex\n/, "")
-      .replace(/\n```$/, "");
-
-    return cleanedResponse;
+    return super.generate(cls);
   }
 }
 

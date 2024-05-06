@@ -1,8 +1,8 @@
-import { PromptTemplate } from "langchain/prompts";
-import { model } from "../services/model.js";
+import BaseChatWriter from "./BaseChatWriter.js";
 
-class CodeDocumenter {
-  promptTemplate = `
+class CodeDocumenter extends BaseChatWriter {
+  constructor() {
+    const basePrompt = `
 # YOUR TASK
 You are a Salesforce developer who is documenting provided apex class.
 - Use the apex class to generate the documentation.
@@ -11,7 +11,7 @@ You are a Salesforce developer who is documenting provided apex class.
 
 # Format
   ## <Class Name>
-  ### Description
+  ### Description <small description of the code what it does>
 
   ### Methods
   #### <Method Name>
@@ -20,13 +20,6 @@ You are a Salesforce developer who is documenting provided apex class.
   ###### <Parameter Name> 
 
   #### <Method Name 2>
-  ##### Description <Method description and what it does>
-  ##### Parameters and Return Values
-  ###### <Parameter Name>
-
-
-# APEX CLASS
-{Body}
 
 # RESPONSE INSTRUCTIONS
 return the response in markdown format with class Name as header
@@ -34,19 +27,18 @@ return the response in markdown format with class Name as header
 ##
   `;
 
-  prompt;
+    const inputVariables = [
+      {
+        label: "Apex Class",
+        value: "Body",
+      },
+    ];
 
-  constructor() {
-    this.prompt = new PromptTemplate({
-      template: this.promptTemplate,
-      inputVariables: ["Body"],
-    });
+    super(basePrompt, inputVariables);
   }
 
   async generate(cls) {
-    const input = await this.prompt.format(cls);
-    const response = await model.invoke(input);
-    return response.content;
+    return this.extractCode(await super.generate(cls));
   }
 }
 

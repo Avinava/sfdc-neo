@@ -1,8 +1,8 @@
-import { PromptTemplate } from "langchain/prompts";
-import { model } from "../services/model.js";
+import BaseChatWriter from "./BaseChatWriter.js";
 
-class CodeComments {
-  promptTemplate = `
+class CodeComments extends BaseChatWriter {
+  constructor() {
+    const basePrompt = `
 # YOUR TASK
 You are a Salesforce developer updating an existing APEX CLASS to add comments and apex-doc for better readability and maintenance.
 While updating the APEX CLASS make sure to follow the following guidelines.
@@ -20,34 +20,23 @@ While updating the APEX CLASS make sure to follow the following guidelines.
   @description: method description <what it does>
   @param: parameter description <type and name>
   @return: return description <type and name>
+`;
 
-# APEX CLASS
-{Body}
+    const inputVariables = [
+      {
+        label: "Apex Class",
+        value: "Body",
+      },
+    ];
 
-# RESPONSE INSTRUCTIONS
-return the updated code only. never truncate the code.
-
-# UPDATED APEX CLASS
-  
-  `;
-
-  prompt;
-
-  constructor() {
-    this.prompt = new PromptTemplate({
-      template: this.promptTemplate,
-      inputVariables: ["Body"],
-    });
+    super(basePrompt, inputVariables, [
+      `Here is the updated code that can be directly copied and pasted into the APEX CLASS:
+      `,
+    ]);
   }
 
   async generate(cls) {
-    const input = await this.prompt.format(cls);
-    const response = await model.invoke(input);
-    const cleanedResponse = response.content
-      .replace(/```apex\n/, "")
-      .replace(/\n```$/, "");
-
-    return cleanedResponse;
+    return this.extractCode(await super.generate(cls));
   }
 }
 
