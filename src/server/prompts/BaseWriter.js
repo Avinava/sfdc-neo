@@ -5,7 +5,7 @@ import {
 } from "@langchain/core/prompts";
 
 class BaseWriter {
-  constructor(basePrompt, inputVariables) {
+  constructor(basePrompt, inputVariables, instructions) {
     // Handle input variables
     const { promptInputVariables, formattedInputVariables } =
       this.handleInputVariables(inputVariables);
@@ -19,6 +19,13 @@ class BaseWriter {
         )
       ),
     ];
+
+    // Add instructions
+    if (instructions) {
+      promptMessages.push(
+        HumanMessagePromptTemplate.fromTemplate(instructions)
+      );
+    }
 
     // Create prompt
     this.prompt = new ChatPromptTemplate({

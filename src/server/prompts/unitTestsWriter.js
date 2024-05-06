@@ -1,7 +1,7 @@
 import { z } from "zod";
-import BaseWriter from "./BaseWriter.js";
+import BaseChatWriter from "./BaseChatWriter.js";
 
-class UnitTestsWriter extends BaseWriter {
+class UnitTestsWriter extends BaseChatWriter {
   constructor() {
     const basePrompt = `
 # YOUR TASK
@@ -19,14 +19,10 @@ You are a world class salesforce developer who is writing unit test class for th
 
 - Assertion
   Avoid System.assert and Always use the new Assert class for Assertion using methods: areEqual(expected, actual, msg), areNotEqual(notExpected, actual), isTrue(condition, msg), isFalse(condition, msg), isNull(actual, msg), isNotNull(actual, msg), fail(msg), isInstanceOfType(instance, expectedType, msg), isNotInstanceOfType(instance, notExpectedType, msg)
+  
+# RESPONSE INSTRUCTIONS
+Provide a generated Apex test class that compiles successfully as the response, excluding any additional information. Never truncate the code. 
   `;
-
-    const schema = z.object({
-      Body: z
-        .string()
-        .describe("generated Apex test class that compiles successfully"),
-    });
-
     const inputVariables = [
       {
         label: "Apex Class Body",
@@ -46,7 +42,7 @@ You are a world class salesforce developer who is writing unit test class for th
       },
     ];
 
-    super(basePrompt, inputVariables, schema);
+    super(basePrompt, inputVariables);
   }
 
   async generate(cls) {

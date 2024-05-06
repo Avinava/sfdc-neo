@@ -20,12 +20,7 @@ While updating the APEX CLASS make sure to follow the following guidelines.
   @description: method description <what it does>
   @param: parameter description <type and name>
   @return: return description <type and name>
-
-# RESPONSE INSTRUCTIONS
-return the updated code only. never truncate the code.
-
-# UPDATED APEX CLASS
-    `;
+`;
 
     const inputVariables = [
       {
@@ -34,7 +29,9 @@ return the updated code only. never truncate the code.
       },
     ];
 
-    super(basePrompt, inputVariables);
+    super(basePrompt, inputVariables, [
+      `RESPONSE INSTRUCTION: return the updated code that can be directly compiled and run without any errors, don't include any additional information.`,
+    ]);
   }
 
   async generate(cls) {
