@@ -1,16 +1,9 @@
-import { PromptTemplate } from "langchain/prompts";
 import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
-import { JsonOutputFunctionsParser } from "langchain/output_parsers";
-import {
-  ChatPromptTemplate,
-  SystemMessagePromptTemplate,
-  HumanMessagePromptTemplate,
-} from "@langchain/core/prompts";
-import { model } from "../services/model.js";
+import BaseWriter from "./BaseWriter.js";
 
-class UnitTestsWriter {
-  basePrompt = `
+class UnitTestsWriter extends BaseWriter {
+  constructor() {
+    const basePrompt = `
 # YOUR TASK
 You are a world class salesforce developer who is writing unit test class for the provided APEX CLASS. Generate unit test class  by following below guidelines.
 - Test class should be private, shouldn't have hardcoded ids and must have apex-doc for each method 
@@ -28,47 +21,32 @@ You are a world class salesforce developer who is writing unit test class for th
   Avoid System.assert and Always use the new Assert class for Assertion using methods: areEqual(expected, actual, msg), areNotEqual(notExpected, actual), isTrue(condition, msg), isFalse(condition, msg), isNull(actual, msg), isNotNull(actual, msg), fail(msg), isInstanceOfType(instance, expectedType, msg), isNotInstanceOfType(instance, notExpectedType, msg)
   `;
 
-  prompt;
-
-  constructor() {
-    this.prompt = new ChatPromptTemplate({
-      promptMessages: [
-        SystemMessagePromptTemplate.fromTemplate(this.basePrompt),
-        HumanMessagePromptTemplate.fromTemplate("APEX CLASS: {Body}"),
-        HumanMessagePromptTemplate.fromTemplate(
-          "SOBJECT METADATA: {requiredMetadata}"
-        ),
-        HumanMessagePromptTemplate.fromTemplate(
-          "TEST FACTORY DEFINITION: {testFactoryDef}"
-        ),
-        HumanMessagePromptTemplate.fromTemplate(
-          "ADDITIONAL CONTEXT: {additionalContext}"
-        ),
-      ],
-      inputVariables: [
-        "Body",
-        "additionalContext",
-        "requiredMetadata",
-        "testFactoryDef",
-      ],
-    });
-
-    this.schema = z.object({
+    const schema = z.object({
       Body: z
         .string()
         .describe("generated Apex test class that compiles successfully"),
     });
 
-    this.functionCallingModel = model.bind({
-      functions: [
-        {
-          name: "output_formatter",
-          description: "Should always be used to properly format output",
-          parameters: zodToJsonSchema(this.schema),
-        },
-      ],
-      function_call: { name: "output_formatter" },
-    });
+    const inputVariables = [
+      {
+        label: "Apex Class Body",
+        value: "Body",
+      },
+      {
+        label: "Additional Context",
+        value: "additionalContext",
+      },
+      {
+        label: "Required Metadata",
+        value: "requiredMetadata",
+      },
+      {
+        label: "Test Factory Definition",
+        value: "testFactoryDef",
+      },
+    ];
+
+    super(basePrompt, schema, inputVariables);
   }
 
   async generate(cls) {
@@ -84,12 +62,7 @@ You are a world class salesforce developer who is writing unit test class for th
       cls.testFactoryDef = "";
     }
 
-    const outputParser = new JsonOutputFunctionsParser();
-    const chain = this.prompt
-      .pipe(this.functionCallingModel)
-      .pipe(outputParser);
-    const response = await chain.invoke(cls);
-    return response;
+    return super.generate(cls);
   }
 }
 
