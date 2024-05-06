@@ -379,7 +379,10 @@ class Generator extends React.Component {
   handleResponse = (response) => {
     this.setState({
       updatedClass: {
-        Body: response.result,
+        Body:
+          typeof response.result === "object" && response.result !== null
+            ? response.result.Body
+            : response.result,
       },
       isResultLoading: false,
       message: {
