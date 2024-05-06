@@ -23,7 +23,7 @@ class BaseWriter {
     // Add instructions
     if (instructions) {
       promptMessages.push(
-        HumanMessagePromptTemplate.fromTemplate(instructions)
+        SystemMessagePromptTemplate.fromTemplate(instructions)
       );
     }
 
@@ -49,6 +49,18 @@ class BaseWriter {
     }
 
     return { promptInputVariables, formattedInputVariables };
+  }
+
+  extractCode(codeBody) {
+    const codeBlockRegex = /```(?:java|apex|Java|Apex)?\s*([\s\S]*?)\s*```/g;
+    let match;
+    let codeBlocks = [];
+    while ((match = codeBlockRegex.exec(codeBody)) !== null) {
+      if (match[1]) {
+        codeBlocks.push(match[1].trim());
+      }
+    }
+    return codeBlocks.length > 0 ? codeBlocks[0] : codeBody;
   }
 }
 

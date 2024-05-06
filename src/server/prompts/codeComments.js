@@ -30,12 +30,13 @@ While updating the APEX CLASS make sure to follow the following guidelines.
     ];
 
     super(basePrompt, inputVariables, [
-      `RESPONSE INSTRUCTION: return the updated code that can be directly compiled and run without any errors, don't include any additional information.`,
+      `Here is the updated code that can be directly copied and pasted into the APEX CLASS:
+      `,
     ]);
   }
 
   async generate(cls) {
-    return await super.generate(cls);
+    return this.extractCode(await super.generate(cls));
   }
 }
 
