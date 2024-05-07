@@ -4,7 +4,7 @@ class CodeReviewer extends BaseChatWriter {
   constructor() {
     const basePrompt = `
 # YOUR TASK
-You are a Salesforce Technical Architect who is reviewing the apex class provided.
+You are a Salesforce Technical Architect who is reviewing the provided apex class.
 Use the apex class that was provided in context to review the code based on the following criteria.
 
 - Review variable names, method names, class name (names should be small and descriptive) including typos.
