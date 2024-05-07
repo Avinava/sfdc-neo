@@ -23,7 +23,9 @@ return only test class in response
   }
 
   async generate(flow) {
-    return this.extractCode(await super.generate(flow));
+    return {
+      result: this.extractCode(await super.generate(cls)),
+    };
   }
 }
 

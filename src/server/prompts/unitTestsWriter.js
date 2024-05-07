@@ -58,7 +58,9 @@ Provide a generated Apex test class that compiles successfully as the response, 
       cls.testFactoryDef = "";
     }
 
-    return this.extractCode(await super.generate(cls));
+    return {
+      result: this.extractCode(await super.generate(cls)),
+    };
   }
 }
 

@@ -88,7 +88,9 @@ PMD Summary: 5%
   }
 
   async generate(cls) {
-    return this.extractCode(await super.generate(cls));
+    return {
+      result: this.extractCode(await super.generate(cls)),
+    };
   }
 }
 

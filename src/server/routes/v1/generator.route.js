@@ -41,7 +41,7 @@ async function handleRequest(req, res) {
   try {
     validateTokenLength(req);
     const result = await generate(req);
-    res.send({ success: true, result });
+    res.send({ success: true, ...result });
   } catch (exception) {
     handleException(res, exception);
   }

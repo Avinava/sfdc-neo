@@ -36,7 +36,9 @@ While updating the APEX CLASS make sure to follow the following guidelines.
   }
 
   async generate(cls) {
-    return this.extractCode(await super.generate(cls));
+    return {
+      result: this.extractCode(await super.generate(cls)),
+    };
   }
 }
 

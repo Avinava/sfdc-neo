@@ -26,7 +26,9 @@ Generate without DOCTYPE, html, head, body tags.
   }
 
   async generate(template) {
-    return this.extractCode(await super.generate(template));
+    return {
+      result: this.extractCode(await super.generate(cls)),
+    };
   }
 }
 

@@ -96,7 +96,10 @@ PMD Summary: 5%
   async generate(cls) {
     const results = await sfdxScanner.getScanResults(cls);
     cls.PMDScanResults = YAML.stringify(results);
-    return this.extractCode(await super.generate(cls));
+    return {
+      result: this.extractCode(await super.generate(cls)),
+      pmd: results,
+    };
   }
 }
 

@@ -41,7 +41,9 @@ return the response in markdown format
   }
 
   async generate(flow) {
-    return this.extractCode(await super.generate(flow));
+    return {
+      result: this.extractCode(await super.generate(cls)),
+    };
   }
 }
 
