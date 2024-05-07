@@ -38,7 +38,9 @@ return the response in markdown format with class Name as header
   }
 
   async generate(cls) {
-    return this.extractCode(await super.generate(cls));
+    return {
+      result: this.extractCode(await super.generate(cls)),
+    };
   }
 }
 

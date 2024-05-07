@@ -75,11 +75,14 @@ Validation rule names should be unique, beginning with an uppercase letter.
 
   async generate(rule) {
     rule.metadata.name = rule?.ValidationName;
-    return this.extractCode(
-      await super.generate({
-        metadata: YAML.stringify(rule.metadata),
-      })
-    );
+
+    return {
+      result: this.extractCode(
+        await super.generate({
+          metadata: YAML.stringify(rule.metadata),
+        })
+      ),
+    };
   }
 }
 

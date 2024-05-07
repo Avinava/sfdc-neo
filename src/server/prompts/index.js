@@ -1,4 +1,3 @@
-import codeReviewer from "./codeReviewer.js";
 import codeReviewerPMD from "./codeReviewerPMD.js";
 import codeRefactoring from "./codeRefactoring.js";
 import codeDocumenter from "./codeDocumenter.js";
@@ -10,7 +9,6 @@ import flowTestWriter from "./flowTestWriter.js";
 import flowDocumenter from "./flowDocumenter.js";
 
 export {
-  codeReviewer,
   codeReviewerPMD,
   codeRefactoring,
   codeDocumenter,

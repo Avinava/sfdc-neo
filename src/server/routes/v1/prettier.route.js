@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post("/apex", async (req, res) => {
   try {
-    const result = prettier.formatApex(req.body.Body);
+    const result = await prettier.formatApex(req.body.Body);
     res.send({
       success: true,
       result: result,

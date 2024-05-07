@@ -1,12 +1,14 @@
+import * as cspell from "cspell-lib";
 import BaseChatWriter from "./BaseChatWriter.js";
 import sfdxScanner from "../services/salesforce/sfdxScanner.js";
 import YAML from "../services/yamlParser.js";
+import prettier from "../services/prettier.js";
 
 class CodeReviewerPMD extends BaseChatWriter {
   constructor() {
     const basePrompt = `
 # YOUR TASK
-As a Salesforce Developer, review the provided Apex class. Use the PMD SCAN RESULTS, and follow the guidelines below:
+As a Salesforce Developer, review the provided Apex class. Use the provided inputs to generate your report following the guidelines below:
 
 - Look for hardcoded values / ids and check if they can be replaced with custom settings, custom metadata types, custom labels, constants, email templates, or custom permissions.
 - Review variable, method, class names including typos. Naming should be descriptive and follow the best practices. Suggest and list all possible naming that can be improved.
@@ -83,10 +85,17 @@ PMD Summary: 5%
       {
         label: "Apex Class",
         value: "Body",
+        description: "The Apex class to review.",
       },
       {
         label: "PMD Scan Results",
         value: "PMDScanResults",
+        description: "Results from PMD Scan.",
+      },
+      {
+        label: "Code Formatted Properly",
+        value: "pretty",
+        description: "Tells if the code is formatted properly or not.",
       },
     ];
 
@@ -96,7 +105,15 @@ PMD Summary: 5%
   async generate(cls) {
     const results = await sfdxScanner.getScanResults(cls);
     cls.PMDScanResults = YAML.stringify(results);
-    return this.extractCode(await super.generate(cls));
+    // check if the code is formatted properly
+    const formattedCode = await prettier.formatApex(cls.Body);
+    cls.pretty = cls.Body === formattedCode;
+
+    return {
+      result: this.extractCode(await super.generate(cls)),
+      pmd: results,
+      pretty: formattedCode,
+    };
   }
 }
 

@@ -16,12 +16,11 @@ import {
   TextField,
   IconButton,
 } from "@mui/material";
-import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { SiCodereview } from "react-icons/si";
+import { GoCodescan } from "react-icons/go";
 import { MdReviews, MdOutlineMoreVert, MdRefresh } from "react-icons/md";
 import { BiCommentEdit, BiRightIndent, BiTestTube } from "react-icons/bi";
 import { RiTestTubeFill } from "react-icons/ri";
@@ -198,19 +197,6 @@ class Generator extends React.Component {
     this.setState({ isResultLoading: true, type: "doc", updatedClass: {} });
     this.apiService
       .generateDocumentation(cls)
-      .then((response) => this.handleResponse(response))
-      .catch((err) => this.handleErrors(err));
-  }
-
-  generateCodeReview() {
-    if (!this.validateSelectedClass()) {
-      return;
-    }
-
-    const cls = this.state.selectedClass;
-    this.setState({ isResultLoading: true, type: "doc", updatedClass: {} });
-    this.apiService
-      .generateCodeReview(cls)
       .then((response) => this.handleResponse(response))
       .catch((err) => this.handleErrors(err));
   }
@@ -522,17 +508,6 @@ class Generator extends React.Component {
                         size="small"
                       >
                         Document
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Generate a code review for the current Apex class">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<SiCodereview size={12} />}
-                        onClick={() => this.generateCodeReview()}
-                        size="small"
-                      >
-                        Review
                       </Button>
                     </Tooltip>
                     <Tooltip title="Generate a code review for the current Apex class enhanced by PMD. This uses PMD scan results along with OpenAI to generate a comprehensive code review.">
