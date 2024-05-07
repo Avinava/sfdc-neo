@@ -201,19 +201,6 @@ class Generator extends React.Component {
       .catch((err) => this.handleErrors(err));
   }
 
-  generateCodeReview() {
-    if (!this.validateSelectedClass()) {
-      return;
-    }
-
-    const cls = this.state.selectedClass;
-    this.setState({ isResultLoading: true, type: "doc", updatedClass: {} });
-    this.apiService
-      .generateCodeReview(cls)
-      .then((response) => this.handleResponse(response))
-      .catch((err) => this.handleErrors(err));
-  }
-
   generateCodeReviewPMD() {
     if (!this.validateSelectedClass()) {
       return;
@@ -521,17 +508,6 @@ class Generator extends React.Component {
                         size="small"
                       >
                         Document
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Generate a code review for the current Apex class">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<GoCodescan size={12} />}
-                        onClick={() => this.generateCodeReview()}
-                        size="small"
-                      >
-                        Review
                       </Button>
                     </Tooltip>
                     <Tooltip title="Generate a code review for the current Apex class enhanced by PMD. This uses PMD scan results along with OpenAI to generate a comprehensive code review.">

@@ -4,7 +4,6 @@ import YAML from "../../services/yamlParser.js";
 import tokenHelperService from "../../services/tokenHelperService.js";
 
 import {
-  codeReviewer,
   codeReviewerPMD,
   codeRefactoring,
   codeDocumenter,
@@ -26,7 +25,6 @@ const endpoints = [
   "/apexclass/test",
   "/apexclass/codecomments",
   "/apexclass/documentation",
-  "/apexclass/codereview",
   "/apexclass/codereviewpmd",
   "/apexclass/coderefactor",
   "/emailtemplate/beautify",
@@ -65,7 +63,6 @@ async function generate(req) {
     },
     "/apexclass/codecomments": codeComments,
     "/apexclass/documentation": codeDocumenter,
-    "/apexclass/codereview": codeReviewer,
     "/apexclass/codereviewpmd": codeReviewerPMD,
     "/apexclass/coderefactor": codeRefactoring,
     "/emailtemplate/beautify": emailTemplate,

@@ -13,11 +13,17 @@ class BaseWriter {
     // Create prompt messages
     const promptMessages = [
       SystemMessagePromptTemplate.fromTemplate(basePrompt),
-      ...formattedInputVariables.map((variable) =>
-        HumanMessagePromptTemplate.fromTemplate(
-          `${variable.label}: {${variable.value}}`
-        )
-      ),
+      ...formattedInputVariables.map((variable) => {
+        if (!variable.description) {
+          return HumanMessagePromptTemplate.fromTemplate(
+            `${variable.label}: {${variable.value}}`
+          );
+        } else {
+          return HumanMessagePromptTemplate.fromTemplate(
+            `${variable.label}: {${variable.value}}\n---\n${variable.description}`
+          );
+        }
+      }),
     ];
 
     // Add instructions
