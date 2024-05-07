@@ -1,3 +1,4 @@
+import * as cspell from "cspell-lib";
 import BaseChatWriter from "./BaseChatWriter.js";
 import sfdxScanner from "../services/salesforce/sfdxScanner.js";
 import YAML from "../services/yamlParser.js";
