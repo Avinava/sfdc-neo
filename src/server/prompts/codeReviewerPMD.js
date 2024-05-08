@@ -1,8 +1,8 @@
-import * as cspell from "cspell-lib";
 import BaseChatWriter from "./BaseChatWriter.js";
 import sfdxScanner from "../services/salesforce/sfdxScanner.js";
 import YAML from "../services/yamlParser.js";
 import prettier from "../services/prettier.js";
+import spell from "../services/spell.js";
 
 class CodeReviewerPMD extends BaseChatWriter {
   constructor() {
@@ -17,8 +17,7 @@ As a Salesforce Developer, review the provided Apex class. Use the provided inpu
 - Make sure to include suggestions with examples and line numbers where applicable.
 - Check for unused variables, methods, unreachable code, unnecessary code, and commented code.
 - Identify possible refactoring, use of static / instance methods that can improve code maintainability.
-- SOQL in for loops, DML in for loops, and other performance issues should be flagged.
-- use prefixes ✅ for good practices, ❌ for bad practices, and ⚠️ for possible issues.
+- use prefixes ✅ for good practices, ❌ for bad practices, and ⚠️ for possible issues. 
 
 # SCORING WEIGHTAGE
 Naming Conventions: 10%
@@ -33,7 +32,7 @@ Additional Suggestions: 5%
 PMD Summary: 5%
 
 # RESPONSE INSTRUCTIONS
-- return the review  in markdown format.
+- return the review in markdown format.
 - include *Code Rating* from 1 to 10, 1 being the worst, with very short description. example: 5 - Code is readable, but needs improvement.
 
 # FORMAT
@@ -61,7 +60,7 @@ PMD Summary: 5%
 - <Suggestions>
 
 #### Best Practices
-- <Suggestions>
+- <Suggestions from PMD and Overall guidelines and best practices>
 
 #### Refactoring & Unused Code
 - <Suggestions>
@@ -90,12 +89,19 @@ PMD Summary: 5%
       {
         label: "PMD Scan Results",
         value: "PMDScanResults",
-        description: "Results from PMD Scan.",
+        description:
+          "Results from PMD Scan. Use this to summarize the PMD results. Flag SOSL/SOQL/DML in loops and other security issues strictly using PMD.",
       },
       {
         label: "Code Formatted Properly",
         value: "pretty",
         description: "Tells if the code is formatted properly or not.",
+      },
+      {
+        label: "Flagged Spell Issues",
+        value: "flaggedSpellIssues",
+        description:
+          "List of possible flagged spelling issues. Summarize this in Code Formatting",
       },
     ];
 
@@ -108,11 +114,22 @@ PMD Summary: 5%
     // check if the code is formatted properly
     const formattedCode = await prettier.formatApex(cls.Body);
     cls.pretty = cls.Body === formattedCode;
+    // do spell check
+    const spellCheckResults = await spell.checkSpelling(cls.Body);
+    cls.flaggedSpellIssues = YAML.stringify(
+      spellCheckResults.map((issue) => {
+        return {
+          text: issue.text,
+          position: issue.line.position,
+        };
+      })
+    );
 
     return {
       result: this.extractCode(await super.generate(cls)),
       pmd: results,
       pretty: formattedCode,
+      flaggedSpellIssues: spellCheckResults,
     };
   }
 }

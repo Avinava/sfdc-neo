@@ -1,12 +1,10 @@
 import * as cspell from "cspell-lib";
-const allowedWords = ["cust", "cuztom", "clockz"];
+const allowedWords = [];
 class SpellService {
   constructor() {
     this.settings = {
-      generateSuggestions: true,
+      generateSuggestions: false,
       noConfigSearch: true,
-      suggestionsTimeout: 2000,
-      words: this.allowedWords,
     };
   }
 
@@ -18,7 +16,10 @@ class SpellService {
       locale: "en",
     };
 
-    const result = await cspell.spellCheckDocument(document, this.settings);
+    const result = await cspell.spellCheckDocument(document, this.settings, {
+      suggestionsTimeout: 2000,
+      words: allowedWords,
+    });
     return result.issues;
   }
 }
