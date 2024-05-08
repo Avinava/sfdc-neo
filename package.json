@@ -10,7 +10,7 @@
     "serve": "vite preview",
     "server": "nodemon src/server/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "start": "npm run build && node src/server/index.js"
+    "start": "node src/server/index.js"
   },
   "author": "avi",
   "license": "MIT",
