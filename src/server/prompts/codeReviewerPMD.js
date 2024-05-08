@@ -9,7 +9,6 @@ class CodeReviewerPMD extends BaseChatWriter {
     const basePrompt = `
 # YOUR TASK
 As a Salesforce Developer, review the provided Apex class. Use the provided inputs to generate your report following the guidelines below:
-
 - Look for hardcoded values / ids and check if they can be replaced with custom settings, custom metadata types, custom labels, constants, email templates, or custom permissions.
 - Review variable, method, class names including typos. Naming should be descriptive and follow the best practices. Suggest and list all possible naming that can be improved.
 - Review comments and documentation for clarity and correctness. Check for typos, grammar, and spelling.
@@ -19,6 +18,7 @@ As a Salesforce Developer, review the provided Apex class. Use the provided inpu
 - Check for unused variables, methods, unreachable code, unnecessary code, and commented code.
 - Identify possible refactoring, use of static / instance methods that can improve code maintainability.
 - SOQL in for loops, DML in for loops, and other performance issues should be flagged.
+- use prefixes ✅ for good practices, ❌ for bad practices, and ⚠️ for possible issues.
 
 # SCORING WEIGHTAGE
 Naming Conventions: 10%
