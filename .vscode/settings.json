@@ -8,5 +8,8 @@
     "editor.formatOnPaste": true,
     "editor.detectIndentation": false,
     "editor.tabSize": 2
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": true
   }
 }

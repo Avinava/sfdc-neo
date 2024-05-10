@@ -4,6 +4,8 @@ import App from "./App";
 
 import AuthProvider from "./components/AuthProvider";
 import AuthContext from "./components/AuthContext";
+import "./global.css";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

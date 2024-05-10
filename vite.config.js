@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { minify } from "terser";
 import { config } from "dotenv";
+import postcss from "./postcss.config.js";
 
 config();
 
@@ -42,10 +43,11 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": "/src",
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   css: {
+    postcss,
     modules: {
       localsConvention: "camelCaseOnly",
     },

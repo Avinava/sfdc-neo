@@ -1,157 +1,36 @@
 import React from "react";
-import {
-  CardActions,
-  CardContent,
-  Card,
-  Grid,
-  Container,
-  Button,
-  Box,
-  Typography,
-  Alert,
-} from "@mui/material";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import rsmLogo from "../../../public/rsm-logo.png";
 
-class Login extends React.Component {
-  render() {
-    return (
-      <React.Fragment>
-        <Container maxWidth="xl" component="main" sx={{ pt: 5 }}>
-          <Grid
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Grid item xs={8} sm={6} lg={5} md={5}>
-              <Card>
-                <div style={{ background: "gray", minHeight: "4px" }}></div>
-                <CardContent sx={{ pt: 1 }}>
-                  <Box
-                    sx={{
-                      mb: 8,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        ml: 3,
-                        lineHeight: 1,
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                        fontSize: "1.5rem !important",
-                        textAlign: "center",
-                      }}
-                    >
-                      sfdc-neo
-                    </Typography>
-                  </Box>
-                  <Box sx={{ mb: 2 }}>
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        fontWeight: 600,
-                        marginBottom: 1.5,
-                        textAlign: "center",
-                      }}
-                    >
-                      Welcome to sfdc-neo 👋🏻
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      component="div"
-                      sx={{
-                        textAlign: "center",
-                      }}
-                    >
-                      SFDC Neo is a Node.js application that uses OpenAI to help
-                      Salesforce developers with a variety of tasks, including:
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ textAlign: "center", mt: 1 }}
-                      component="div"
-                    >
-                      <ul className="feature-list">
-                        <li>
-                          <b>Apex:</b> Document code
-                        </li>
-                        <li>
-                          <b>Apex:</b> Generating test classes
-                        </li>
-                        <li>
-                          <b>Apex:</b> Adding comments to code
-                        </li>
-                        <li>
-                          <b>Apex:</b> Reviewing and refactoring code
-                        </li>
-                        <li>
-                          <b>Email Templates:</b> Better formatting email
-                          templates
-                        </li>
-                        <li>
-                          <b>Validation Rules:</b> Documenting validation rules
-                        </li>
-                        <li>
-                          <b>Flow:</b> Document Flows
-                        </li>
-                        <li>
-                          <b>Flow:</b> Generate test classes for Flows
-                        </li>
-                      </ul>
-                    </Typography>
-                    <Alert severity="info" color="info" sx={{ mt: 2 }}>
-                      it's important to acknowledge that sfdc-neo's performance
-                      is dependent on the capabilities of OpenAI. Occasionally,
-                      there may be instances where the generated output may be
-                      inaccurate or inconsistent.
-                    </Alert>
-                  </Box>
-                </CardContent>
-                <CardActions sx={{ p: 3 }}>
-                  <Grid container justifyContent="center">
-                    <Grid item xs={12}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        href="/api/v1/auth/production"
-                      >
-                        Login with Salesforce Production
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12} sx={{ mt: 1 }}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        href="/api/v1/auth/production"
-                      >
-                        Login with Salesforce Developer
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12} sx={{ mt: 1 }}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        href="/api/v1/auth/sandbox"
-                      >
-                        Login with Salesforce Sandbox
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </CardActions>
-              </Card>
-            </Grid>
-          </Grid>
-        </Container>
-      </React.Fragment>
-    );
-  }
+export default function Login() {
+  return (
+    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+      <div className="flex items-center justify-center py-12">
+        <div className="mx-auto grid w-[350px] gap-6">
+          <div className="grid gap-2 text-center">
+            <img src={rsmLogo} alt="RSM Logo" className="w-20 mx-auto" />
+            <h1 className="text-3xl font-bold">Login</h1>
+            {/* <p className="text-balance text-muted-foreground">
+              Enter your email below to login to your account
+            </p> */}
+          </div>
+          <div className="grid gap-4">
+            <a href="/api/v1/auth/production">
+              <Button type="submit" className="w-full">
+                Login using RSM Production
+              </Button>
+            </a>
+            <a href="/api/v1/auth/production">
+              <Button variant="outline" className="w-full">
+                Login using RSM Community
+              </Button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className="hidden bg-muted lg:block"></div>
+    </div>
+  );
 }
-
-export default Login;
