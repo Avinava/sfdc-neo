@@ -18,11 +18,11 @@ class Salesforce {
   constructor(session) {
     if (session) {
       this.session = session;
-      const token = this.session.passport?.user?.oauth?.accessToken.params;
+      const token = this.session?.org?.token;
       if (token) {
         this.connection = new jsforce.Connection({
-          instanceUrl: token.instance_url,
-          accessToken: token.access_token,
+          instanceUrl: token.instanceUrl,
+          accessToken: token.accessToken,
           version: "57.0",
         });
       }

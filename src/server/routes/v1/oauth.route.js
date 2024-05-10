@@ -55,7 +55,8 @@ router.get("/callback", async (req, res) => {
     userInfo: conn.userInfo,
     token: {
       instanceUrl: conn.instanceUrl,
-      accessToken: conn.access_token,
+      accessToken: conn.accessToken,
+      refreshToken: conn.refreshToken,
     },
     ...orgInfo.records[0],
   };
