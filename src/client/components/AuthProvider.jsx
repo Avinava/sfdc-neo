@@ -32,22 +32,30 @@ export default class AuthProvider extends Component {
   componentDidMount() {
     this.state.setMetrics = this.setMetrics.bind(this);
     this.state.setRemainingQuota = this.setRemainingQuota.bind(this);
-    axios.get("/api/v1/auth/session").then((res) => {
-      const gaMeasurementId = res.data.gaMeasurementId;
-      delete res.data.gaMeasurementId;
-      this.setState({
-        session:
-          !res.data || Object.keys(res.data).length === 0 ? null : res.data,
+    axios.get("/api/v1/rsm-auth/session").then((res) => {
+      let state = {
         ready: true,
-        metrics: res.data.metrics,
-        gaMeasurementId
-      });
-      if (gaMeasurementId) {
-        ReactGA.initialize(gaMeasurementId);
+        session: null,
+        metrics: null,
+        gaMeasurementId: null,
+      };
+      console.log(res.data);
+      if (res.data) {
+        const gaMeasurementId = res.data.gaMeasurementId;
+        delete res.data.gaMeasurementId;
+        state = {
+          session:
+            !res.data || Object.keys(res.data).length === 0 ? null : res.data,
+          ready: true,
+          metrics: res.data.metrics,
+          gaMeasurementId,
+        };
+        if (gaMeasurementId) {
+          ReactGA.initialize(gaMeasurementId);
+        }
       }
+      this.setState(state);
     });
-
-   
   }
 
   render() {
