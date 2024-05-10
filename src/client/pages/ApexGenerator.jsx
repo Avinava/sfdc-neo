@@ -1,32 +1,9 @@
 import React from "react";
-import {
-  Container,
-  Box,
-  Grid,
-  FormControl,
-  MenuItem,
-  Select,
-  InputLabel,
-  Button,
-  ButtonGroup,
-  Paper,
-  Tooltip,
-  Typography,
-  Icon,
-  TextField,
-  IconButton,
-} from "@mui/material";
+import { Box, Typography, Icon, TextField } from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { HiOutlineDocumentText } from "react-icons/hi";
-import { GoCodescan } from "react-icons/go";
-import { MdReviews, MdOutlineMoreVert, MdRefresh } from "react-icons/md";
-import { BiCommentEdit, BiRightIndent, BiTestTube } from "react-icons/bi";
-import { RiTestTubeFill } from "react-icons/ri";
-
 import { FaExclamationTriangle } from "react-icons/fa";
-import { AiOutlineBuild } from "react-icons/ai";
 
 import { toast } from "react-toastify";
 import AuthContext from "../components/AuthContext";
@@ -35,12 +12,24 @@ import APIService from "../services/APIService";
 import Editor from "@monaco-editor/react";
 import Modal from "../components/Modal";
 import DeployResults from "../components/DeployResults";
-import {
-  PublishedWithChanges as PublishedWithChangesIcon,
-  Publish as PublishIcon,
-} from "@mui/icons-material";
-
 import LoadingOverlay from "../components/LoadingOverlay";
+import { RefreshCw, Mail } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
+
+import { Button } from "@/components/ui/button";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 class Generator extends React.Component {
   static contextType = AuthContext;
@@ -74,18 +63,18 @@ class Generator extends React.Component {
     );
   }
 
-  onClassChange = async (event) => {
+  onClassChange = async (classId) => {
     // find the class in the classes array
     // set the state of the selected class
     this.setState({ loading: true });
-    const cls = this.state.classes.find((r) => r.Id === event.target.value);
-    const detail = await this.getClassDetail(event.target.value);
+    const cls = this.state.classes.find((r) => r.Id === classId);
+    const detail = await this.getClassDetail(classId);
     cls.Body = detail.Body;
     const response = await this.validateTokenCount(cls);
 
     if (cls.Body && !response.limitExceeded) {
       this.setState({
-        selectedClassId: event.target.value,
+        selectedClassId: classId,
         selectedClass: cls,
         loading: false,
       });
@@ -404,7 +393,116 @@ class Generator extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Container maxWidth="xl">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <div className="relative">
+              <Select onValueChange={this.onClassChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue
+                    placeholder="Select an Apex Class"
+                    value={this.state.selectedClassId}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {this.state.classes.map((cls, index) => (
+                    <SelectItem value={cls.Id} key={index}>
+                      {cls.Name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button variant="outline" onClick={() => this.onRefreshClick()}>
+              <RefreshCw className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => this.generateTestClass()}>
+                    <Mail className="mr-2 h-4 w-4" /> Test Class
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Generate a test class for the current Apex class. This uses
+                  metadata api along with OpenAI to generate contextually
+                  correct test classes
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => this.generateTestClassAdvanced()}>
+                    <Mail className="mr-2 h-4 w-4" /> Test Class
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Generate Test Class by providing some context about what you
+                  want to test
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => this.generateCodeDocumentation()}>
+                    <Mail className="mr-2 h-4 w-4" /> Comments
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Add comments to the current Apex class. Uses OpenAI to add
+                  comments to the Apex Code so that its easier to read and
+                  maintain
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => this.generateDocumentation()}>
+                    <Mail className="mr-2 h-4 w-4" /> Document
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Generate documentation for the current Apex class. Using
+                  automatically generate comprehensive documentation for the
+                  present Apex class and its associated methods.
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => this.generateCodeReviewPMD()}>
+                    <Mail className="mr-2 h-4 w-4" /> Review
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Generate a code review for the current Apex class enhanced by
+                  PMD. This uses PMD scan results along with OpenAI to generate
+                  a comprehensive code review.
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => this.generateCodeRefactor()}>
+                    <Mail className="mr-2 h-4 w-4" /> Refactor
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Refactor and optimize the current Apex class
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => this.formatApex()}>
+                    <Mail className="mr-2 h-4 w-4" /> Format
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Format and indent the current Apex code using Prettier
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
+        <div>
           <LoadingOverlay
             loading={this.state.loading}
             message="Fetching apex classes"
@@ -416,214 +514,28 @@ class Generator extends React.Component {
             subtitle={this.state.message.subtitle}
           />
 
-          <Box sx={{ flexGrow: 1, mt: 2 }}>
-            <Paper sx={{ p: 1 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} md={3}>
-                  <Grid container spacing={1}>
-                    <Grid item xs={12} sm={11} md={11}>
-                      <FormControl fullWidth size="small">
-                        <InputLabel id="apex-select">Apex Class</InputLabel>
-                        <Select
-                          labelId="apex-select"
-                          id="apex-select"
-                          label="Apex Class"
-                          onChange={this.onClassChange}
-                          value={this.state.selectedClassId}
-                        >
-                          {this.state.classes.map((cls, index) => (
-                            <MenuItem value={cls.Id} key={index}>
-                              {cls.Name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={1} md={1}>
-                      <Tooltip title="Refresh the apex class list">
-                        <IconButton
-                          aria-label="refresh"
-                          size="small"
-                          onClick={() => this.onRefreshClick()}
-                        >
-                          <MdRefresh size={25} />
-                        </IconButton>
-                      </Tooltip>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item xs={12} md={9} sx={{ textAlign: "right" }}>
-                  <ButtonGroup variant="contained" size="small">
-                    <Tooltip title="Generate a test class for the current Apex class. This uses metadata api along with OpenAI to generate contextually correct test classes">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => this.generateTestClass()}
-                        startIcon={<RiTestTubeFill size={12} />}
-                        size="small"
-                      >
-                        Test Class
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Generate Test Class by providing some context about what you want to test">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => this.generateTestClassAdvanced()}
-                        startIcon={<BiTestTube size={12} />}
-                        size="small"
-                      >
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ display: "block" }}
-                        >
-                          Test Class
-                        </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontSize: "0.6em", display: "block" }}
-                        >
-                          <br />
-                          prompt
-                        </Typography>
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Add comments to the current Apex class. Uses OpenAI to add comments to the Apex Code so that its easier to read and maintain">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<BiCommentEdit size={12} />}
-                        onClick={() => this.generateCodeDocumentation()}
-                        size="small"
-                      >
-                        Comments
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Generate documentation for the current Apex class. Using automatically generate comprehensive documentation for the present Apex class and its associated methods.">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<HiOutlineDocumentText size={12} />}
-                        onClick={() => this.generateDocumentation()}
-                        size="small"
-                      >
-                        Document
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Generate a code review for the current Apex class enhanced by PMD. This uses PMD scan results along with OpenAI to generate a comprehensive code review.">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<MdReviews size={12} />}
-                        onClick={() => this.generateCodeReviewPMD()}
-                        size="small"
-                      >
-                        Review
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontSize: "0.6em", display: "block" }}
-                        >
-                          <br />
-                          PMD
-                        </Typography>
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Refactor and optimize the current Apex class">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<AiOutlineBuild size={12} />}
-                        onClick={() => this.generateCodeRefactor()}
-                        size="small"
-                      >
-                        Refactor
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="Format and indent the current Apex code using Prettier">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<BiRightIndent size={12} />}
-                        onClick={() => this.formatApex()}
-                        size="small"
-                      >
-                        Format
-                      </Button>
-                    </Tooltip>
-                    {/* <Button
-                      variant="contained"
-                      color="secondary"
-                      startIcon={<MdOutlineMoreVert size={12} />}
-                      onClick={(event) => this.handleMoreMenuClick(event)}
-                      size="small"
-                    >
-                      More
-                    </Button>
-                    <Menu
-                      anchorEl={this.state.anchorEl}
-                      open={this.state.menuOpen}
-                      onClose={() => this.setState({ menuOpen: false })}
-                      anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
-                      }}
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
-                      }}
-                    >
-                      <MenuItem
-                        onClick={() => this.setState({ menuOpen: false })}
-                      >
-                        Profile
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => this.setState({ menuOpen: false })}
-                      >
-                        My account
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => this.setState({ menuOpen: false })}
-                      >
-                        Logout
-                      </MenuItem>
-                    </Menu> */}
-                  </ButtonGroup>
-                </Grid>
-              </Grid>
-            </Paper>
-
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={6}>
-                <Box
-                  sx={{
-                    marginTop: "10px",
+          <div className="flex-grow">
+            <div className="grid grid-cols-2">
+              <div>
+                <Editor
+                  height="calc(100vh - 300px)"
+                  defaultLanguage="apex"
+                  defaultValue="Get started by selecting an apex class."
+                  value={this.state.selectedClass?.Body}
+                  disabled={true}
+                  theme="vs-dark"
+                  options={{
+                    domReadOnly: true,
+                    readOnly: true,
+                    minimap: { enabled: false },
                   }}
-                >
-                  <Editor
-                    height="calc(100vh - 215px)"
-                    defaultLanguage="apex"
-                    defaultValue="Get started by selecting an apex class."
-                    value={this.state.selectedClass?.Body}
-                    disabled={true}
-                    theme="vs-dark"
-                    options={{
-                      domReadOnly: true,
-                      readOnly: true,
-                      minimap: { enabled: false },
-                    }}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
+                />
+              </div>
+              <div>
                 {this.state.type === "code" && (
-                  <Box
-                    sx={{
-                      marginTop: "11px",
-                    }}
-                  >
+                  <div>
                     <Editor
-                      height="calc(100vh - 215px)"
+                      height="calc(100vh - 300px)"
                       defaultLanguage="apex"
                       defaultValue="Generated class will appear here."
                       value={this.state.updatedClass.Body}
@@ -634,65 +546,54 @@ class Generator extends React.Component {
                       }}
                       onChange={this.handleGeneratedEditorChange}
                     />
-                  </Box>
+                  </div>
                 )}
                 {this.state.type !== "code" && (
-                  <Box
-                    sx={{
-                      marginTop: "13px",
-                    }}
-                  >
+                  <div>
                     <article className="markdown-body">
                       <ReactMarkdown
                         children={this.state.updatedClass?.Body}
                         remarkPlugins={[remarkGfm]}
                       />
                     </article>
-                  </Box>
+                  </div>
                 )}
-              </Grid>
-            </Grid>
-            <Paper
-              sx={{
-                p: 1,
-                mt: 1,
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              <ButtonGroup
-                variant="contained"
-                size="small"
-                sx={{ textAlign: "center" }}
-              >
-                <Tooltip title="Validate the generated class against your org. This is equivalent to validating a changeset">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => this.validateClass()}
-                    size="small"
-                    disabled={!this.state.updatedClass?.Body}
-                    startIcon={<PublishedWithChangesIcon />}
-                  >
-                    Validate
-                  </Button>
+              </div>
+            </div>
+            <div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      onClick={() => this.validateClass()}
+                      variant="contained"
+                    >
+                      Validate
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Validate the generated class against your org. This is
+                    equivalent to validating a changeset
+                  </TooltipContent>
                 </Tooltip>
-                <Tooltip title="Deploys the generated class to your org. This is equivalent to deploying a changeset">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => this.deployClassConfirm()}
-                    size="small"
-                    disabled={!this.state.updatedClass?.Body}
-                    startIcon={<PublishIcon />}
-                  >
-                    Deploy to Org
-                  </Button>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      onClick={() => this.deployClassConfirm()}
+                      variant="contained"
+                    >
+                      Deploy
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Deploys the generated class to your org. This is equivalent
+                    to deploying a changeset
+                  </TooltipContent>
                 </Tooltip>
-              </ButtonGroup>
-            </Paper>
-          </Box>
-        </Container>
+              </TooltipProvider>
+            </div>
+          </div>
+        </div>
         {this.state.openDeployResults && (
           <Modal
             title={this.state.deployResultTile}

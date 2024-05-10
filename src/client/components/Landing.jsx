@@ -36,35 +36,37 @@ export default function Hero() {
         </Card>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Production</CardTitle>
-          <CardDescription>
-            Connect to your Salesforce production environment.
-          </CardDescription>
-        </CardHeader>
-        <CardContent></CardContent>
-        <CardFooter className="border-t px-6 py-4">
-          <a href="/api/v1/oauth/authorization/production">
-            <Button>Get Started</Button>
-          </a>
-        </CardFooter>
-      </Card>
+      <div className="md:flex lg:flex md:gap-4 lg:gap-4">
+        <Card className="md:w-1/2 lg:w-1/2">
+          <CardHeader>
+            <CardTitle>Production</CardTitle>
+            <CardDescription>
+              Connect to your Salesforce production environment.
+            </CardDescription>
+          </CardHeader>
+          <CardContent></CardContent>
+          <CardFooter className="border-t px-6 py-4">
+            <a href="/api/v1/oauth/authorization/production">
+              <Button>Get Started</Button>
+            </a>
+          </CardFooter>
+        </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Sandbox</CardTitle>
-          <CardDescription>
-            Connect to your Salesforce sandbox environment.
-          </CardDescription>
-        </CardHeader>
-        <CardContent></CardContent>
-        <CardFooter className="border-t px-6 py-4">
-          <a href="/api/v1/oauth/authorization/sandbox">
-            <Button>Get Started</Button>
-          </a>
-        </CardFooter>
-      </Card>
+        <Card className="md:w-1/2 lg:w-1/2">
+          <CardHeader>
+            <CardTitle>Sandbox</CardTitle>
+            <CardDescription>
+              Connect to your Salesforce sandbox environment.
+            </CardDescription>
+          </CardHeader>
+          <CardContent></CardContent>
+          <CardFooter className="border-t px-6 py-4">
+            <a href="/api/v1/oauth/authorization/sandbox">
+              <Button>Get Started</Button>
+            </a>
+          </CardFooter>
+        </Card>
+      </div>
     </React.Fragment>
   );
 }

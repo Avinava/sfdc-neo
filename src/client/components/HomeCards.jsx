@@ -29,29 +29,29 @@ class HomeCards extends React.Component {
         link: "/apex-generator",
         linkText: "Go to Apex Generator",
       },
-      {
-        title: "Flow Generator <sup>experimental</sup>",
-        description:
-          "Generate Flow test classes & documentations using OpenAI.",
-        icon: <BsFillLightningFill size={25} style={{ color: "#ff9800" }} />,
-        link: "/flow-generator",
-        linkText: "Go to Flow Generator",
-      },
-      {
-        title: "Email Template Generator <sup>experimental</sup>",
-        description: "Better format email templates using OpenAI.",
-        icon: <AiOutlineMail size={25} style={{ color: "#ff9800" }} />,
-        link: "/email-generator",
-        linkText: "Go to Email Template Generator",
-      },
-      {
-        title: "Validation Rule <sup>experimental</sup>",
-        description:
-          "Generate description & documentation for your validation rules using OpenAI.",
-        icon: <MdRule size={25} style={{ color: "#ff9800" }} />,
-        link: "/validation-rule-generator",
-        linkText: "Go to Validation Rule Generator",
-      },
+      // {
+      //   title: "Flow Generator <sup>experimental</sup>",
+      //   description:
+      //     "Generate Flow test classes & documentations using OpenAI.",
+      //   icon: <BsFillLightningFill size={25} style={{ color: "#ff9800" }} />,
+      //   link: "/flow-generator",
+      //   linkText: "Go to Flow Generator",
+      // },
+      // {
+      //   title: "Email Template Generator <sup>experimental</sup>",
+      //   description: "Better format email templates using OpenAI.",
+      //   icon: <AiOutlineMail size={25} style={{ color: "#ff9800" }} />,
+      //   link: "/email-generator",
+      //   linkText: "Go to Email Template Generator",
+      // },
+      // {
+      //   title: "Validation Rule <sup>experimental</sup>",
+      //   description:
+      //     "Generate description & documentation for your validation rules using OpenAI.",
+      //   icon: <MdRule size={25} style={{ color: "#ff9800" }} />,
+      //   link: "/validation-rule-generator",
+      //   linkText: "Go to Validation Rule Generator",
+      // },
     ],
   };
 

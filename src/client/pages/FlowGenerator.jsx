@@ -261,7 +261,7 @@ class FlowGenerator extends React.Component {
                   }}
                 >
                   <Editor
-                    height="calc(100vh - 215px)"
+                    height="calc(100vh - 300px)"
                     defaultLanguage="apex"
                     defaultValue="Get started by selecting an Flow."
                     value={this.state.selectedFlow?.Metadata}
@@ -315,7 +315,7 @@ class FlowGenerator extends React.Component {
                       }}
                     >
                       <Editor
-                        height="calc(100vh - 215px)"
+                        height="calc(100vh - 300px)"
                         defaultLanguage="apex"
                         defaultValue="Generated class will appear here."
                         value={this.state.updatedFlow.Body}

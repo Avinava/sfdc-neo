@@ -11,7 +11,7 @@ body {
   margin: 0 auto;
   padding: 45px;
   margin-top: 10px;
-  height: calc(100vh - 215px);
+  height: calc(100vh - 300px);
   overflow-y: auto;
 }
 
