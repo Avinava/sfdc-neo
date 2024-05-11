@@ -1,9 +1,7 @@
 import React from "react";
-import { Box, Typography, Icon, TextField } from "@mui/material";
+import { Textarea } from "@/components/ui/textarea";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-
-import { FaExclamationTriangle } from "react-icons/fa";
 
 import { toast } from "react-toastify";
 import AuthContext from "../components/AuthContext";
@@ -15,7 +13,6 @@ import DeployResults from "../components/DeployResults";
 import LoadingOverlay from "../components/LoadingOverlay";
 import {
   RefreshCw,
-  Mail,
   TestTube,
   TestTubeDiagonal,
   MessageSquareCode,
@@ -25,6 +22,7 @@ import {
   Paintbrush,
   CloudUpload,
   FileCheck2,
+  TriangleAlert,
 } from "lucide-react";
 import {
   Tooltip,
@@ -646,15 +644,13 @@ class Generator extends React.Component {
             title="Generate Test Class"
             body={
               <React.Fragment>
-                <Box sx={{ textAlign: "center" }}>
-                  <Typography variant="body2">
-                    To create a comprehensive test class, please enter the
-                    relevant context and specific scenarios that you want the
-                    generated tests to cover.
-                  </Typography>
-                </Box>
-                <Box>
-                  <TextField
+                <div>
+                  To create a comprehensive test class, please enter the
+                  relevant context and specific scenarios that you want the
+                  generated tests to cover.
+                </div>
+                <div>
+                  {/* <TextField
                     id="outlined-multiline-static"
                     label="Test Scenarios"
                     multiline
@@ -667,8 +663,18 @@ class Generator extends React.Component {
                         selectedClass: this.state.selectedClass,
                       });
                     }}
+                  /> */}
+                  <Textarea
+                    id="test-scenarios"
+                    value={this.state.selectedClass.prompt}
+                    onChange={(e) => {
+                      this.state.selectedClass.prompt = e.target.value;
+                      this.setState({
+                        selectedClass: this.state.selectedClass,
+                      });
+                    }}
                   />
-                </Box>
+                </div>
               </React.Fragment>
             }
             cancelBtn={true}
@@ -684,34 +690,27 @@ class Generator extends React.Component {
             title="Deploy Class"
             body={
               <React.Fragment>
-                <Box sx={{ textAlign: "center" }}>
-                  <Icon
-                    component={FaExclamationTriangle}
-                    sx={{ color: "orange", fontSize: 30, marginRight: 1 }}
-                  />
-                  <Typography variant="h6" component="div">
-                    Warning
-                  </Typography>
-                  <Typography variant="body2">
+                <div className="flex items-center justify-center">
+                  <TriangleAlert className="h-6 w-6 text-orange-500" />
+                  <div className="h-6 w-6 text-orange-500">Warning</div>
+                  <p>
                     Are you sure you want to deploy the generated class to your
                     org?
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="body2" component={Box}>
-                    <ul>
-                      <li>
-                        This action will overwrite any existing class with the{" "}
-                        <b>same name</b>.
-                      </li>
-                      <li>
-                        Please make sure there is no class with the{" "}
-                        <b>same name</b> in your org before proceeding.
-                      </li>
-                      <li>This action cannot be undone.</li>
-                    </ul>
-                  </Typography>
-                </Box>
+                  </p>
+                </div>
+                <div>
+                  <ul>
+                    <li>
+                      This action will overwrite any existing class with the{" "}
+                      <b>same name</b>.
+                    </li>
+                    <li>
+                      Please make sure there is no class with the{" "}
+                      <b>same name</b> in your org before proceeding.
+                    </li>
+                    <li>This action cannot be undone.</li>
+                  </ul>
+                </div>
               </React.Fragment>
             }
             cancelBtn={true}
