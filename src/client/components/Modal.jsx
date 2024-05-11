@@ -45,17 +45,9 @@ const Modal = ({
           </DialogHeader>
           <DialogFooter>
             {cancelBtn && (
-              <Button
-                onClick={handleClose}
-                variant="contained"
-                color="tertiary"
-              >
-                {cancelBtnText}
-              </Button>
+              <Button onClick={handleClose}>{cancelBtnText}</Button>
             )}
-            <Button onClick={handleConfirm} variant="contained">
-              {confirmBtnText}
-            </Button>
+            <Button onClick={handleConfirm}>{confirmBtnText}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
