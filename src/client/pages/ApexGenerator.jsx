@@ -421,7 +421,10 @@ class Generator extends React.Component {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button onClick={() => this.generateTestClass()}>
+                  <Button
+                    onClick={() => this.generateTestClass()}
+                    className="rounded-none rounded-l-lg border border-gray-600"
+                  >
                     <Mail className="mr-2 h-4 w-4" /> Test Class
                   </Button>
                 </TooltipTrigger>
@@ -433,8 +436,11 @@ class Generator extends React.Component {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button onClick={() => this.generateTestClassAdvanced()}>
-                    <Mail className="mr-2 h-4 w-4" /> Test Class
+                  <Button
+                    onClick={() => this.generateTestClassAdvanced()}
+                    className="rounded-none border border-gray-600"
+                  >
+                    <Mail className="mr-2 h-4 w-4 " /> Test Class
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -444,7 +450,10 @@ class Generator extends React.Component {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button onClick={() => this.generateCodeDocumentation()}>
+                  <Button
+                    onClick={() => this.generateCodeDocumentation()}
+                    className="rounded-none border border-gray-600"
+                  >
                     <Mail className="mr-2 h-4 w-4" /> Comments
                   </Button>
                 </TooltipTrigger>
@@ -454,10 +463,12 @@ class Generator extends React.Component {
                   maintain
                 </TooltipContent>
               </Tooltip>
-
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button onClick={() => this.generateDocumentation()}>
+                  <Button
+                    onClick={() => this.generateDocumentation()}
+                    className="rounded-none border border-gray-600"
+                  >
                     <Mail className="mr-2 h-4 w-4" /> Document
                   </Button>
                 </TooltipTrigger>
@@ -469,7 +480,10 @@ class Generator extends React.Component {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button onClick={() => this.generateCodeReviewPMD()}>
+                  <Button
+                    onClick={() => this.generateCodeReviewPMD()}
+                    className="rounded-none border border-gray-600"
+                  >
                     <Mail className="mr-2 h-4 w-4" /> Review
                   </Button>
                 </TooltipTrigger>
@@ -481,7 +495,10 @@ class Generator extends React.Component {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button onClick={() => this.generateCodeRefactor()}>
+                  <Button
+                    onClick={() => this.generateCodeRefactor()}
+                    className="rounded-none border border-gray-600"
+                  >
                     <Mail className="mr-2 h-4 w-4" /> Refactor
                   </Button>
                 </TooltipTrigger>
@@ -491,7 +508,10 @@ class Generator extends React.Component {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button onClick={() => this.formatApex()}>
+                  <Button
+                    onClick={() => this.formatApex()}
+                    className="rounded-none rounded-r-lg border border-gray-600"
+                  >
                     <Mail className="mr-2 h-4 w-4" /> Format
                   </Button>
                 </TooltipTrigger>
