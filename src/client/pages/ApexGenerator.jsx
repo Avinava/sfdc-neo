@@ -13,7 +13,19 @@ import Editor from "@monaco-editor/react";
 import Modal from "../components/Modal";
 import DeployResults from "../components/DeployResults";
 import LoadingOverlay from "../components/LoadingOverlay";
-import { RefreshCw, Mail } from "lucide-react";
+import {
+  RefreshCw,
+  Mail,
+  TestTube,
+  TestTubeDiagonal,
+  MessageSquareCode,
+  FileCode,
+  ScanEye,
+  FileCog,
+  Paintbrush,
+  CloudUpload,
+  FileCheck2,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -429,7 +441,7 @@ class Generator extends React.Component {
                     onClick={() => this.generateTestClass()}
                     className="rounded-none rounded-l-lg border border-gray-600"
                   >
-                    <Mail className="mr-2 h-4 w-4" /> Test Class
+                    <TestTube className="mr-2 h-4 w-4" /> Test Class
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -444,7 +456,7 @@ class Generator extends React.Component {
                     onClick={() => this.generateTestClassAdvanced()}
                     className="rounded-none border border-gray-600"
                   >
-                    <Mail className="mr-2 h-4 w-4 " /> Test Class
+                    <TestTubeDiagonal className="mr-2 h-4 w-4 " /> Test Class
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -458,7 +470,7 @@ class Generator extends React.Component {
                     onClick={() => this.generateCodeDocumentation()}
                     className="rounded-none border border-gray-600"
                   >
-                    <Mail className="mr-2 h-4 w-4" /> Comments
+                    <MessageSquareCode className="mr-2 h-4 w-4" /> Comments
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -473,7 +485,7 @@ class Generator extends React.Component {
                     onClick={() => this.generateDocumentation()}
                     className="rounded-none border border-gray-600"
                   >
-                    <Mail className="mr-2 h-4 w-4" /> Document
+                    <FileCode className="mr-2 h-4 w-4" /> Document
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -488,7 +500,7 @@ class Generator extends React.Component {
                     onClick={() => this.generateCodeReviewPMD()}
                     className="rounded-none border border-gray-600"
                   >
-                    <Mail className="mr-2 h-4 w-4" /> Review
+                    <ScanEye className="mr-2 h-4 w-4" /> Review
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -503,7 +515,7 @@ class Generator extends React.Component {
                     onClick={() => this.generateCodeRefactor()}
                     className="rounded-none border border-gray-600"
                   >
-                    <Mail className="mr-2 h-4 w-4" /> Refactor
+                    <FileCog className="mr-2 h-4 w-4" /> Refactor
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -516,7 +528,7 @@ class Generator extends React.Component {
                     onClick={() => this.formatApex()}
                     className="rounded-none rounded-r-lg border border-gray-600"
                   >
-                    <Mail className="mr-2 h-4 w-4" /> Format
+                    <Paintbrush className="mr-2 h-4 w-4" /> Format
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -592,6 +604,7 @@ class Generator extends React.Component {
                       onClick={() => this.validateClass()}
                       className="rounded-none border border-gray-600 rounded-l-lg min-w-28"
                     >
+                      <FileCheck2 className="mr-2 h-4 w-4" />
                       Validate
                     </Button>
                   </TooltipTrigger>
@@ -606,6 +619,7 @@ class Generator extends React.Component {
                       onClick={() => this.deployClassConfirm()}
                       className="rounded-none border border-gray-600 rounded-r-lg min-w-28"
                     >
+                      <CloudUpload className="mr-2 h-4 w-4" />
                       Deploy
                     </Button>
                   </TooltipTrigger>
