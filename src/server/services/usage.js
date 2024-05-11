@@ -34,10 +34,20 @@ class Usage {
     return metrics;
   };
 
-  incrementUsage = async (req) => {
-    const { data, error } = await supabaseAdmin
-      .from("ai_usage")
-      .insert([{ user: req.session.passport.user.id, path: req.path }]);
+  incrementUsage = async (req, res) => {
+    const org = req.session?.org;
+    const { data, error } = await supabaseAdmin.from("ai_usage").upsert(
+      {
+        user_id: org.userInfo.id,
+        path: req.path,
+        org_id: org.Id,
+        path: req.path,
+        payload: req.body,
+        request_id: req.id,
+        response: res.body,
+      },
+      { onConflict: "request_id" }
+    );
 
     return data;
   };

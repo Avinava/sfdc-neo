@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import { v4 as uuidv4 } from "uuid";
 import usage from "../services/usage.js";
 const METERED_ENDPOINTS = ["/api/v1/generator/"];
 
@@ -9,14 +10,24 @@ class Metered {
     this.handle = this.handle.bind(this); // Bind the context of 'handle' method to the 'Metered' class
   }
 
+  async overrideResponse(req, res) {
+    const oldSend = res.send;
+    res.send = async function (data) {
+      await usage.incrementUsage(req, {
+        body: typeof data === "string" ? JSON.parse(data) : data,
+      });
+      return oldSend.apply(res, arguments);
+    };
+  }
+
   async handle(req, res, next) {
-    console.info("ℹ️ ", new Date().toISOString(), ":", req.path);
+    req.id = uuidv4();
     if (this.isMeteredEndpoint(req.path)) {
       // if it's a metered endpoint, check if the user is authenticated
       if (req.session && req.session.passport && req.session.passport.user) {
         if (process.env.ENABLE_QUOTA === "true") {
-          console.log("Quota is enabled");
-          let metrics = await usage.getMetrics(req.session.passport.user.id);
+          this.overrideResponse(req, res);
+          let metrics = await usage.getMetrics(req.session.org.userInfo.id);
           req.session.passport.user.metrics = metrics;
           req.session.save();
 
@@ -29,7 +40,7 @@ class Metered {
           }
 
           // increment usage
-          await usage.incrementUsage(req);
+          await usage.incrementUsage(req, res);
           // update metrics
           metrics = req.session.passport.user.metrics;
           metrics.remainingQuota = metrics.remainingQuota - 1;
