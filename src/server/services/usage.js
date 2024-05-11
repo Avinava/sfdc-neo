@@ -7,17 +7,17 @@ class Usage {
   getMetrics = async (userId) => {
     const metrics = {};
     let { data, error } = await supabaseAdmin
-      .from("app_usage")
-      .select("id, user:salesforce_user(daily_quota)")
+      .from("ai_usage")
+      .select("id, user:ai_user(daily_quota)")
       .eq("user", userId)
       .gte("created_at", new Date().toISOString().split("T")[0]);
 
     // if data is empty
-    // query salesforce_user to get quota
+    // query ai_user to get quota
     if (data === undefined || data.length == 0) {
-      // query all records from salesforce_user
+      // query all records from ai_user
       let { data: userData, error: userError } = await supabaseAdmin
-        .from("salesforce_user")
+        .from("ai_user")
         .select("id, daily_quota")
         .eq("user_id", userId);
 
@@ -36,7 +36,7 @@ class Usage {
 
   incrementUsage = async (req) => {
     const { data, error } = await supabaseAdmin
-      .from("app_usage")
+      .from("ai_usage")
       .insert([{ user: req.session.passport.user.id, path: req.path }]);
 
     return data;
