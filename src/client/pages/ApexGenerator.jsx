@@ -395,7 +395,7 @@ class Generator extends React.Component {
       <React.Fragment>
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <div className="relative">
+            <div className="relative min-w-72">
               <Select onValueChange={this.onClassChange}>
                 <SelectTrigger className="w-full">
                   <SelectValue
@@ -580,13 +580,13 @@ class Generator extends React.Component {
                 )}
               </div>
             </div>
-            <div>
+            <div className="flex items-center justify-center mt-2">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
                       onClick={() => this.validateClass()}
-                      variant="contained"
+                      className="rounded-none border border-gray-600 rounded-l-lg min-w-28"
                     >
                       Validate
                     </Button>
@@ -600,7 +600,7 @@ class Generator extends React.Component {
                   <TooltipTrigger asChild>
                     <Button
                       onClick={() => this.deployClassConfirm()}
-                      variant="contained"
+                      className="rounded-none border border-gray-600 rounded-r-lg min-w-28"
                     >
                       Deploy
                     </Button>
