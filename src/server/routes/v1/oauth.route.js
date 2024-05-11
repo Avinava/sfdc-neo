@@ -43,7 +43,6 @@ router.get("/authorization/production", (req, res) => {
 });
 
 router.get("/callback", async (req, res) => {
-  console.log(req.query.state);
   const loginUrl = req.query.state.loginUrl;
   const oauth2 = getOauth2(loginUrl);
   const conn = new jsforce.Connection({ oauth2 });
