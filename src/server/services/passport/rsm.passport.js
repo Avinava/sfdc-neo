@@ -1,7 +1,6 @@
 import passport from "passport";
 import ForceDotComStrategy from "passport-forcedotcom";
-
-console.log([process.env.SF_AUTHORIZATION_URL]);
+import { supabaseAdmin } from "../supabase.js";
 
 passport.use(
   new ForceDotComStrategy.Strategy(
@@ -34,7 +33,19 @@ passport.use(
   )
 );
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser(async function (user, done) {
+  const supaUser = {
+    user_id: user._raw.user_id,
+    username: user._raw.username,
+    org_id: user._raw.organization_id,
+    username: user._raw.username,
+    email: user._raw.email,
+    name: user.displayName,
+  };
+  const { data, error } = await supabaseAdmin
+    .from("ai_user")
+    .upsert(supaUser, { onConflict: "user_id" });
+
   done(null, user);
 });
 
