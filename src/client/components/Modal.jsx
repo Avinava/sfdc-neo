@@ -1,67 +1,66 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Box from "@mui/material/Box";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-export default class Modal extends React.Component {
-  /**
-   * @param {string} props.title
-   * @param {string} props.body
-   * @param {string} props.cancelText
-   * @param {string} props.confirmText
-   * @param {boolean} props.cancelBtn
-   */
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: true,
-      cancelBtn: props.cancelBtn || false,
-      cancelBtnText: props.cancelBtnText || "Cancel",
-      confirmBtnText: props.confirmBtnText || "Confirm",
-    };
-  }
+const Modal = ({
+  title,
+  body,
+  cancelBtn = false,
+  cancelBtnText = "Cancel",
+  confirmBtnText = "Confirm",
+  onClose,
+  onConfirm,
+}) => {
+  const [open, setOpen] = React.useState(true);
 
-  handleClose = () => {
-    if (this.props.onClose) {
-      this.props.onClose();
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
     }
+    setOpen(false);
   };
 
-  handleConfirm = () => {
-    if (this.props.onConfirm) {
-      this.props.onConfirm();
+  const handleConfirm = () => {
+    if (onConfirm) {
+      onConfirm();
     }
+    setOpen(false);
   };
 
-  render() {
-    return (
-      <Box>
-        <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle>{this.props.title}</DialogTitle>
-          <DialogContent>{this.props.body}</DialogContent>
-          <DialogActions>
-            {this.state.cancelBtn && (
+  return (
+    <React.Fragment>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>{body}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            {cancelBtn && (
               <Button
-                onClick={this.handleClose}
+                onClick={handleClose}
                 variant="contained"
                 color="tertiary"
               >
-                {this.state.cancelBtnText}
+                {cancelBtnText}
               </Button>
             )}
-            <Button
-              onClick={this.handleConfirm}
-              variant="contained"
-              color="primary"
-            >
-              {this.state.confirmBtnText}
+            <Button onClick={handleConfirm} variant="contained">
+              {confirmBtnText}
             </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    );
-  }
-}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </React.Fragment>
+  );
+};
+
+export default Modal;
