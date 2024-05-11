@@ -67,6 +67,7 @@ router.get("/callback", async (req, res) => {
       name: req.session.org.Name,
       user_id: req.session.passport.user._raw.user_id,
       instance_url: conn.instanceUrl,
+      is_sandbox: req.query.state.production === "false",
     },
     { onConflict: "org_id" }
   );
