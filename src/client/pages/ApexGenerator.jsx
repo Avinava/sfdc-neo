@@ -393,9 +393,9 @@ class Generator extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center relative isolate overflow-hidden bg-slate-100 p-2 rounded-md border border-slate-200">
           <div className="flex items-center">
-            <div className="relative min-w-72">
+            <div className="relative min-w-72 bg-white">
               <Select onValueChange={this.onClassChange}>
                 <SelectTrigger className="w-full">
                   <SelectValue
@@ -412,7 +412,11 @@ class Generator extends React.Component {
                 </SelectContent>
               </Select>
             </div>
-            <Button variant="outline" onClick={() => this.onRefreshClick()}>
+            <Button
+              variant="outline"
+              onClick={() => this.onRefreshClick()}
+              className="ml-1"
+            >
               <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
@@ -580,7 +584,7 @@ class Generator extends React.Component {
                 )}
               </div>
             </div>
-            <div className="flex items-center justify-center mt-2">
+            <div className="flex items-center justify-center mt-2  bg-slate-100 p-2 rounded-md border border-slate-200">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
